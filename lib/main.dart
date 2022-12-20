@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/presentation/providers/data_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'presentation/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,16 +19,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainScreen(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<DataProvider>(
+            create: (context) {
+              return DataProvider();
+            },
+          ),
+        ],
+        child: const MainScreen(),
+      ),
     );
-  }
-}
-
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
