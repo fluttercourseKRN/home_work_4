@@ -2,6 +2,6 @@ import '../model/company.dart';
 import '../model/vacancy.dart';
 
 abstract class Repository {
-  List<Company> getCompanies();
-  List<Vacancy> getVacancies(String companyId);
+  Future<List<Company>> getCompanies();
+  Future<List<Vacancy>> getVacancies();
 }

@@ -1,0 +1,32 @@
+import 'package:dio/dio.dart';
+
+import '../model/company_api_response.dart';
+import '../model/vacancy_api_response.dart';
+
+class RemoteDataSource {
+  static const _host = "3.75.134.87";
+  static const _basePath = "/flutter/v1/";
+  final _client = Dio();
+
+  Future<CompanyApiResponse?> getCompanies() async {
+    const path = "companies";
+    final uri = Uri.http(_host, _basePath + path);
+    final resp = await _client.getUri(uri);
+    if (resp.statusCode == 200) {
+      return CompanyApiResponse.fromJson(resp.data);
+    } else {
+      return null;
+    }
+  }
+
+  Future<VacancyApiResponse?> getVacancy() async {
+    const path = "jobs";
+    final uri = Uri.http(_host, _basePath + path);
+    final resp = await _client.getUri(uri);
+    if (resp.statusCode == 200) {
+      return VacancyApiResponse.fromJson(resp.data);
+    } else {
+      return null;
+    }
+  }
+}

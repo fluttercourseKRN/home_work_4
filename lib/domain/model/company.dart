@@ -1,5 +1,5 @@
 class Company {
-  String id;
+  int id;
   String name;
   String description;
   String industry;
@@ -31,7 +31,7 @@ class Company {
   }
 
   Company copyWith({
-    String? id,
+    int? id,
     String? name,
     String? description,
     String? industry,
@@ -55,7 +55,7 @@ class Company {
 
   factory Company.fromMap(Map<String, dynamic> map) {
     return Company(
-      id: map['id'] as String,
+      id: map['id'] as int,
       name: map['name'] as String,
       description: map['description'] as String,
       industry: map['industry'] as String,

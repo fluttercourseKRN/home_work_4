@@ -1,6 +1,6 @@
 class Vacancy {
-  String id;
-  String companyId;
+  int id;
+  int companyId;
   String title;
   String description;
   String city;
@@ -38,8 +38,8 @@ class Vacancy {
   }
 
   Vacancy copyWith({
-    String? id,
-    String? companyId,
+    int? id,
+    int? companyId,
     String? title,
     String? description,
     String? city,
@@ -65,8 +65,8 @@ class Vacancy {
 
   factory Vacancy.fromMap(Map<String, dynamic> map) {
     return Vacancy(
-      id: map['id'] as String,
-      companyId: map['companyId'] as String,
+      id: map['id'] as int,
+      companyId: map['companyId'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
       city: map['city'] as String,
