@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/data/remote/repositories/remote_repository.dart';
+import 'package:jobsin/domain/model/company.dart';
 import 'package:jobsin/domain/model/vacancy.dart';
 import 'package:jobsin/presentation/providers/data_provider.dart';
+import 'package:jobsin/presentation/screens/company_detail_screen.dart';
 import 'package:jobsin/presentation/screens/vacancy_detail_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +44,14 @@ class MyApp extends StatelessWidget {
                 builder: (context) => VacancyDetailScreen(vacancy: vacancy),
               );
 
+            /// CompanyDetailScreen
+            case CompanyDetailScreen.route:
+              final company = settings.arguments as Company;
+              return MaterialPageRoute(
+                builder: (context) => CompanyDetailScreen(company: company),
+              );
+
+            /// Default
             default:
               return MaterialPageRoute(
                 builder: (context) => const MainScreen(),

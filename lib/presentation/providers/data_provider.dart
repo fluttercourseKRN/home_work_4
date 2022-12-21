@@ -26,4 +26,9 @@ class DataProvider with ChangeNotifier {
 
     return [...vacancies];
   }
+
+  Future<List<Vacancy>> vacanciesForCompany(int companyId) async {
+    final vacancies = await repository.getVacanciesForCompany(companyId);
+    return [...vacancies];
+  }
 }

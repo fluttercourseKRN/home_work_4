@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/presentation/widgets/companies_list.dart';
-
-import 'vacancies_screen/widgets/vacancies_list.dart';
+import 'package:jobsin/presentation/screens/companies_screen.dart';
+import 'package:jobsin/presentation/screens/vacancies_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -15,8 +14,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int currentScreen = 0;
   final screens = [
-    const VacanciesList(),
-    const CompaniesList(),
+    const VacanciesScreen(),
+    const CompaniesScreen(),
   ];
   @override
   Widget build(BuildContext context) {

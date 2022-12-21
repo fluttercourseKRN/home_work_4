@@ -15,7 +15,13 @@ class RemoteRepository extends Repository {
 
   @override
   Future<List<Vacancy>> getVacancies() async {
-    final vacancyResponse = await dataSource.getVacancy();
+    final vacancyResponse = await dataSource.getVacancies();
+    return vacancyResponse?.vacancies ?? [];
+  }
+
+  @override
+  Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
+    final vacancyResponse = await dataSource.getVacanciesForCompany(companyId);
     return vacancyResponse?.vacancies ?? [];
   }
 }

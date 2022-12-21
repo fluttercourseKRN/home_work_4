@@ -19,8 +19,19 @@ class RemoteDataSource {
     }
   }
 
-  Future<VacancyApiResponse?> getVacancy() async {
+  Future<VacancyApiResponse?> getVacancies() async {
     const path = "jobs";
+    final uri = Uri.http(_host, _basePath + path);
+    final resp = await _client.getUri(uri);
+    if (resp.statusCode == 200) {
+      return VacancyApiResponse.fromJson(resp.data);
+    } else {
+      return null;
+    }
+  }
+
+  Future<VacancyApiResponse?> getVacanciesForCompany(int companyId) async {
+    final path = "companies/$companyId/jobs";
     final uri = Uri.http(_host, _basePath + path);
     final resp = await _client.getUri(uri);
     if (resp.statusCode == 200) {
