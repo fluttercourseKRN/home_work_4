@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobsin/presentation/screens/company_edit_screen.dart';
 import 'package:jobsin/presentation/screens/vacancy_edit_screen.dart';
+import 'package:jobsin/presentation/widgets/app_bar_main.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
@@ -13,11 +14,7 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            automaticallyImplyLeading: false,
-            title: Text('JobsIn'),
-          ),
+          const AppBarMain(automaticallyImplyLeading: false),
           ListTile(
             leading: FaIcon(
               FontAwesomeIcons.building,

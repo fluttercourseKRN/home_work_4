@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobsin/presentation/screens/companies_screen.dart';
 import 'package:jobsin/presentation/screens/vacancies_screen.dart';
 
+import '../widgets/app_bar_main.dart';
 import '../widgets/app_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const AppDrawer(),
-      appBar: AppBar(),
+      appBar: const AppBarMain(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentScreen,
         onTap: (value) => setState(() => currentScreen = value),

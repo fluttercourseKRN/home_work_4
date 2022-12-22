@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jobsin/domain/model/company.dart';
 import 'package:jobsin/domain/model/vacancy.dart';
 import 'package:jobsin/presentation/providers/data_provider.dart';
+import 'package:jobsin/presentation/widgets/app_bar_main.dart';
 import 'package:jobsin/presentation/widgets/app_spinkit.dart';
 import 'package:jobsin/presentation/widgets/vacancies_list.dart';
 
@@ -17,7 +18,7 @@ class CompanyDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const AppBarMain(),
       body: SafeArea(
         child: Column(
           children: [

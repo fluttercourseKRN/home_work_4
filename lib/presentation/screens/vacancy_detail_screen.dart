@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/model/vacancy.dart';
+import 'package:jobsin/presentation/widgets/app_bar_main.dart';
 
 class VacancyDetailScreen extends StatelessWidget {
   const VacancyDetailScreen({
@@ -13,7 +14,7 @@ class VacancyDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Вакансії")),
+      appBar: const AppBarMain(),
       body: SafeArea(
         child: Center(
           child: Text(vacancy.description),
