@@ -1,8 +1,19 @@
 import 'package:jobsin/data/repositories/data_repository.dart';
 import 'package:jobsin/domain/model/company.dart';
 import 'package:jobsin/domain/model/vacancy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDataStorage extends DataStorage {
+  LocalDataStorage._internal();
+  static final LocalDataStorage _instance = LocalDataStorage._internal();
+
+  static Future<LocalDataStorage> init() async {
+    _instance.pref = await SharedPreferences.getInstance();
+    return _instance;
+  }
+
+  late final SharedPreferences pref;
+
   @override
   Future<List<Vacancy>> getFavoriteCompanies() {
     // TODO: implement getFavoriteCompanies
