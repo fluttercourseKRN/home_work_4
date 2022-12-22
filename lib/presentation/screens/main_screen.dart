@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobsin/presentation/screens/companies_screen.dart';
 import 'package:jobsin/presentation/screens/vacancies_screen.dart';
+
+import '../widgets/app_drawer.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -20,17 +23,18 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentScreen,
         onTap: (value) => setState(() => currentScreen = value),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.place),
+            icon: FaIcon(FontAwesomeIcons.fileSignature),
             label: 'Vacancies',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.plagiarism),
+            icon: FaIcon(FontAwesomeIcons.building),
             label: 'Companies',
           ),
         ],

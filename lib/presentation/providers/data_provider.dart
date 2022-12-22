@@ -31,4 +31,7 @@ class DataProvider with ChangeNotifier {
     final vacancies = await repository.getVacanciesForCompany(companyId);
     return [...vacancies];
   }
+
+  void saveNewCompany(String name, String description, String industry) {}
+  void saveNewVacancy(String title, String city, String description) {}
 }

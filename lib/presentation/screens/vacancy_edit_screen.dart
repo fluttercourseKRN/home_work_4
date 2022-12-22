@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/model/company.dart';
-import 'package:jobsin/presentation/providers/data_provider.dart';
-import 'package:jobsin/presentation/utils/validator.dart';
-import 'package:jobsin/presentation/widgets/app_bar_edit.dart';
 
+import '../../domain/model/vacancy.dart';
+import '../providers/data_provider.dart';
+import '../utils/validator.dart';
+import '../widgets/app_bar_edit.dart';
 import '../widgets/app_text_form_field.dart';
 
-class CompanyEditScreen extends StatefulWidget {
-  const CompanyEditScreen({Key? key, this.initialCompany}) : super(key: key);
+class VacancyEditScreen extends StatefulWidget {
+  const VacancyEditScreen({Key? key, this.initialVacancy}) : super(key: key);
 
-  static const route = '/company_edit_screen';
-  final Company? initialCompany;
+  static const route = '/vacancy_edit_screen';
+  final Vacancy? initialVacancy;
+
   @override
-  State<CompanyEditScreen> createState() => _CompanyEditScreenState();
+  State<VacancyEditScreen> createState() => _VacancyEditScreenState();
 }
 
-class _CompanyEditScreenState extends State<CompanyEditScreen> {
+class _VacancyEditScreenState extends State<VacancyEditScreen> {
   late final GlobalKey<FormState> _formKey;
-  late final TextEditingController name;
-  late final TextEditingController industry;
+  late final TextEditingController title;
+  late final TextEditingController city;
   late final TextEditingController description;
+  late final int? companyId;
 
   @override
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    name = TextEditingController(
-      text: widget.initialCompany?.name ?? '',
+    title = TextEditingController(
+      text: widget.initialVacancy?.title ?? '',
     );
-    industry = TextEditingController(
-      text: widget.initialCompany?.industry ?? '',
+    city = TextEditingController(
+      text: widget.initialVacancy?.city ?? '',
     );
     description = TextEditingController(
-      text: widget.initialCompany?.description ?? '',
+      text: widget.initialVacancy?.description ?? '',
     );
+    companyId = widget.initialVacancy?.companyId;
   }
 
   @override
@@ -48,18 +51,18 @@ class _CompanyEditScreenState extends State<CompanyEditScreen> {
             key: _formKey,
             child: Column(
               children: [
-                /// Company name
+                /// Title
                 AppTextFormField(
-                  controller: name,
-                  labelText: "Company name",
+                  controller: title,
+                  labelText: "Title",
                   validator: Validator.basicValidator,
                 ),
                 const SizedBox(height: 16),
 
-                /// Industry
+                /// City
                 AppTextFormField(
-                  controller: industry,
-                  labelText: "Industry",
+                  controller: city,
+                  labelText: "City",
                   validator: Validator.basicValidator,
                 ),
                 const SizedBox(height: 16),
@@ -83,13 +86,14 @@ class _CompanyEditScreenState extends State<CompanyEditScreen> {
   void _save() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
-      DataProvider.read(context).saveNewCompany(
-        name.text,
+      DataProvider.read(context).saveNewVacancy(
+        title.text,
+        city.text,
         description.text,
-        industry.text,
       );
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
       // focusNode.
+      print('Valid');
     } else {
       print('Not Valid');
     }

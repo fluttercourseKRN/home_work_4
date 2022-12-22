@@ -3,6 +3,10 @@ import 'package:dio/dio.dart';
 import '../model/company_api_response.dart';
 import '../model/vacancy_api_response.dart';
 
+abstract class Codable {
+  Codable.fromJson(Response response);
+}
+
 class RemoteDataSource {
   static const _host = "3.75.134.87";
   static const _basePath = "/flutter/v1/";
@@ -39,5 +43,13 @@ class RemoteDataSource {
     } else {
       return null;
     }
+  }
+
+  void post() {
+    const path = "companies";
+
+    final params = {"": null};
+    final uri = Uri.http(_host, _basePath + path, params);
+    _client.postUri(uri);
   }
 }
