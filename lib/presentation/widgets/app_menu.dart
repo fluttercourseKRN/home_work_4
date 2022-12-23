@@ -46,9 +46,9 @@ class AppMenu extends StatelessWidget {
       trailing: Switch(
         activeColor: Theme.of(context).colorScheme.primary,
         onChanged: (_) {
-          DataProvider.read(context).toggleVacanciesFavorite();
+          DataProvider.read(context).toggleVacanciesShowFavoriteOnly();
         },
-        value: DataProvider.watch(context).vacanciesFavoritesOnly,
+        value: DataProvider.watch(context).vacanciesShowFavoriteOnly,
       ),
     );
   }

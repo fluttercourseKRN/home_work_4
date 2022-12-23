@@ -40,38 +40,48 @@ class DataRepository extends Repository {
     return companyResponse?.companies ?? [];
   }
 
+  Future<List<Vacancy>> _checkFavorite(List<Vacancy> vacancies) async {
+    final favoriteIds = await getFavoriteVacancies();
+    for (final vacancy in vacancies) {
+      if (favoriteIds.contains(vacancy.id)) {
+        vacancy.isFavorite = true;
+      }
+    }
+    return [...vacancies];
+  }
+
   @override
   Future<List<Vacancy>> getVacancies() async {
     final vacancyResponse = await dataSource.getVacancies();
-    return vacancyResponse?.vacancies ?? [];
+    final vacancies = vacancyResponse?.vacancies ?? [];
+    return await _checkFavorite(vacancies);
   }
 
   @override
   Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
     final vacancyResponse = await dataSource.getVacanciesForCompany(companyId);
-    return vacancyResponse?.vacancies ?? [];
+    final vacancies = vacancyResponse?.vacancies ?? [];
+    return await _checkFavorite(vacancies);
   }
 
   @override
   Future<List<int>> getFavoriteVacancies() async {
-    return [];
+    return dataStorage.getFavoriteVacancies();
   }
 
   @override
-  Future<void> saveVacancyToFavorite(int vacancyId) {
-    // TODO: implement saveVacancyToFavorite
-    throw UnimplementedError();
+  Future<void> saveVacancyToFavorite(int vacancyId) async {
+    await dataStorage.saveVacancyToFavorite(vacancyId);
+  }
+
+  @override
+  Future<void> deleteVacancyFromFavorite(int vacancyId) async {
+    await dataStorage.deleteVacancyFromFavorite(vacancyId);
   }
 
   @override
   Future<void> saveCompanyToFavorite(int vacancyId) {
     // TODO: implement saveCompanyToFavorite
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteVacancyFromFavorite(int vacancyId) {
-    // TODO: implement deleteVacancyFromFavorite
     throw UnimplementedError();
   }
 
