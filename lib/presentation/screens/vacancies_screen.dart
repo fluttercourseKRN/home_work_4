@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jobsin/presentation/widgets/vacancies_list.dart';
 
 import '../../domain/model/entities/vacancy.dart';
+import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/model/sort_element.dart';
 import '../providers/data_provider.dart';
 import '../widgets/app_menu.dart';
@@ -15,6 +16,7 @@ class VacanciesScreen extends StatelessWidget {
     return Column(
       children: [
         AppMenu(
+          sortElements: VacanciesSortElement.values,
           currentSortField: DataProvider.watch(context).vacanciesSortField,
           onSortFieldChange: (SortElement value) =>
               DataProvider.read(context).setVacanciesSortField(value),

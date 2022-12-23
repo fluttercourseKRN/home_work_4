@@ -9,12 +9,11 @@ class FavoriteButton extends StatelessWidget {
 
   final void Function() onTap;
   final bool value;
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {
-        ;
-      },
+      onPressed: onTap,
       icon: value
           ? const Icon(Icons.star, color: Colors.orange)
           : const Icon(Icons.star_border),

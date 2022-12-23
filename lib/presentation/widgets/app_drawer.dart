@@ -19,14 +19,14 @@ class AppDrawer extends StatelessWidget {
             leading: FaIcon(
               FontAwesomeIcons.building,
               size: 32,
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            title: Text(
+            title: const Text(
               'Add Company',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.secondary,
+                // color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             onTap: () =>
@@ -36,14 +36,14 @@ class AppDrawer extends StatelessWidget {
             leading: FaIcon(
               FontAwesomeIcons.fileSignature,
               size: 32,
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            title: Text(
+            title: const Text(
               'Add Vacancy',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.secondary,
+                // color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             onTap: () =>

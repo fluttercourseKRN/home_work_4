@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/model/sort_element.dart';
 
 class AppMenu extends StatelessWidget {
@@ -10,8 +9,10 @@ class AppMenu extends StatelessWidget {
     required this.onSortFieldChange,
     required this.isOn,
     required this.switchChange,
+    required this.sortElements,
   }) : super(key: key);
 
+  final List<SortElement> sortElements;
   final SortElement currentSortField;
   final void Function(SortElement value) onSortFieldChange;
 
@@ -21,7 +22,7 @@ class AppMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: SizedBox(
-        width: 100,
+        width: 150,
         child: PopupMenuButton<SortElement>(
           position: PopupMenuPosition.under,
           child: Center(
@@ -42,7 +43,7 @@ class AppMenu extends StatelessWidget {
           ),
           itemBuilder: (context) {
             return [
-              for (final value in VacanciesSortElement.values)
+              for (final value in sortElements)
                 PopupMenuItem<SortElement>(
                   child: Text(value.text),
                   onTap: () {

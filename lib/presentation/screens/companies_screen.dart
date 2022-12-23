@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/domain/model/enums/companies_sort_element.dart';
 import 'package:jobsin/presentation/widgets/companies_list.dart';
 
 import '../../domain/model/entities/company.dart';
@@ -15,12 +16,13 @@ class CompaniesScreen extends StatelessWidget {
     return Column(
       children: [
         AppMenu(
+          sortElements: CompaniesSortElement.values,
           currentSortField: DataProvider.watch(context).companiesSortField,
           onSortFieldChange: (SortElement value) =>
               DataProvider.read(context).setCompaniesSortField(value),
           isOn: DataProvider.watch(context).companiesShowFavoriteOnly,
           switchChange: (bool value) =>
-              DataProvider.read(context).toggleVacanciesShowFavoriteOnly(),
+              DataProvider.read(context).toggleCompaniesShowFavoriteOnly(),
         ),
         const Divider(),
         Expanded(
