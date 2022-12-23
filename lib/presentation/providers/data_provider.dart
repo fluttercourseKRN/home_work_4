@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/model/vacancy.dart';
 import 'package:jobsin/domain/repositories/repository.dart';
@@ -23,10 +24,9 @@ class DataProvider with ChangeNotifier {
   factory DataProvider.watch(BuildContext context) =>
       context.watch<DataProvider>();
 
-  Repository repository;
+  final Repository repository;
 
-  Future<List<Vacancy>> get vacancies async {
-    final vacancies = await repository.getVacancies();
+  _sortVacancies(List<Vacancy> vacancies) {
     switch (vacanciesSortField) {
       case VacanciesSortElement.title:
         vacancies.sort((a, b) => a.title.compareTo(b.title));
@@ -35,13 +35,28 @@ class DataProvider with ChangeNotifier {
         vacancies.sort((a, b) => a.city.compareTo(b.city));
         break;
     }
-    for (var favoriteId in favoriteVacanciesIds) {
-      print('favorite id: $favoriteId');
-      vacancies.firstWhere((vacancy) {
-        return vacancy.id == favoriteId;
-      }).isFavorite = true;
-    }
+  }
+
+  Future<void> _checkFavorite(List<Vacancy> vacancies) async {
+    final favoriteIds = await repository.getFavoriteVacancies();
+    vacancies = vacancies.toSet().intersection(favoriteIds.toSet()).toList();
+    // for (var vacancy in vacancies) {
+    //   if(favoriteIds.contains(vacancy.id)){
+    //     vacancy.isFavorite = true;
+    //   }
+    // }
+  }
+
+  Future<List<Vacancy>> get vacancies async {
+    final vacancies = await repository.getVacancies();
+    _sortVacancies(vacancies);
+    await _checkFavorite(vacancies);
     return [...vacancies];
+  }
+
+  Future<Vacancy?> vacancyForId(int vacancyId) async {
+    final vacancies = await repository.getVacancies();
+    return vacancies.firstWhereOrNull((vacancy) => vacancy.id == vacancyId);
   }
 
   Future<List<Vacancy>> vacanciesForCompany(int companyId) async {
@@ -63,16 +78,6 @@ class DataProvider with ChangeNotifier {
   VacanciesSortElement vacanciesSortField;
   void setVacanciesSortField(VacanciesSortElement field) {
     vacanciesSortField = field;
-    notifyListeners();
-  }
-
-  List<int> favoriteVacanciesIds = [];
-  void toggleVacancyToFavorite(int vacancyId) {
-    if (favoriteVacanciesIds.contains(vacancyId)) {
-      favoriteVacanciesIds.remove(vacancyId);
-    } else {
-      favoriteVacanciesIds.add(vacancyId);
-    }
     notifyListeners();
   }
 

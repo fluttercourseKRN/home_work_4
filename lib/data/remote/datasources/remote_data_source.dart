@@ -4,7 +4,7 @@ import 'package:jobsin/data/repositories/data_repository.dart';
 import '../model/company_api_response.dart';
 import '../model/vacancy_api_response.dart';
 
-class RemoteDataSource extends DataSource {
+class RemoteDataSource with DataSource {
   static const _host = "3.75.134.87";
   static const _basePath = "/flutter/v1/";
   final _client = Dio();

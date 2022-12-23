@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:jobsin/data/repositories/data_repository.dart';
 import 'package:jobsin/domain/model/company.dart';
 import 'package:jobsin/domain/model/vacancy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalDataStorage extends DataStorage {
+class LocalDataStorage with DataStorage {
   LocalDataStorage._internal();
   static final LocalDataStorage _instance = LocalDataStorage._internal();
 
@@ -18,25 +16,30 @@ class LocalDataStorage extends DataStorage {
   static const String _favoriteVacancyKey = 'favoriteVacancyKey';
 
   @override
-  Future<void> saveVacancyToFavorite(Vacancy vacancy) async {
-    final favVacancies =
-        _instance.pref.getStringList(_favoriteVacancyKey) ?? [];
-    final vacancyJson = const JsonEncoder().convert(vacancy.toMap());
-    favVacancies.add(vacancyJson);
-    await _instance.pref.setStringList(_favoriteVacancyKey, favVacancies);
+  Future<void> saveVacancyToFavorite(int vacancyId) async {
+    final favIds = _instance.pref.getStringList(_favoriteVacancyKey) ?? [];
+    favIds.add('$vacancyId');
+    await _instance.pref.setStringList(_favoriteVacancyKey, favIds);
   }
 
   @override
-  Future<List<Vacancy>> getFavoriteVacancies() async {
+  Future<List<int>> getFavoriteVacancies() async {
     final favVacancies =
         _instance.pref.getStringList(_favoriteVacancyKey) ?? [];
-    return favVacancies
-        .map((e) => Vacancy.fromMap(const JsonDecoder().convert(e)))
-        .toList();
+    return favVacancies.map((e) => int.parse(e)).toList();
   }
 
   @override
-  Future<List<Vacancy>> getFavoriteCompanies() {
+  Future<void> deleteVacancyFromFavorite(int vacancyId) async {
+    final favIds = _instance.pref.getStringList(_favoriteVacancyKey) ?? [];
+    if (favIds.isNotEmpty) {
+      favIds.remove('$vacancyId');
+      await _instance.pref.setStringList(_favoriteVacancyKey, favIds);
+    }
+  }
+
+  @override
+  Future<List<int>> getFavoriteCompanies() {
     // TODO: implement getFavoriteCompanies
     throw UnimplementedError();
   }
@@ -59,7 +62,7 @@ class LocalDataStorage extends DataStorage {
   }
 
   @override
-  Future<void> saveCompanyToFavorite(Company vacancy) {
+  Future<void> saveCompanyToFavorite(int vacancyId) {
     // TODO: implement saveCompanyToFavorite
     throw UnimplementedError();
   }
@@ -67,5 +70,11 @@ class LocalDataStorage extends DataStorage {
   @override
   void saveVacancy(Vacancy vacancy) {
     // TODO: implement saveVacancy
+  }
+
+  @override
+  Future<void> deleteCompanyFromFavorite(int vacancyId) {
+    // TODO: implement deleteCompanyFromFavorite
+    throw UnimplementedError();
   }
 }

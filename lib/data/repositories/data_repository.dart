@@ -10,10 +10,12 @@ abstract class DataStorage {
   void saveVacancy(Vacancy vacancy);
   List<Company> loadCompanies();
   List<Vacancy> loadVacancies();
-  Future<void> saveVacancyToFavorite(Vacancy vacancy);
-  Future<void> saveCompanyToFavorite(Company vacancy);
-  Future<List<Vacancy>> getFavoriteVacancies();
-  Future<List<Vacancy>> getFavoriteCompanies();
+  Future<void> saveVacancyToFavorite(int vacancyId);
+  Future<void> saveCompanyToFavorite(int vacancyId);
+  Future<void> deleteVacancyFromFavorite(int vacancyId);
+  Future<void> deleteCompanyFromFavorite(int vacancyId);
+  Future<List<int>> getFavoriteVacancies();
+  Future<List<int>> getFavoriteCompanies();
 }
 
 abstract class DataSource {
@@ -48,5 +50,40 @@ class DataRepository extends Repository {
   Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
     final vacancyResponse = await dataSource.getVacanciesForCompany(companyId);
     return vacancyResponse?.vacancies ?? [];
+  }
+
+  @override
+  Future<List<int>> getFavoriteVacancies() async {
+    return [];
+  }
+
+  @override
+  Future<void> saveVacancyToFavorite(int vacancyId) {
+    // TODO: implement saveVacancyToFavorite
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> saveCompanyToFavorite(int vacancyId) {
+    // TODO: implement saveCompanyToFavorite
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteVacancyFromFavorite(int vacancyId) {
+    // TODO: implement deleteVacancyFromFavorite
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<int>> getFavoriteCompanies() {
+    // TODO: implement getFavoriteCompanies
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteCompanyFromFavorite(int vacancyId) {
+    // TODO: implement deleteCompanyFromFavorite
+    throw UnimplementedError();
   }
 }
