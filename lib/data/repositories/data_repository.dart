@@ -2,28 +2,8 @@ import 'package:jobsin/domain/repositories/repository.dart';
 
 import '../../domain/model/entities/company.dart';
 import '../../domain/model/entities/vacancy.dart';
-import '../remote/model/company_api_response.dart';
-import '../remote/model/vacancy_api_response.dart';
-
-abstract class DataStorage {
-  void saveCompany(Company company);
-  void saveVacancy(Vacancy vacancy);
-  List<Company> loadCompanies();
-  List<Vacancy> loadVacancies();
-  Future<void> saveVacancyToFavorite(int vacancyId);
-  Future<void> saveCompanyToFavorite(int vacancyId);
-  Future<void> deleteVacancyFromFavorite(int vacancyId);
-  Future<void> deleteCompanyFromFavorite(int vacancyId);
-  Future<List<int>> getFavoriteVacancies();
-  Future<List<int>> getFavoriteCompanies();
-}
-
-abstract class DataSource {
-  Future<CompanyApiResponse?> getCompanies();
-  Future<VacancyApiResponse?> getVacancies();
-  Future<VacancyApiResponse?> getVacanciesForCompany(int companyId);
-  void post();
-}
+import 'data_source.dart';
+import 'data_storage.dart';
 
 class DataRepository extends Repository {
   final DataSource dataSource;
@@ -40,16 +20,6 @@ class DataRepository extends Repository {
     return companyResponse?.companies ?? [];
   }
 
-  Future<List<Vacancy>> _checkFavorite(List<Vacancy> vacancies) async {
-    final favoriteIds = await getFavoriteVacancies();
-    for (final vacancy in vacancies) {
-      if (favoriteIds.contains(vacancy.id)) {
-        vacancy.isFavorite = true;
-      }
-    }
-    return [...vacancies];
-  }
-
   @override
   Future<List<Vacancy>> getVacancies() async {
     final vacancyResponse = await dataSource.getVacancies();
@@ -64,9 +34,10 @@ class DataRepository extends Repository {
     return await _checkFavorite(vacancies);
   }
 
+  /// Favorite vacancy method
   @override
   Future<List<int>> getFavoriteVacancies() async {
-    return dataStorage.getFavoriteVacancies();
+    return await dataStorage.getFavoriteVacancies();
   }
 
   @override
@@ -79,21 +50,29 @@ class DataRepository extends Repository {
     await dataStorage.deleteVacancyFromFavorite(vacancyId);
   }
 
+  Future<List<Vacancy>> _checkFavorite(List<Vacancy> vacancies) async {
+    final favoriteIds = await getFavoriteVacancies();
+    for (final vacancy in vacancies) {
+      if (favoriteIds.contains(vacancy.id)) {
+        vacancy.isFavorite = true;
+      }
+    }
+    return [...vacancies];
+  }
+
+  /// Favorite company method
   @override
-  Future<void> saveCompanyToFavorite(int vacancyId) {
-    // TODO: implement saveCompanyToFavorite
-    throw UnimplementedError();
+  Future<List<int>> getFavoriteCompanies() async {
+    return await dataStorage.getFavoriteCompanies();
   }
 
   @override
-  Future<List<int>> getFavoriteCompanies() {
-    // TODO: implement getFavoriteCompanies
-    throw UnimplementedError();
+  Future<void> saveCompanyToFavorite(int vacancyId) async {
+    await dataStorage.saveCompanyToFavorite(vacancyId);
   }
 
   @override
-  Future<void> deleteCompanyFromFavorite(int vacancyId) {
-    // TODO: implement deleteCompanyFromFavorite
-    throw UnimplementedError();
+  Future<void> deleteCompanyFromFavorite(int vacancyId) async {
+    await dataStorage.deleteCompanyFromFavorite(vacancyId);
   }
 }

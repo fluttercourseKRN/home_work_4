@@ -3,6 +3,9 @@ import 'package:jobsin/data/repositories/data_repository.dart';
 import 'package:jobsin/data/storage/datasources/local_data_storage.dart';
 import 'package:jobsin/domain/repositories/repository.dart';
 
+import 'data/repositories/data_source.dart';
+import 'data/repositories/data_storage.dart';
+
 class DI {
   DI._internal();
   static final DI _instance = DI._internal();

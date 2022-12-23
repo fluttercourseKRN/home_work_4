@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:jobsin/data/repositories/data_repository.dart';
 
+import '../../repositories/data_source.dart';
 import '../model/company_api_response.dart';
 import '../model/vacancy_api_response.dart';
 
