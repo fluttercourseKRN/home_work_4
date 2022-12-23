@@ -1,18 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/model/vacancy.dart';
+import 'package:jobsin/domain/model/entities/vacancy.dart';
 import 'package:jobsin/domain/repositories/repository.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/model/company.dart';
-
-enum VacanciesSortElement {
-  title('Title'),
-  city('City');
-
-  final String name;
-  const VacanciesSortElement(this.name);
-}
+import '../../domain/model/entities/company.dart';
+import '../../domain/model/enums/vacancies_sort_element.dart';
+import '../../domain/model/sort_element.dart';
 
 class DataProvider with ChangeNotifier {
   DataProvider({
@@ -80,8 +74,8 @@ class DataProvider with ChangeNotifier {
   }
 
   // Sort vacancies
-  VacanciesSortElement vacanciesSortField;
-  void setVacanciesSortField(VacanciesSortElement field) {
+  SortElement vacanciesSortField;
+  void setVacanciesSortField(SortElement field) {
     vacanciesSortField = field;
     notifyListeners();
   }

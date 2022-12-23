@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jobsin/di.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/model/vacancy.dart';
+import '../../domain/model/entities/vacancy.dart';
 
 class VacancyItemProvider extends ChangeNotifier {
   VacancyItemProvider({

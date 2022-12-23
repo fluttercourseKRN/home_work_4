@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/model/company.dart';
+import 'package:jobsin/domain/model/entities/company.dart';
 import 'package:jobsin/presentation/providers/data_provider.dart';
 import 'package:jobsin/presentation/utils/validator.dart';
 import 'package:jobsin/presentation/widgets/app_bar_edit.dart';

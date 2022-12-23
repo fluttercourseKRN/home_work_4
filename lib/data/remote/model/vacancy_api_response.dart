@@ -1,4 +1,4 @@
-import 'package:jobsin/domain/model/vacancy.dart';
+import 'package:jobsin/domain/model/entities/vacancy.dart';
 
 class VacancyApiResponse {
   final List<Vacancy> vacancies = [];

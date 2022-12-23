@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/presentation/widgets/companies_list.dart';
 
-import '../../domain/model/company.dart';
+import '../../domain/model/entities/company.dart';
 import '../providers/data_provider.dart';
 import '../widgets/app_spinkit.dart';
 

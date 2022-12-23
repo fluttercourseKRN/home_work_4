@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/model/vacancy.dart';
+import 'package:jobsin/domain/model/entities/vacancy.dart';
 import 'package:jobsin/presentation/widgets/app_bar_main.dart';
 
 class VacancyDetailScreen extends StatelessWidget {

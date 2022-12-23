@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/di.dart';
-import 'package:jobsin/domain/model/company.dart';
-import 'package:jobsin/domain/model/vacancy.dart';
+import 'package:jobsin/domain/model/entities/company.dart';
+import 'package:jobsin/domain/model/entities/vacancy.dart';
 import 'package:jobsin/presentation/providers/data_provider.dart';
 import 'package:jobsin/presentation/screens/company_detail_screen.dart';
 import 'package:jobsin/presentation/screens/company_edit_screen.dart';
