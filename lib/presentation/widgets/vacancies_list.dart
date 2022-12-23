@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/model/vacancy.dart';
-import '../screens/vacancy_detail_screen.dart';
+import 'vacancy_list_tile.dart';
 
 class VacanciesList extends StatelessWidget {
   const VacanciesList({
@@ -16,13 +16,7 @@ class VacanciesList extends StatelessWidget {
       itemCount: vacancies.length,
       itemBuilder: (context, index) {
         final vacancy = vacancies[index];
-        return ListTile(
-          title: Text(vacancy.title),
-          onTap: () => Navigator.of(context).pushNamed(
-            VacancyDetailScreen.route,
-            arguments: vacancy,
-          ),
-        );
+        return VacancyListTile(vacancy: vacancy);
       },
     );
   }

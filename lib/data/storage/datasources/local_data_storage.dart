@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:jobsin/data/repositories/data_repository.dart';
 import 'package:jobsin/domain/model/company.dart';
 import 'package:jobsin/domain/model/vacancy.dart';
@@ -13,16 +15,29 @@ class LocalDataStorage extends DataStorage {
   }
 
   late final SharedPreferences pref;
+  static const String _favoriteVacancyKey = 'favoriteVacancyKey';
+
+  @override
+  Future<void> saveVacancyToFavorite(Vacancy vacancy) async {
+    final favVacancies =
+        _instance.pref.getStringList(_favoriteVacancyKey) ?? [];
+    final vacancyJson = const JsonEncoder().convert(vacancy.toMap());
+    favVacancies.add(vacancyJson);
+    await _instance.pref.setStringList(_favoriteVacancyKey, favVacancies);
+  }
+
+  @override
+  Future<List<Vacancy>> getFavoriteVacancies() async {
+    final favVacancies =
+        _instance.pref.getStringList(_favoriteVacancyKey) ?? [];
+    return favVacancies
+        .map((e) => Vacancy.fromMap(const JsonDecoder().convert(e)))
+        .toList();
+  }
 
   @override
   Future<List<Vacancy>> getFavoriteCompanies() {
     // TODO: implement getFavoriteCompanies
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Vacancy>> getFavoriteVacancies() {
-    // TODO: implement getFavoriteVacancies
     throw UnimplementedError();
   }
 
@@ -52,11 +67,5 @@ class LocalDataStorage extends DataStorage {
   @override
   void saveVacancy(Vacancy vacancy) {
     // TODO: implement saveVacancy
-  }
-
-  @override
-  Future<void> saveVacancyToFavorite(Vacancy vacancy) {
-    // TODO: implement saveVacancyToFavorite
-    throw UnimplementedError();
   }
 }

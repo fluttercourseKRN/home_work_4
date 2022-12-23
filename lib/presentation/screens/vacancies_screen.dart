@@ -4,23 +4,33 @@ import 'package:jobsin/presentation/widgets/vacancies_list.dart';
 
 import '../../domain/model/vacancy.dart';
 import '../providers/data_provider.dart';
+import '../widgets/app_menu.dart';
 
 class VacanciesScreen extends StatelessWidget {
   const VacanciesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Vacancy>>(
-      future: DataProvider.watch(context).vacancies,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          final vacancies = snapshot.data!;
-          return VacanciesList(vacancies: vacancies);
-        }
-        return Center(
-          child: SpinKitWave(color: Theme.of(context).colorScheme.primary),
-        );
-      },
+    return Column(
+      children: [
+        const AppMenu(),
+        const Divider(),
+        Expanded(
+          child: FutureBuilder<List<Vacancy>>(
+            future: DataProvider.watch(context).vacancies,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                final vacancies = snapshot.data!;
+                return VacanciesList(vacancies: vacancies);
+              }
+              return Center(
+                child:
+                    SpinKitWave(color: Theme.of(context).colorScheme.primary),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
