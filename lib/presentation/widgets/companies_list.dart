@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/model/entities/company.dart';
+import 'package:jobsin/presentation/providers/company_item_provider.dart';
+import 'package:provider/provider.dart';
 
-import '../screens/company_detail_screen.dart';
+import 'company_list_tile.dart';
 
 class CompaniesList extends StatelessWidget {
   const CompaniesList({
@@ -16,12 +18,9 @@ class CompaniesList extends StatelessWidget {
       itemCount: companies.length,
       itemBuilder: (context, index) {
         final company = companies[index];
-        return ListTile(
-          title: Text(company.name),
-          onTap: () => Navigator.of(context).pushNamed(
-            CompanyDetailScreen.route,
-            arguments: company,
-          ),
+        return ChangeNotifierProvider(
+          create: (context) => CompanyItemProvider(company: company),
+          child: const CompanyListTile(),
         );
       },
     );

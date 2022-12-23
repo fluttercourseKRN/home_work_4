@@ -41,7 +41,9 @@ class DataProvider with ChangeNotifier {
 
   Future<List<Company>> get companies async {
     final companies = await repository.getCompanies();
-    return [...companies];
+    _sortCompanies(companies);
+
+    return [..._companiesFavoriteFilter(companies)];
   }
 
   /// MARK: Add new entities

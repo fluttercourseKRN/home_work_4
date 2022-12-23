@@ -20,9 +20,9 @@ class CompanyItemProvider extends ChangeNotifier {
     company.isFavorite = !company.isFavorite;
     final repository = DI.instance.repository;
     if (company.isFavorite) {
-      repository.saveVacancyToFavorite(company.id);
+      repository.saveCompanyToFavorite(company.id);
     } else {
-      repository.deleteVacancyFromFavorite(company.id);
+      repository.deleteCompanyFromFavorite(company.id);
     }
     notifyListeners();
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/presentation/providers/vacancy_item_provider.dart';
+import 'package:jobsin/presentation/widgets/favorite_button.dart';
 
 import '../screens/vacancy_detail_screen.dart';
 
@@ -14,13 +15,9 @@ class VacancyListTile extends StatelessWidget {
     return ListTile(
       title: Text(vacancy.title),
       subtitle: Text(vacancy.city),
-      trailing: IconButton(
-        onPressed: () {
-          VacancyItemProvider.read(context).toggleIsFavorite();
-        },
-        icon: vacancy.isFavorite
-            ? const Icon(Icons.star, color: Colors.orange)
-            : const Icon(Icons.star_border),
+      trailing: FavoriteButton(
+        value: vacancy.isFavorite,
+        onTap: () => VacancyItemProvider.read(context).toggleIsFavorite(),
       ),
       onTap: () => Navigator.of(context).pushNamed(
         VacancyDetailScreen.route,

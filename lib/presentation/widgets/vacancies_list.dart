@@ -18,8 +18,8 @@ class VacanciesList extends StatelessWidget {
       itemCount: vacancies.length,
       itemBuilder: (context, index) {
         final vacancy = vacancies[index];
-        return ChangeNotifierProvider<VacancyItemProvider>.value(
-          value: VacancyItemProvider(vacancy: vacancy),
+        return ChangeNotifierProvider<VacancyItemProvider>(
+          create: (context) => VacancyItemProvider(vacancy: vacancy),
           child: const VacancyListTile(),
         );
       },

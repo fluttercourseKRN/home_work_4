@@ -15,6 +15,7 @@ class LocalDataStorage with DataStorage {
 
   late final SharedPreferences pref;
   static const String _favoriteVacancyKey = 'favoriteVacancyKey';
+  static const String _favoriteCompanyKey = 'favoriteCompanyKey';
 
   @override
   Future<void> saveVacancyToFavorite(int vacancyId) async {
@@ -40,9 +41,26 @@ class LocalDataStorage with DataStorage {
   }
 
   @override
-  Future<List<int>> getFavoriteCompanies() {
-    // TODO: implement getFavoriteCompanies
-    throw UnimplementedError();
+  Future<List<int>> getFavoriteCompanies() async {
+    final favCompanies =
+        _instance.pref.getStringList(_favoriteCompanyKey) ?? [];
+    return favCompanies.map((e) => int.parse(e)).toList();
+  }
+
+  @override
+  Future<void> saveCompanyToFavorite(int companyId) async {
+    final favIds = _instance.pref.getStringList(_favoriteCompanyKey) ?? [];
+    favIds.add('$companyId');
+    await _instance.pref.setStringList(_favoriteCompanyKey, favIds);
+  }
+
+  @override
+  Future<void> deleteCompanyFromFavorite(int companyId) async {
+    final favIds = _instance.pref.getStringList(_favoriteCompanyKey) ?? [];
+    if (favIds.isNotEmpty) {
+      favIds.remove('$companyId');
+      await _instance.pref.setStringList(_favoriteCompanyKey, favIds);
+    }
   }
 
   @override
@@ -58,24 +76,12 @@ class LocalDataStorage with DataStorage {
   }
 
   @override
-  void saveCompany(Company company) {
-    // TODO: implement saveCompany
-  }
-
-  @override
-  Future<void> saveCompanyToFavorite(int vacancyId) {
-    // TODO: implement saveCompanyToFavorite
-    throw UnimplementedError();
-  }
-
-  @override
   void saveVacancy(Vacancy vacancy) {
     // TODO: implement saveVacancy
   }
 
   @override
-  Future<void> deleteCompanyFromFavorite(int vacancyId) {
-    // TODO: implement deleteCompanyFromFavorite
-    throw UnimplementedError();
+  void saveCompany(Company company) {
+    // TODO: implement saveCompany
   }
 }

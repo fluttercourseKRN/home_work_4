@@ -7,9 +7,9 @@ abstract class DataStorage {
   List<Company> loadCompanies();
   List<Vacancy> loadVacancies();
   Future<void> saveVacancyToFavorite(int vacancyId);
-  Future<void> saveCompanyToFavorite(int vacancyId);
+  Future<void> saveCompanyToFavorite(int companyId);
   Future<void> deleteVacancyFromFavorite(int vacancyId);
-  Future<void> deleteCompanyFromFavorite(int vacancyId);
+  Future<void> deleteCompanyFromFavorite(int companyId);
   Future<List<int>> getFavoriteVacancies();
   Future<List<int>> getFavoriteCompanies();
 }
