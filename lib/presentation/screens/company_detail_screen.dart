@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/model/entities/company.dart';
-import 'package:jobsin/domain/model/entities/vacancy.dart';
+import 'package:jobsin/domain/entities/company.dart';
+import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:jobsin/presentation/providers/data_provider.dart';
 import 'package:jobsin/presentation/widgets/app_bar_main.dart';
 import 'package:jobsin/presentation/widgets/app_spinkit.dart';

@@ -1,5 +1,5 @@
-import '../model/entities/company.dart';
-import '../model/entities/vacancy.dart';
+import '../entities/company.dart';
+import '../entities/vacancy.dart';
 
 abstract class Repository {
   Future<List<Company>> getCompanies();

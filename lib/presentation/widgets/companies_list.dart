@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/model/entities/company.dart';
+import 'package:jobsin/domain/entities/company.dart';
 import 'package:jobsin/presentation/providers/company_item_provider.dart';
 import 'package:provider/provider.dart';
 

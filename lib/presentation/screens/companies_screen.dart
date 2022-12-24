@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jobsin/domain/model/enums/companies_sort_element.dart';
 import 'package:jobsin/presentation/widgets/companies_list.dart';
 
-import '../../domain/model/entities/company.dart';
+import '../../domain/entities/company.dart';
 import '../../domain/model/sort_element.dart';
 import '../providers/data_provider.dart';
 import '../widgets/app_menu.dart';

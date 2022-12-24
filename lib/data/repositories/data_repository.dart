@@ -1,7 +1,7 @@
 import 'package:jobsin/domain/repositories/repository.dart';
 
-import '../../domain/model/entities/company.dart';
-import '../../domain/model/entities/vacancy.dart';
+import '../../domain/entities/company.dart';
+import '../../domain/entities/vacancy.dart';
 import 'data_source.dart';
 import 'data_storage.dart';
 

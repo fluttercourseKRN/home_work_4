@@ -1,4 +1,4 @@
-import 'package:jobsin/domain/model/entities/company.dart';
+import 'package:jobsin/domain/entities/company.dart';
 
 class CompanyApiResponse {
   final List<Company> companies = [];

@@ -1,5 +1,5 @@
-import '../../domain/model/entities/company.dart';
-import '../../domain/model/entities/vacancy.dart';
+import '../../domain/entities/company.dart';
+import '../../domain/entities/vacancy.dart';
 
 abstract class DataStorage {
   void saveCompany(Company company);

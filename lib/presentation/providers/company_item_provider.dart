@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jobsin/di.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/model/entities/company.dart';
+import '../../domain/entities/company.dart';
 
 class CompanyItemProvider extends ChangeNotifier {
   CompanyItemProvider({

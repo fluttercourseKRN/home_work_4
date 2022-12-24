@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/model/entities/vacancy.dart';
+import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:jobsin/domain/model/enums/companies_sort_element.dart';
 import 'package:jobsin/domain/repositories/repository.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/model/entities/company.dart';
+import '../../domain/entities/company.dart';
 import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/model/sort_element.dart';
 

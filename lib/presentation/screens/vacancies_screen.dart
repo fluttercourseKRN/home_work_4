@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jobsin/presentation/widgets/vacancies_list.dart';
 
-import '../../domain/model/entities/vacancy.dart';
+import '../../domain/entities/vacancy.dart';
 import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/model/sort_element.dart';
 import '../providers/data_provider.dart';
