@@ -39,6 +39,5 @@ class CompaniesScreen extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }
