@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:jobsin/core/error/failure.dart';
+
 import '../entities/company.dart';
 import '../entities/vacancy.dart';
 
@@ -17,4 +20,6 @@ abstract class Repository {
   // void saveVacancy(Vacancy vacancy);
   // List<Company> loadCompanies();
   // List<Vacancy> loadVacancies();
+
+  Future<Either<Failure, List<Vacancy>>> getVacanciesList();
 }

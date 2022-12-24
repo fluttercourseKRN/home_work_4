@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
-import '../../repositories/data_source.dart';
-import '../model/company_api_response.dart';
-import '../model/vacancy_api_response.dart';
+import '../../repositories/data_source_remote.dart';
+import 'model/company_api_response.dart';
+import 'model/vacancy_api_response.dart';
 
-class RemoteDataSource with DataSource {
+class RemoteDataSource with DataSourceRemote {
   static const _host = "3.75.134.87";
   static const _basePath = "/flutter/v1/";
   final _client = Dio();

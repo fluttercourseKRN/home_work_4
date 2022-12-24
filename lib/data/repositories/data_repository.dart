@@ -1,13 +1,15 @@
+import 'package:dartz/dartz.dart';
+import 'package:jobsin/core/error/failure.dart';
 import 'package:jobsin/domain/repositories/repository.dart';
 
 import '../../domain/entities/company.dart';
 import '../../domain/entities/vacancy.dart';
-import 'data_source.dart';
-import 'data_storage.dart';
+import 'data_source_remote.dart';
+import 'data_source_storage.dart';
 
 class DataRepository extends Repository {
-  final DataSource dataSource;
-  final DataStorage dataStorage;
+  final DataSourceRemote dataSource;
+  final DataSourceStorage dataStorage;
 
   DataRepository({
     required this.dataSource,
@@ -85,5 +87,11 @@ class DataRepository extends Repository {
   @override
   Future<void> deleteCompanyFromFavorite(int companyId) async {
     await dataStorage.deleteCompanyFromFavorite(companyId);
+  }
+
+  @override
+  Future<Either<Failure, List<Vacancy>>> getVacanciesList() {
+    // TODO: implement getVacanciesList
+    throw UnimplementedError();
   }
 }

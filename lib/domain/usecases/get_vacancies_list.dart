@@ -7,5 +7,7 @@ class GetVacanciesList {
   GetVacanciesList(this.repository);
   final Repository repository;
 
-  Future<Either<Failure, List<Vacancy>>> execute() async {}
+  Future<Either<Failure, List<Vacancy>>> call() async {
+    return repository.getVacanciesList();
+  }
 }

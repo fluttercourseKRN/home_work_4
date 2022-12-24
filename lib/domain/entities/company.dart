@@ -16,5 +16,5 @@ class Company with EquatableMixin {
   });
 
   @override
-  List<Object?> get props => [name, description, industry, isFavorite];
+  List<Object?> get props => [id, name, description, industry, isFavorite];
 }

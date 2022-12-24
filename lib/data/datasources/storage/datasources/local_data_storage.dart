@@ -2,9 +2,9 @@ import 'package:jobsin/domain/entities/company.dart';
 import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../repositories/data_storage.dart';
+import '../../../repositories/data_source_storage.dart';
 
-class LocalDataStorage with DataStorage {
+class LocalDataStorage with DataSourceStorage {
   LocalDataStorage._internal();
   static final LocalDataStorage _instance = LocalDataStorage._internal();
 

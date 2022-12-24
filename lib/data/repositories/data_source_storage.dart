@@ -1,7 +1,7 @@
 import '../../domain/entities/company.dart';
 import '../../domain/entities/vacancy.dart';
 
-abstract class DataStorage {
+abstract class DataSourceStorage {
   void saveCompany(Company company);
   void saveVacancy(Vacancy vacancy);
   List<Company> loadCompanies();
