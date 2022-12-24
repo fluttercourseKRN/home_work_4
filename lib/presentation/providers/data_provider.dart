@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:jobsin/domain/model/enums/companies_sort_element.dart';
@@ -25,22 +24,27 @@ class DataProvider with ChangeNotifier {
 
   final Repository repository;
 
-  Future<List<Vacancy>> get vacancies async {
-    final vacancies = await repository.getVacancies();
-    _sortVacancies(vacancies);
-    return [..._vacanciesFavoriteFilter(vacancies)];
-  }
+  // Future<List<Vacancy>> get vacancies async {
+  //   final vacancies = await repository.getVacancies();
+  //   _sortVacancies(vacancies);
+  //   return [..._vacanciesFavoriteFilter(vacancies)];
+  // }
 
   Future<List<Vacancy>> getVacancies() async {
     final getVacanciesList = sl<GetVacanciesList>();
-    final vacanciesListOrFailure = await getVacanciesList();
+    final vacanciesListOrFailure = await getVacanciesList(
+      VacanciesParams(
+        favoritesOnly: vacanciesShowFavoriteOnly,
+        sortElement: vacanciesSortField as VacanciesSortElement,
+      ),
+    );
     return vacanciesListOrFailure.fold((l) => [], (r) => r);
   }
 
-  Future<Vacancy?> vacancyForId(int vacancyId) async {
-    final vacancies = await repository.getVacancies();
-    return vacancies.firstWhereOrNull((vacancy) => vacancy.id == vacancyId);
-  }
+  // Future<Vacancy?> vacancyForId(int vacancyId) async {
+  //   final vacancies = await repository.getVacancies();
+  //   return vacancies.firstWhereOrNull((vacancy) => vacancy.id == vacancyId);
+  // }
 
   Future<List<Vacancy>> vacanciesForCompany(int companyId) async {
     final vacancies = await repository.getVacanciesForCompany(companyId);
@@ -66,30 +70,11 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Vacancy> _vacanciesFavoriteFilter(List<Vacancy> vacancies) {
-    if (vacanciesShowFavoriteOnly) {
-      return [...vacancies.where((vacancy) => vacancy.isFavorite == true)];
-    } else {
-      return [...vacancies];
-    }
-  }
-
   // Sort vacancies
   SortElement vacanciesSortField;
   void setVacanciesSortField(SortElement field) {
     vacanciesSortField = field;
     notifyListeners();
-  }
-
-  void _sortVacancies(List<Vacancy> vacancies) {
-    switch (vacanciesSortField) {
-      case VacanciesSortElement.title:
-        vacancies.sort((a, b) => a.title.compareTo(b.title));
-        break;
-      case VacanciesSortElement.city:
-        vacancies.sort((a, b) => a.city.compareTo(b.city));
-        break;
-    }
   }
 
   // Show favorite companies

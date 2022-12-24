@@ -3,6 +3,7 @@ import 'package:jobsin/core/error/failure.dart';
 
 import '../entities/company.dart';
 import '../entities/vacancy.dart';
+import '../model/enums/vacancies_sort_element.dart';
 
 abstract class Repository {
   Future<List<Company>> getCompanies();
@@ -21,5 +22,8 @@ abstract class Repository {
   // List<Company> loadCompanies();
   // List<Vacancy> loadVacancies();
 
-  Future<Either<Failure, List<Vacancy>>> getVacanciesList();
+  Future<Either<Failure, List<Vacancy>>> getVacanciesList({
+    required bool favoritesOnly,
+    required VacanciesSortElement sortElement,
+  });
 }

@@ -4,6 +4,7 @@ import 'package:jobsin/domain/repositories/repository.dart';
 
 import '../../domain/entities/company.dart';
 import '../../domain/entities/vacancy.dart';
+import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../models/data_source_remote.dart';
 import '../models/data_source_storage.dart';
 
@@ -36,7 +37,7 @@ class DataRepository extends Repository {
   @override
   Future<List<Vacancy>> getVacancies() async {
     final vacancyResponse = await dataSourceRemote.getVacancies();
-    final vacancies = vacancyResponse?.vacancies ?? [];
+    final vacancies = vacancyResponse ?? [];
     return await _setFavoriteVacancy(vacancies);
   }
 
@@ -44,18 +45,8 @@ class DataRepository extends Repository {
   Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
     final vacancyResponse =
         await dataSourceRemote.getVacanciesForCompany(companyId);
-    final vacancies = vacancyResponse?.vacancies ?? [];
+    final vacancies = vacancyResponse ?? [];
     return await _setFavoriteVacancy(vacancies);
-  }
-
-  Future<List<Vacancy>> _setFavoriteVacancy(List<Vacancy> vacancies) async {
-    final favoriteIds = await getFavoriteVacancies();
-    for (final vacancy in vacancies) {
-      if (favoriteIds.contains(vacancy.id)) {
-        vacancy.isFavorite = true;
-      }
-    }
-    return [...vacancies];
   }
 
   /// Favorite vacancy method
@@ -91,12 +82,55 @@ class DataRepository extends Repository {
   }
 
   @override
-  Future<Either<Failure, List<Vacancy>>> getVacanciesList() async {
+  Future<Either<Failure, List<Vacancy>>> getVacanciesList({
+    required bool favoritesOnly,
+    required VacanciesSortElement sortElement,
+  }) async {
     final vacancies = await dataSourceRemote.getVacanciesList();
     if (vacancies == null) {
       return Left(ServerFailure());
     } else {
-      return Right(vacancies);
+      var result = await _setFavoriteVacancy(vacancies);
+      result = _vacanciesFavoriteFilter(result, favoritesOnly);
+      result = _sortVacancies(result, sortElement);
+      return Right(result);
     }
+  }
+
+  /// MARK: Private Method
+  Future<List<Vacancy>> _setFavoriteVacancy(List<Vacancy> vacancies) async {
+    final favoriteIds = await getFavoriteVacancies();
+    for (final vacancy in vacancies) {
+      if (favoriteIds.contains(vacancy.id)) {
+        vacancy.isFavorite = true;
+      }
+    }
+    return [...vacancies];
+  }
+
+  List<Vacancy> _vacanciesFavoriteFilter(
+    List<Vacancy> vacancies,
+    bool favoritesOnly,
+  ) {
+    if (favoritesOnly) {
+      return [...vacancies.where((vacancy) => vacancy.isFavorite == true)];
+    } else {
+      return [...vacancies];
+    }
+  }
+
+  List<Vacancy> _sortVacancies(
+    List<Vacancy> vacancies,
+    VacanciesSortElement sortElement,
+  ) {
+    switch (sortElement) {
+      case VacanciesSortElement.title:
+        vacancies.sort((a, b) => a.title.compareTo(b.title));
+        break;
+      case VacanciesSortElement.city:
+        vacancies.sort((a, b) => a.city.compareTo(b.city));
+        break;
+    }
+    return vacancies;
   }
 }

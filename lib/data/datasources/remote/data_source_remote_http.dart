@@ -23,24 +23,24 @@ class DataSourceRemoteHttp with DataSourceRemote {
   }
 
   @override
-  Future<VacancyApiResponse?> getVacancies() async {
+  Future<List<VacancyModel>?> getVacancies() async {
     const path = "jobs";
     final uri = Uri.http(_host, _basePath + path);
     final resp = await _client.getUri(uri);
     if (resp.statusCode == 200) {
-      return VacancyApiResponse.fromJson(resp.data);
+      return VacancyApiResponseConverter.convert(resp.data);
     } else {
       return null;
     }
   }
 
   @override
-  Future<VacancyApiResponse?> getVacanciesForCompany(int companyId) async {
+  Future<List<VacancyModel>?> getVacanciesForCompany(int companyId) async {
     final path = "companies/$companyId/jobs";
     final uri = Uri.http(_host, _basePath + path);
     final resp = await _client.getUri(uri);
     if (resp.statusCode == 200) {
-      return VacancyApiResponse.fromJson(resp.data);
+      return VacancyApiResponseConverter.convert(resp.data);
     } else {
       return null;
     }
@@ -61,8 +61,7 @@ class DataSourceRemoteHttp with DataSourceRemote {
     final uri = Uri.http(_host, _basePath + path);
     final resp = await _client.getUri(uri);
     if (resp.statusCode == 200) {
-      final vacancyResp = VacancyApiResponse.fromJson(resp.data);
-      return vacancyResp.vacancies;
+      return VacancyApiResponseConverter.convert(resp.data);
     } else {
       return null;
     }

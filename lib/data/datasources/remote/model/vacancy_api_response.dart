@@ -1,8 +1,8 @@
 import '../../../models/vacancy_model.dart';
 
-class VacancyApiResponse {
-  final List<VacancyModel> vacancies = [];
-  VacancyApiResponse.fromJson(Map<String, dynamic> data) {
+class VacancyApiResponseConverter {
+  static List<VacancyModel> convert(Map<String, dynamic> data) {
+    final List<VacancyModel> vacancies = [];
     for (final elem in List.from(data["result"])) {
       vacancies.add(
         VacancyModel(
@@ -14,5 +14,6 @@ class VacancyApiResponse {
         ),
       );
     }
+    return vacancies;
   }
 }
