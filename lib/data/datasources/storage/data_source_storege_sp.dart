@@ -2,13 +2,13 @@ import 'package:jobsin/domain/entities/company.dart';
 import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../repositories/data_source_storage.dart';
+import '../../models/data_source_storage.dart';
 
-class LocalDataStorage with DataSourceStorage {
-  LocalDataStorage._internal();
-  static final LocalDataStorage _instance = LocalDataStorage._internal();
+class DataSourceStorageSP with DataSourceStorage {
+  DataSourceStorageSP._internal();
+  static final DataSourceStorageSP _instance = DataSourceStorageSP._internal();
 
-  static Future<LocalDataStorage> init() async {
+  static Future<DataSourceStorageSP> init() async {
     _instance.pref = await SharedPreferences.getInstance();
     return _instance;
   }

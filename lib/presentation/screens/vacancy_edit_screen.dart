@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../core/utils/validator.dart';
 import '../../domain/entities/vacancy.dart';
 import '../providers/data_provider.dart';
-import '../utils/validator.dart';
 import '../widgets/app_bar_edit.dart';
 import '../widgets/app_text_form_field.dart';
 

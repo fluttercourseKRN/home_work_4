@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:jobsin/domain/model/enums/companies_sort_element.dart';
 import 'package:jobsin/domain/repositories/repository.dart';
+import 'package:jobsin/domain/usecases/get_vacancies_list.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/company.dart';
 import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/model/sort_element.dart';
+import '../../injector_container.dart';
 
 class DataProvider with ChangeNotifier {
   DataProvider({
@@ -27,6 +29,12 @@ class DataProvider with ChangeNotifier {
     final vacancies = await repository.getVacancies();
     _sortVacancies(vacancies);
     return [..._vacanciesFavoriteFilter(vacancies)];
+  }
+
+  Future<List<Vacancy>> getVacancies() async {
+    final getVacanciesList = sl<GetVacanciesList>();
+    final vacanciesListOrFailure = await getVacanciesList();
+    return vacanciesListOrFailure.fold((l) => [], (r) => r);
   }
 
   Future<Vacancy?> vacancyForId(int vacancyId) async {

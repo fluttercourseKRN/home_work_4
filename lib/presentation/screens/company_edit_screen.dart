@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/entities/company.dart';
-import 'package:jobsin/presentation/providers/data_provider.dart';
-import 'package:jobsin/presentation/utils/validator.dart';
-import 'package:jobsin/presentation/widgets/app_bar_edit.dart';
 
+import '../../core/utils/validator.dart';
+import '../../domain/entities/company.dart';
+import '../providers/data_provider.dart';
+import '../widgets/app_bar_edit.dart';
 import '../widgets/app_text_form_field.dart';
 
 class CompanyEditScreen extends StatefulWidget {

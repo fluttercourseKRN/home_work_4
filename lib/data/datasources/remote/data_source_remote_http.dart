@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:jobsin/data/models/vacancy_model.dart';
 
-import '../../repositories/data_source_remote.dart';
+import '../../models/data_source_remote.dart';
 import 'model/company_api_response.dart';
 import 'model/vacancy_api_response.dart';
 
-class RemoteDataSource with DataSourceRemote {
+class DataSourceRemoteHttp with DataSourceRemote {
   static const _host = "3.75.134.87";
   static const _basePath = "/flutter/v1/";
   final _client = Dio();
@@ -52,5 +53,18 @@ class RemoteDataSource with DataSourceRemote {
     final params = {"": null};
     final uri = Uri.http(_host, _basePath + path, params);
     _client.postUri(uri);
+  }
+
+  @override
+  Future<List<VacancyModel>?> getVacanciesList() async {
+    const path = "jobs";
+    final uri = Uri.http(_host, _basePath + path);
+    final resp = await _client.getUri(uri);
+    if (resp.statusCode == 200) {
+      final vacancyResp = VacancyApiResponse.fromJson(resp.data);
+      return vacancyResp.vacancies;
+    } else {
+      return null;
+    }
   }
 }

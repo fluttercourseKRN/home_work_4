@@ -27,7 +27,7 @@ class VacanciesScreen extends StatelessWidget {
         const Divider(),
         Expanded(
           child: FutureBuilder<List<Vacancy>>(
-            future: DataProvider.watch(context).vacancies,
+            future: DataProvider.watch(context).getVacancies(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 final vacancies = snapshot.data!;

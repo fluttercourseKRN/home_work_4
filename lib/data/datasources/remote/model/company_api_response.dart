@@ -1,11 +1,11 @@
-import 'package:jobsin/domain/entities/company.dart';
+import '../../../models/company_model.dart';
 
 class CompanyApiResponse {
-  final List<Company> companies = [];
+  final List<CompanyModel> companies = [];
   CompanyApiResponse.fromJson(Map<String, dynamic> data) {
     for (final elem in List.from(data["result"])) {
       companies.add(
-        Company(
+        CompanyModel(
           id: elem['id'],
           name: elem['name'],
           description: elem['description'],

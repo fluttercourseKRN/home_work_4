@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/di.dart';
 import 'package:jobsin/domain/entities/company.dart';
 import 'package:jobsin/domain/entities/vacancy.dart';
+import 'package:jobsin/domain/repositories/repository.dart';
 import 'package:jobsin/presentation/providers/data_provider.dart';
 import 'package:jobsin/presentation/screens/company_detail_screen.dart';
 import 'package:jobsin/presentation/screens/company_edit_screen.dart';
@@ -9,11 +9,13 @@ import 'package:jobsin/presentation/screens/vacancy_detail_screen.dart';
 import 'package:jobsin/presentation/screens/vacancy_edit_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'injector_container.dart' as di;
 import 'presentation/screens/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DI.setUp();
+  // await DI.setUp();
+  await di.setUp();
   runApp(const MyApp());
 }
 
@@ -26,7 +28,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<DataProvider>(
-          create: (context) => DataProvider(repository: DI.instance.repository),
+          // create: (context) => DataProvider(repository: DI.instance.repository),
+          create: (context) => DataProvider(repository: di.sl<Repository>()),
         ),
       ],
       child: MaterialApp(

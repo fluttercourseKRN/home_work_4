@@ -1,11 +1,11 @@
-import 'package:jobsin/domain/entities/vacancy.dart';
+import '../../../models/vacancy_model.dart';
 
 class VacancyApiResponse {
-  final List<Vacancy> vacancies = [];
+  final List<VacancyModel> vacancies = [];
   VacancyApiResponse.fromJson(Map<String, dynamic> data) {
     for (final elem in List.from(data["result"])) {
       vacancies.add(
-        Vacancy(
+        VacancyModel(
           id: elem['id'],
           companyId: elem['companyId'],
           title: elem['title'],

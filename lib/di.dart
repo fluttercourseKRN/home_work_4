@@ -1,10 +1,10 @@
 import 'package:jobsin/data/repositories/data_repository.dart';
 import 'package:jobsin/domain/repositories/repository.dart';
 
-import 'data/datasources/remote/remote_data_source.dart';
-import 'data/datasources/storage/datasources/local_data_storage.dart';
-import 'data/repositories/data_source_remote.dart';
-import 'data/repositories/data_source_storage.dart';
+import 'data/datasources/remote/data_source_remote_http.dart';
+import 'data/datasources/storage/data_source_storege_sp.dart';
+import 'data/models/data_source_remote.dart';
+import 'data/models/data_source_storage.dart';
 
 class DI {
   DI._internal();
@@ -20,15 +20,15 @@ class DI {
 
   static Future<void> setUp() async {
     /// DataSource
-    _instance._dataSource = RemoteDataSource();
+    _instance._dataSource = DataSourceRemoteHttp();
 
     /// DataStorage
-    _instance._dataStorage = await LocalDataStorage.init();
+    _instance._dataStorage = await DataSourceStorageSP.init();
 
     /// Repository
     _instance.repository = DataRepository(
-      dataSource: _instance._dataSource,
-      dataStorage: _instance._dataStorage,
+      dataSourceRemote: _instance._dataSource,
+      dataSourceStorage: _instance._dataStorage,
     );
 
     // /// DataProvider

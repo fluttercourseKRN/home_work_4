@@ -4,21 +4,21 @@ import 'package:jobsin/domain/repositories/repository.dart';
 
 import '../../domain/entities/company.dart';
 import '../../domain/entities/vacancy.dart';
-import 'data_source_remote.dart';
-import 'data_source_storage.dart';
+import '../models/data_source_remote.dart';
+import '../models/data_source_storage.dart';
 
 class DataRepository extends Repository {
-  final DataSourceRemote dataSource;
-  final DataSourceStorage dataStorage;
+  final DataSourceRemote dataSourceRemote;
+  final DataSourceStorage dataSourceStorage;
 
   DataRepository({
-    required this.dataSource,
-    required this.dataStorage,
+    required this.dataSourceRemote,
+    required this.dataSourceStorage,
   });
 
   @override
   Future<List<Company>> getCompanies() async {
-    final companyResponse = await dataSource.getCompanies();
+    final companyResponse = await dataSourceRemote.getCompanies();
     final companies = companyResponse?.companies ?? [];
     return await _setFavoriteCompany(companies);
   }
@@ -35,14 +35,15 @@ class DataRepository extends Repository {
 
   @override
   Future<List<Vacancy>> getVacancies() async {
-    final vacancyResponse = await dataSource.getVacancies();
+    final vacancyResponse = await dataSourceRemote.getVacancies();
     final vacancies = vacancyResponse?.vacancies ?? [];
     return await _setFavoriteVacancy(vacancies);
   }
 
   @override
   Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
-    final vacancyResponse = await dataSource.getVacanciesForCompany(companyId);
+    final vacancyResponse =
+        await dataSourceRemote.getVacanciesForCompany(companyId);
     final vacancies = vacancyResponse?.vacancies ?? [];
     return await _setFavoriteVacancy(vacancies);
   }
@@ -60,38 +61,42 @@ class DataRepository extends Repository {
   /// Favorite vacancy method
   @override
   Future<List<int>> getFavoriteVacancies() async {
-    return await dataStorage.getFavoriteVacancies();
+    return await dataSourceStorage.getFavoriteVacancies();
   }
 
   @override
   Future<void> saveVacancyToFavorite(int vacancyId) async {
-    await dataStorage.saveVacancyToFavorite(vacancyId);
+    await dataSourceStorage.saveVacancyToFavorite(vacancyId);
   }
 
   @override
   Future<void> deleteVacancyFromFavorite(int vacancyId) async {
-    await dataStorage.deleteVacancyFromFavorite(vacancyId);
+    await dataSourceStorage.deleteVacancyFromFavorite(vacancyId);
   }
 
   /// Favorite company method
   @override
   Future<List<int>> getFavoriteCompanies() async {
-    return await dataStorage.getFavoriteCompanies();
+    return await dataSourceStorage.getFavoriteCompanies();
   }
 
   @override
   Future<void> saveCompanyToFavorite(int companyId) async {
-    await dataStorage.saveCompanyToFavorite(companyId);
+    await dataSourceStorage.saveCompanyToFavorite(companyId);
   }
 
   @override
   Future<void> deleteCompanyFromFavorite(int companyId) async {
-    await dataStorage.deleteCompanyFromFavorite(companyId);
+    await dataSourceStorage.deleteCompanyFromFavorite(companyId);
   }
 
   @override
-  Future<Either<Failure, List<Vacancy>>> getVacanciesList() {
-    // TODO: implement getVacanciesList
-    throw UnimplementedError();
+  Future<Either<Failure, List<Vacancy>>> getVacanciesList() async {
+    final vacancies = await dataSourceRemote.getVacanciesList();
+    if (vacancies == null) {
+      return Left(ServerFailure());
+    } else {
+      return Right(vacancies);
+    }
   }
 }
