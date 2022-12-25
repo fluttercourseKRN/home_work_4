@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/presentation/providers/vacancy_item_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/vacancy_item_provider.dart';
 import '../screens/vacancy_detail_screen.dart';
 import 'favorite_button.dart';
 
@@ -15,15 +15,15 @@ class VacancyListTile extends StatelessWidget {
     return Consumer<VacancyItemProvider>(
       builder: (context, vacancyItem, child) {
         return ListTile(
-          title: Text(vacancyItem.vacancy.title),
-          subtitle: Text(vacancyItem.vacancy.city),
+          title: Text(vacancyItem.element.title),
+          subtitle: Text(vacancyItem.element.city),
           trailing: FavoriteButton(
-            value: vacancyItem.vacancy.isFavorite,
+            value: vacancyItem.element.isFavorite,
             onTap: () => vacancyItem.toggleFavorite(),
           ),
           onTap: () => Navigator.of(context).pushNamed(
             VacancyDetailScreen.route,
-            arguments: vacancyItem.vacancy,
+            arguments: vacancyItem.element,
           ),
         );
       },

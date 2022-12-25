@@ -15,15 +15,15 @@ class CompanyListTile extends StatelessWidget {
     return Consumer<CompanyItemProvider>(
       builder: (context, companyItem, child) {
         return ListTile(
-          title: Text(companyItem.company.name),
-          subtitle: Text(companyItem.company.industry),
+          title: Text(companyItem.element.name),
+          subtitle: Text(companyItem.element.industry),
           trailing: FavoriteButton(
-            value: companyItem.company.isFavorite,
+            value: companyItem.element.isFavorite,
             onTap: () => companyItem.toggleFavorite(),
           ),
           onTap: () => Navigator.of(context).pushNamed(
             CompanyDetailScreen.route,
-            arguments: companyItem.company,
+            arguments: companyItem.element,
           ),
         );
       },

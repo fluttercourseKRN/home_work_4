@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/presentation/models/company_presentation.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/company.dart';
@@ -23,7 +24,7 @@ class CompaniesList extends StatelessWidget {
           key: ValueKey(company.id),
           create: (context) => CompanyItemProvider(
             context: context,
-            company: company,
+            element: CompanyPresentation.fromCompany(company),
             toggleUseCase: sl(),
           ),
           child: const CompanyListTile(),
