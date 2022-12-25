@@ -14,7 +14,7 @@ import 'data/repositories/vacancies_repository_impl.dart';
 import 'domain/repositories/companies_repository.dart';
 import 'domain/repositories/vacancies_repository.dart';
 import 'domain/usecases/get_vacancies_list.dart';
-import 'domain/usecases/save_vacancy_favorite_status.dart';
+import 'domain/usecases/toggle_vacancy_favorite_status.dart';
 
 final sl = GetIt.instance;
 
@@ -22,7 +22,7 @@ Future<void> setUp() async {
   /// UseCases /////////////////////////////////////////////////////////////////
 
   sl.registerLazySingleton(() => GetVacanciesList(sl()));
-  sl.registerLazySingleton(() => SetVacancyFavoriteStatus(sl()));
+  sl.registerLazySingleton(() => ToggleVacancyFavoriteStatus(sl()));
 
   //////////////////////////////////////////////////////////////////////////////
   /// Repositories /////////////////////////////////////////////////////////////

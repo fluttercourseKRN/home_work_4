@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/entities/vacancy.dart';
-import 'package:jobsin/presentation/providers/vacancies_provider.dart';
-import 'package:jobsin/presentation/widgets/favorite_button.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/vacancy_item_provider.dart';
 import '../screens/vacancy_detail_screen.dart';
+import 'favorite_button.dart';
 
 class VacancyListTile extends StatelessWidget {
   const VacancyListTile({
     Key? key,
-    required this.vacancy,
   }) : super(key: key);
 
-  final Vacancy vacancy;
   @override
   Widget build(BuildContext context) {
-    // final vacancy = VacancyItemProvider.watch(context).vacancy;
-    return ListTile(
-      title: Text(vacancy.title),
-      subtitle: Text(vacancy.city),
-      trailing: FavoriteButton(
-        value: vacancy.isFavorite,
-        onTap: () => VacanciesProvider.read(context).setIsFavoriteFor(
-          vacancyId: vacancy.id,
-          value: !vacancy.isFavorite,
-        ),
-      ),
-      onTap: () => Navigator.of(context).pushNamed(
-        VacancyDetailScreen.route,
-        arguments: vacancy,
-      ),
+    return Consumer<VacancyItemProvider>(
+      builder: (context, vacancyItem, child) {
+        return ListTile(
+          title: Text(vacancyItem.vacancy.title),
+          subtitle: Text(vacancyItem.vacancy.city),
+          trailing: FavoriteButton(
+            value: vacancyItem.vacancy.isFavorite,
+            onTap: () => vacancyItem.toggleFavorite(),
+          ),
+          onTap: () => Navigator.of(context).pushNamed(
+            VacancyDetailScreen.route,
+            arguments: vacancyItem.vacancy,
+          ),
+        );
+      },
     );
   }
 }

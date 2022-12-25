@@ -8,8 +8,9 @@ abstract class VacanciesRepository {
   Future<List<Vacancy>> getVacancies();
   Future<List<Vacancy>> getVacanciesForCompany(int companyId);
 
-  Future<void> saveVacancyToFavorite(int vacancyId);
-  Future<void> deleteVacancyFromFavorite(int vacancyId);
+  Future<Either<Failure, bool>> saveVacancyToFavorite(int vacancyId);
+
+  Future<Either<Failure, bool>> deleteVacancyFromFavorite(int vacancyId);
   Future<List<int>> getFavoriteVacanciesIds();
 
   Future<Either<Failure, List<Vacancy>>> getVacanciesList({

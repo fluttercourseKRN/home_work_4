@@ -38,16 +38,6 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
   }
 
   @override
-  Future<void> saveVacancyToFavorite(int vacancyId) async {
-    await dataSourceStorage.saveVacancyToFavorite(vacancyId);
-  }
-
-  @override
-  Future<void> deleteVacancyFromFavorite(int vacancyId) async {
-    await dataSourceStorage.deleteVacancyFromFavorite(vacancyId);
-  }
-
-  @override
   Future<Either<Failure, List<Vacancy>>> getVacanciesList({
     required bool favoritesOnly,
     required VacanciesSortElement sortElement,
@@ -89,7 +79,6 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
     List<Vacancy> vacancies,
     VacanciesSortElement sortElement,
   ) {
-    // print(vacancies);
     switch (sortElement) {
       case VacanciesSortElement.none:
         break;
@@ -100,7 +89,26 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
         vacancies.sort((a, b) => a.city.compareTo(b.city));
         break;
     }
-    // print(vacancies);
     return [...vacancies];
+  }
+
+  @override
+  Future<Either<Failure, bool>> saveVacancyToFavorite(int vacancyId) async {
+    try {
+      await dataSourceStorage.saveVacancyToFavorite(vacancyId);
+      return const Right(true);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteVacancyFromFavorite(int vacancyId) async {
+    try {
+      await dataSourceStorage.deleteVacancyFromFavorite(vacancyId);
+      return const Right(false);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
   }
 }

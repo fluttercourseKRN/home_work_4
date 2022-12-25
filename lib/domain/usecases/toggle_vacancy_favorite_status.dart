@@ -11,18 +11,16 @@ class VacancyFavoriteParams {
   VacancyFavoriteParams({required this.vacancyId, required this.value});
 }
 
-class SetVacancyFavoriteStatus
-    extends UseCase<NoParams, VacancyFavoriteParams> {
-  SetVacancyFavoriteStatus(this.repository);
+class ToggleVacancyFavoriteStatus extends UseCase<bool, VacancyFavoriteParams> {
+  ToggleVacancyFavoriteStatus(this.repository);
   final VacanciesRepository repository;
 
   @override
-  Future<Either<Failure, NoParams>> call(VacancyFavoriteParams params) async {
+  Future<Either<Failure, bool>> call(VacancyFavoriteParams params) async {
     if (params.value) {
-      repository.saveVacancyToFavorite(params.vacancyId);
+      return repository.saveVacancyToFavorite(params.vacancyId);
     } else {
-      repository.deleteVacancyFromFavorite(params.vacancyId);
+      return repository.deleteVacancyFromFavorite(params.vacancyId);
     }
-    return Right(NoParams());
   }
 }
