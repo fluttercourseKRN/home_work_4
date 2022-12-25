@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jobsin/presentation/screens/companies_screen.dart';
 import 'package:jobsin/presentation/screens/vacancies_screen.dart';
 
 import '../widgets/app_bar_main.dart';
@@ -19,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   int currentScreen = 0;
   final screens = [
     const VacanciesScreen(),
-    const CompaniesScreen(),
+    // const CompaniesScreen(),
   ];
   @override
   Widget build(BuildContext context) {

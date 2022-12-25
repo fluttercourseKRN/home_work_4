@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/entities/company.dart';
 import 'package:jobsin/domain/entities/vacancy.dart';
-import 'package:jobsin/presentation/providers/data_provider.dart';
+import 'package:jobsin/presentation/providers/vacancies_provider.dart';
 import 'package:jobsin/presentation/widgets/app_bar_main.dart';
 import 'package:jobsin/presentation/widgets/app_spinkit.dart';
 import 'package:jobsin/presentation/widgets/vacancies_list.dart';
@@ -25,8 +25,8 @@ class CompanyDetailScreen extends StatelessWidget {
             Text(company.name),
             Expanded(
               child: FutureBuilder<List<Vacancy>>(
-                future:
-                    DataProvider.watch(context).vacanciesForCompany(company.id),
+                future: VacanciesProvider.watch(context)
+                    .vacanciesForCompany(company.id),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     final vacancies = snapshot.data!;

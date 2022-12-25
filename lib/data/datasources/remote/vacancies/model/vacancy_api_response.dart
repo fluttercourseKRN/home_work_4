@@ -1,4 +1,4 @@
-import '../../../models/vacancy_model.dart';
+import '../../../../models/vacancy_model.dart';
 
 class VacancyApiResponseConverter {
   static List<VacancyModel> convert(Map<String, dynamic> data) {

@@ -1,6 +1,7 @@
 import '../sort_element.dart';
 
 enum CompaniesSortElement with SortElement {
+  none('none'),
   name('Name'),
   industry('Industry');
 

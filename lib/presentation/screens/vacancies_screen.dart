@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:jobsin/presentation/widgets/app_spinkit.dart';
 import 'package:jobsin/presentation/widgets/vacancies_list.dart';
+import 'package:provider/provider.dart';
 
-import '../../domain/entities/vacancy.dart';
 import '../../domain/model/enums/vacancies_sort_element.dart';
-import '../../domain/model/sort_element.dart';
-import '../providers/data_provider.dart';
+import '../providers/vacancies_provider.dart';
 import '../widgets/app_menu.dart';
 
 class VacanciesScreen extends StatelessWidget {
@@ -15,28 +14,26 @@ class VacanciesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppMenu(
+        AppMenu<VacanciesSortElement>(
           sortElements: VacanciesSortElement.values,
-          currentSortField: DataProvider.watch(context).vacanciesSortField,
-          onSortFieldChange: (SortElement value) =>
-              DataProvider.read(context).setVacanciesSortField(value),
-          isOn: DataProvider.watch(context).vacanciesShowFavoriteOnly,
+          currentSortField: VacanciesProvider.watch(context).vacanciesSortField,
+          onSortFieldChange: (VacanciesSortElement value) =>
+              VacanciesProvider.read(context).setVacanciesSortField(value),
+          isOn: VacanciesProvider.watch(context).vacanciesShowFavoriteOnly,
           switchChange: (bool value) =>
-              DataProvider.read(context).toggleVacanciesShowFavoriteOnly(),
+              VacanciesProvider.read(context).toggleVacanciesShowFavoriteOnly(),
         ),
         const Divider(),
         Expanded(
-          child: FutureBuilder<List<Vacancy>>(
-            future: DataProvider.watch(context).getVacancies(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                final vacancies = snapshot.data!;
+          child: Consumer<VacanciesProvider>(
+            builder: (context, vacanciesProvider, child) {
+              final vacancies = vacanciesProvider.vacancies;
+              print(vacancies);
+              if (vacancies.isNotEmpty) {
                 return VacanciesList(vacancies: vacancies);
+              } else {
+                return const AppSpinkit();
               }
-              return Center(
-                child:
-                    SpinKitWave(color: Theme.of(context).colorScheme.primary),
-              );
             },
           ),
         ),

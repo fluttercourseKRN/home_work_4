@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/entities/company.dart';
-import 'package:jobsin/domain/entities/vacancy.dart';
-import 'package:jobsin/domain/repositories/repository.dart';
-import 'package:jobsin/presentation/providers/data_provider.dart';
-import 'package:jobsin/presentation/screens/company_detail_screen.dart';
-import 'package:jobsin/presentation/screens/company_edit_screen.dart';
-import 'package:jobsin/presentation/screens/vacancy_detail_screen.dart';
-import 'package:jobsin/presentation/screens/vacancy_edit_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'domain/entities/company.dart';
+import 'domain/entities/vacancy.dart';
 import 'injector_container.dart' as di;
+import 'presentation/providers/companies_provider.dart';
+import 'presentation/providers/vacancies_provider.dart';
+import 'presentation/screens/company_detail_screen.dart';
+import 'presentation/screens/company_edit_screen.dart';
 import 'presentation/screens/main_screen.dart';
+import 'presentation/screens/vacancy_detail_screen.dart';
+import 'presentation/screens/vacancy_edit_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,9 +27,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<DataProvider>(
-          // create: (context) => DataProvider(repository: DI.instance.repository),
-          create: (context) => DataProvider(repository: di.sl<Repository>()),
+        ChangeNotifierProvider<VacanciesProvider>(
+          create: (context) => VacanciesProvider(),
+        ),
+        ChangeNotifierProvider<CompaniesProvider>(
+          create: (context) => CompaniesProvider(),
         ),
       ],
       child: MaterialApp(

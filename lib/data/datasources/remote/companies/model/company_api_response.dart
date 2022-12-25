@@ -1,8 +1,8 @@
-import '../../../models/company_model.dart';
+import '../../../../models/company_model.dart';
 
-class CompanyApiResponse {
-  final List<CompanyModel> companies = [];
-  CompanyApiResponse.fromJson(Map<String, dynamic> data) {
+class CompanyApiResponseConverter {
+  static List<CompanyModel> convert(Map<String, dynamic> data) {
+    final List<CompanyModel> companies = [];
     for (final elem in List.from(data["result"])) {
       companies.add(
         CompanyModel(
@@ -13,5 +13,6 @@ class CompanyApiResponse {
         ),
       );
     }
+    return companies;
   }
 }

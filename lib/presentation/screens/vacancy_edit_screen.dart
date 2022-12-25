@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/utils/validator.dart';
 import '../../domain/entities/vacancy.dart';
-import '../providers/data_provider.dart';
+import '../providers/vacancies_provider.dart';
 import '../widgets/app_bar_edit.dart';
 import '../widgets/app_text_form_field.dart';
 
@@ -86,7 +86,7 @@ class _VacancyEditScreenState extends State<VacancyEditScreen> {
   void _save() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
-      DataProvider.read(context).saveNewVacancy(
+      VacanciesProvider.read(context).saveNewVacancy(
         title.text,
         city.text,
         description.text,

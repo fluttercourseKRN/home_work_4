@@ -18,6 +18,12 @@ class Vacancy with EquatableMixin {
   });
 
   @override
-  List<Object?> get props =>
-      [id, companyId, title, description, city, isFavorite];
+  List<Object?> get props => [
+        id,
+        companyId,
+        title,
+        description,
+        city,
+        isFavorite,
+      ];
 }

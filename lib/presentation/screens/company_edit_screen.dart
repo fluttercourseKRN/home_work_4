@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/presentation/providers/companies_provider.dart';
 
 import '../../core/utils/validator.dart';
 import '../../domain/entities/company.dart';
-import '../providers/data_provider.dart';
 import '../widgets/app_bar_edit.dart';
 import '../widgets/app_text_form_field.dart';
 
@@ -83,7 +83,7 @@ class _CompanyEditScreenState extends State<CompanyEditScreen> {
   void _save() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
-      DataProvider.read(context).saveNewCompany(
+      CompaniesProvider.read(context).saveNewCompany(
         name.text,
         description.text,
         industry.text,

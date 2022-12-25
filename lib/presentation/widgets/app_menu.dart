@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../domain/model/sort_element.dart';
 
-class AppMenu extends StatelessWidget {
+class AppMenu<T extends SortElement> extends StatelessWidget {
   const AppMenu({
     Key? key,
     required this.currentSortField,
@@ -12,9 +12,9 @@ class AppMenu extends StatelessWidget {
     required this.sortElements,
   }) : super(key: key);
 
-  final List<SortElement> sortElements;
-  final SortElement currentSortField;
-  final void Function(SortElement value) onSortFieldChange;
+  final List<T> sortElements;
+  final T currentSortField;
+  final void Function(T value) onSortFieldChange;
 
   final bool isOn;
   final void Function(bool value) switchChange;
@@ -23,7 +23,7 @@ class AppMenu extends StatelessWidget {
     return ListTile(
       leading: SizedBox(
         width: 150,
-        child: PopupMenuButton<SortElement>(
+        child: PopupMenuButton<T>(
           position: PopupMenuPosition.under,
           child: Center(
             child: Row(
@@ -44,7 +44,7 @@ class AppMenu extends StatelessWidget {
           itemBuilder: (context) {
             return [
               for (final value in sortElements)
-                PopupMenuItem<SortElement>(
+                PopupMenuItem<T>(
                   child: Text(value.text),
                   onTap: () {
                     onSortFieldChange(value);

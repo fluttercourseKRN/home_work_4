@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/entities/company.dart';
-import 'package:jobsin/presentation/providers/company_item_provider.dart';
-import 'package:provider/provider.dart';
 
+import '../../domain/entities/company.dart';
 import 'company_list_tile.dart';
 
 class CompaniesList extends StatelessWidget {
@@ -18,10 +16,7 @@ class CompaniesList extends StatelessWidget {
       itemCount: companies.length,
       itemBuilder: (context, index) {
         final company = companies[index];
-        return ChangeNotifierProvider(
-          create: (context) => CompanyItemProvider(company: company),
-          child: const CompanyListTile(),
-        );
+        return CompanyListTile(company: company);
       },
     );
   }
