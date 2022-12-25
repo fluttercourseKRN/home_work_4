@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/vacancy.dart';
+import '../../domain/entities/company.dart';
 import '../../domain/usecases/toggle_vacancy_favorite_status.dart';
 
-class VacancyItemProvider extends ChangeNotifier {
-  final Vacancy vacancy;
+class CompanyItemProvider extends ChangeNotifier {
+  final Company company;
 
   final BuildContext context;
-  VacancyItemProvider({
+  CompanyItemProvider({
     required this.context,
-    required this.vacancy,
+    required this.company,
     required this.toggleUseCase,
   });
 
@@ -22,12 +22,12 @@ class VacancyItemProvider extends ChangeNotifier {
 
   Future<void> toggleFavorite() async {
     final resOrFailure = await toggleUseCase(VacancyFavoriteParams(
-      vacancyId: vacancy.id,
-      value: !vacancy.isFavorite,
+      vacancyId: company.id,
+      value: !company.isFavorite,
     ));
     resOrFailure.fold(
       (error) => _showError("Add to favorite error"),
-      (value) => vacancy.isFavorite = value,
+      (value) => company.isFavorite = value,
     );
     notifyListeners();
   }

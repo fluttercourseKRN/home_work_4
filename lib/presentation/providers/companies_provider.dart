@@ -67,29 +67,10 @@ class CompaniesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Company> _companiesFavoriteFilter(List<Company> companies) {
-    if (companiesShowFavoriteOnly) {
-      return [...companies.where((company) => company.isFavorite == true)];
-    } else {
-      return [...companies];
-    }
-  }
-
   // Sort companies
   SortElement companiesSortField;
   void setCompaniesSortField(SortElement field) {
     companiesSortField = field;
     notifyListeners();
-  }
-
-  void _sortCompanies(List<Company> companies) {
-    switch (companiesSortField) {
-      case CompaniesSortElement.name:
-        companies.sort((a, b) => a.name.compareTo(b.name));
-        break;
-      case CompaniesSortElement.industry:
-        companies.sort((a, b) => a.industry.compareTo(b.industry));
-        break;
-    }
   }
 }

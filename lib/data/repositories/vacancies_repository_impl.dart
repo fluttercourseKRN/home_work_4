@@ -17,13 +17,6 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
   });
 
   @override
-  Future<List<Vacancy>> getVacancies() async {
-    final vacancyResponse = await dataSourceRemote.getVacancies();
-    final vacancies = vacancyResponse ?? [];
-    return await _setFavoriteVacancy(vacancies);
-  }
-
-  @override
   Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
     final vacancyResponse =
         await dataSourceRemote.getVacanciesForCompany(companyId);

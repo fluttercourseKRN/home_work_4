@@ -12,8 +12,11 @@ class VacanciesParams {
   final VacanciesSortElement sortElement;
   final int? companyId;
 
-  VacanciesParams(
-      {required this.favoritesOnly, required this.sortElement, this.companyId});
+  VacanciesParams({
+    required this.favoritesOnly,
+    required this.sortElement,
+    this.companyId,
+  });
 }
 
 /// UseCase
