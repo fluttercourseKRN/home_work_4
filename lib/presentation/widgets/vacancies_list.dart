@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/presentation/providers/vacancy_item_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/vacancy.dart';
 import '../../injector_container.dart';
+import '../providers/vacancy_item_provider.dart';
 import 'vacancy_list_tile.dart';
 
 class VacanciesList extends StatelessWidget {

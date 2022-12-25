@@ -4,6 +4,7 @@ import 'package:jobsin/presentation/screens/vacancies_screen.dart';
 
 import '../widgets/app_bar_main.dart';
 import '../widgets/app_drawer.dart';
+import 'companies_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   int currentScreen = 0;
   final screens = [
     const VacanciesScreen(),
-    // const CompaniesScreen(),
+    const CompaniesScreen(),
   ];
   @override
   Widget build(BuildContext context) {

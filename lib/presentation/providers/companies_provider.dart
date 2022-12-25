@@ -4,13 +4,12 @@ import 'package:provider/provider.dart';
 
 import '../../domain/entities/company.dart';
 import '../../domain/model/enums/companies_sort_element.dart';
-import '../../domain/model/sort_element.dart';
 
 class CompaniesProvider with ChangeNotifier {
   CompaniesProvider({
     required this.getCompaniesList,
   }) : companiesSortField = CompaniesSortElement.values.first {
-    // _fetchVacancies();
+    _fetchCompanies();
   }
 
   factory CompaniesProvider.read(BuildContext context) =>
@@ -23,43 +22,22 @@ class CompaniesProvider with ChangeNotifier {
   List<Company> companies = [];
 
   @override
-  void notifyListeners() {
-    // _fetchVacancies();
+  void notifyListeners() => _fetchCompanies();
+
+  Future<void> _fetchCompanies() async {
+    final vacanciesListOrFailure = await getCompaniesList(
+      CompaniesParams(
+        favoritesOnly: companiesShowFavoriteOnly,
+        sortElement: companiesSortField,
+      ),
+    );
+    vacanciesListOrFailure.fold(
+      (l) => companies = [],
+      (r) => companies = [...r],
+    );
+
     super.notifyListeners();
   }
-
-  // Future<void> _fetchVacancies() async {
-  //   final getVacanciesList = sl<GetVacanciesList>();
-  //   final vacanciesListOrFailure = await getVacanciesList(
-  //     VacanciesParams(
-  //       favoritesOnly: vacanciesShowFavoriteOnly,
-  //       sortElement: vacanciesSortField as VacanciesSortElement,
-  //     ),
-  //   );
-  //   vacanciesListOrFailure.fold(
-  //         (l) => vacancies = [],
-  //         (r) => vacancies = [...r],
-  //   );
-  // }
-
-  // Future<List<Company>> get companies async {
-  //   final companies = await repository.getCompanies();
-  //   _sortCompanies(companies);
-  //
-  //   return [..._companiesFavoriteFilter(companies)];
-  // }
-
-  ///MARK: Favorite
-  // Future<void> setIsFavoriteFor({
-  //   required int vacancyId,
-  //   required bool value,
-  // }) async {
-  //   final setVacancyFavoriteStatus = sl<SetVacancyFavoriteStatus>();
-  //   await setVacancyFavoriteStatus(
-  //     VacancyFavoriteParams(vacancyId: vacancyId, value: value),
-  //   );
-  //   notifyListeners();
-  // }
 
   /// MARK: Add new entities
   void saveNewCompany(String name, String description, String industry) {}
@@ -72,8 +50,8 @@ class CompaniesProvider with ChangeNotifier {
   }
 
   // Sort companies
-  SortElement companiesSortField;
-  void setCompaniesSortField(SortElement field) {
+  CompaniesSortElement companiesSortField;
+  void setCompaniesSortField(CompaniesSortElement field) {
     companiesSortField = field;
     notifyListeners();
   }

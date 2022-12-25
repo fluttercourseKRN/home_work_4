@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../domain/entities/company.dart';
+import '../providers/company_item_provider.dart';
 import '../screens/company_detail_screen.dart';
 import 'favorite_button.dart';
 
 class CompanyListTile extends StatelessWidget {
   const CompanyListTile({
     Key? key,
-    required this.company,
   }) : super(key: key);
 
-  final Company company;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(company.name),
-      subtitle: Text(company.industry),
-      trailing: FavoriteButton(
-        value: company.isFavorite,
-        onTap: () {},
-      ),
-      onTap: () => Navigator.of(context).pushNamed(
-        CompanyDetailScreen.route,
-        arguments: company,
-      ),
+    return Consumer<CompanyItemProvider>(
+      builder: (context, companyItem, child) {
+        return ListTile(
+          title: Text(companyItem.company.name),
+          subtitle: Text(companyItem.company.industry),
+          trailing: FavoriteButton(
+            value: companyItem.company.isFavorite,
+            onTap: () => companyItem.toggleFavorite(),
+          ),
+          onTap: () => Navigator.of(context).pushNamed(
+            CompanyDetailScreen.route,
+            arguments: companyItem.company,
+          ),
+        );
+      },
     );
   }
 }
