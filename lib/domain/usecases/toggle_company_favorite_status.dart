@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:jobsin/domain/repositories/companies_repository.dart';
 
 import '../../core/error/failure.dart';
 import '../../core/use_case/use_case.dart';
+import '../repositories/companies_repository.dart';
 
 class CompanyFavoriteParams {
   final int companyId;

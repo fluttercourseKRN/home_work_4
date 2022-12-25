@@ -28,6 +28,7 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
       var result = await _setFavoriteCompany(companies);
       result = _companiesFavoriteFilter(result, favoritesOnly);
       result = _sortCompanies(result, sortElement);
+
       return Right(result);
     }
   }
@@ -77,20 +78,21 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> deleteCompanyFromFavorite(int companyId) async {
+  Future<Either<Failure, bool>> saveCompanyToFavorite(int companyId) async {
+    print('saveCompanyToFavorite');
     try {
-      await dataSourceStorage.deleteCompanyFromFavorite(companyId);
-      return const Right(false);
+      await dataSourceStorage.saveCompanyToFavorite(companyId);
+      return const Right(true);
     } catch (e) {
       return Left(StorageFailure());
     }
   }
 
   @override
-  Future<Either<Failure, bool>> saveCompanyToFavorite(int companyId) async {
+  Future<Either<Failure, bool>> deleteCompanyFromFavorite(int companyId) async {
     try {
-      await dataSourceStorage.saveCompanyToFavorite(companyId);
-      return const Right(true);
+      await dataSourceStorage.deleteCompanyFromFavorite(companyId);
+      return const Right(false);
     } catch (e) {
       return Left(StorageFailure());
     }

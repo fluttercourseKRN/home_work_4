@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/domain/usecases/toggle_company_favorite_status.dart';
 
 import '../../domain/entities/company.dart';
-import '../../domain/usecases/toggle_vacancy_favorite_status.dart';
 
 class CompanyItemProvider extends ChangeNotifier {
   final Company company;
@@ -13,7 +13,7 @@ class CompanyItemProvider extends ChangeNotifier {
     required this.toggleUseCase,
   });
 
-  final ToggleVacancyFavoriteStatus toggleUseCase;
+  final ToggleCompanyFavoriteStatus toggleUseCase;
 
   void _showError(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -21,8 +21,8 @@ class CompanyItemProvider extends ChangeNotifier {
   }
 
   Future<void> toggleFavorite() async {
-    final resOrFailure = await toggleUseCase(VacancyFavoriteParams(
-      vacancyId: company.id,
+    final resOrFailure = await toggleUseCase(CompanyFavoriteParams(
+      companyId: company.id,
       value: !company.isFavorite,
     ));
     resOrFailure.fold(

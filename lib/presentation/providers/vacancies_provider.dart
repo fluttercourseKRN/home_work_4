@@ -37,7 +37,7 @@ class VacanciesProvider with ChangeNotifier {
       (l) => vacancies = [],
       (r) => vacancies = [...r],
     );
-
+    print(vacancies);
     super.notifyListeners();
   }
 

@@ -20,6 +20,7 @@ class VacanciesList extends StatelessWidget {
       itemBuilder: (context, index) {
         final vacancy = vacancies[index];
         return ChangeNotifierProvider<VacancyItemProvider>(
+          key: ValueKey(vacancy.id),
           create: (context) => VacancyItemProvider(
             context: context,
             vacancy: vacancy,
