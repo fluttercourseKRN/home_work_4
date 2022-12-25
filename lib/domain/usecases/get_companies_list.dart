@@ -20,13 +20,12 @@ class CompaniesParams {
 }
 
 /// UseCase
-class GetVacanciesList extends UseCase<List<Company>, CompaniesParams> {
-  GetVacanciesList(this.repository);
+class GetCompaniesList extends UseCase<List<Company>, CompaniesParams> {
+  GetCompaniesList(this.repository);
   final CompaniesRepository repository;
 
   @override
   Future<Either<Failure, List<Company>>> call(CompaniesParams params) async {
-    // print('${params.sortElement} ${params.favoritesOnly}');
     return repository.getCompaniesList(
       favoritesOnly: params.favoritesOnly,
       sortElement: params.sortElement,

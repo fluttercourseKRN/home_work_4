@@ -1,15 +1,15 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/usecases/toggle_vacancy_favorite_status.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/vacancy.dart';
 import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/usecases/get_vacancies_list.dart';
-import '../../injector_container.dart';
 
 class VacanciesProvider with ChangeNotifier {
-  VacanciesProvider() : vacanciesSortField = VacanciesSortElement.values.first {
+  VacanciesProvider({
+    required this.getVacanciesList,
+  }) : vacanciesSortField = VacanciesSortElement.values.first {
     _fetchVacancies();
   }
 
@@ -19,13 +19,14 @@ class VacanciesProvider with ChangeNotifier {
   factory VacanciesProvider.watch(BuildContext context) =>
       context.watch<VacanciesProvider>();
   //////////////////////////////////////////////////////////////////////////////
+  // UseCases
+  final GetVacanciesList getVacanciesList;
   List<Vacancy> vacancies = [];
 
   @override
   void notifyListeners() => _fetchVacancies();
 
   Future<void> _fetchVacancies() async {
-    final getVacanciesList = sl<GetVacanciesList>();
     final vacanciesListOrFailure = await getVacanciesList(
       VacanciesParams(
         favoritesOnly: vacanciesShowFavoriteOnly,
@@ -51,18 +52,6 @@ class VacanciesProvider with ChangeNotifier {
 
   /// MARK: Add new
   void saveNewVacancy(String title, String city, String description) {}
-
-  ///MARK: Favorite
-  Future<void> toggleFavoriteFor({
-    required int vacancyId,
-    required bool value,
-  }) async {
-    final setVacancyFavoriteStatus = sl<ToggleVacancyFavoriteStatus>();
-    await setVacancyFavoriteStatus(
-      VacancyFavoriteParams(vacancyId: vacancyId, value: value),
-    );
-    notifyListeners();
-  }
 
   /// MARK: AppMenu state //////////////////////////////////////////////////////
   // Show favorite vacancies

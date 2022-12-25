@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/domain/usecases/get_companies_list.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/company.dart';
@@ -6,7 +7,9 @@ import '../../domain/model/enums/companies_sort_element.dart';
 import '../../domain/model/sort_element.dart';
 
 class CompaniesProvider with ChangeNotifier {
-  CompaniesProvider() : companiesSortField = CompaniesSortElement.values.first {
+  CompaniesProvider({
+    required this.getCompaniesList,
+  }) : companiesSortField = CompaniesSortElement.values.first {
     // _fetchVacancies();
   }
 
@@ -15,7 +18,8 @@ class CompaniesProvider with ChangeNotifier {
 
   factory CompaniesProvider.watch(BuildContext context) =>
       context.watch<CompaniesProvider>();
-
+  //////////////////////////////////////////////////////////////////////////////
+  final GetCompaniesList getCompaniesList;
   List<Company> companies = [];
 
   @override

@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<VacanciesProvider>(
-          create: (context) => VacanciesProvider(),
+          create: (context) => VacanciesProvider(getVacanciesList: di.sl()),
         ),
         ChangeNotifierProvider<CompaniesProvider>(
-          create: (context) => CompaniesProvider(),
+          create: (context) => CompaniesProvider(getCompaniesList: di.sl()),
         ),
       ],
       child: MaterialApp(
