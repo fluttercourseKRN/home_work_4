@@ -19,12 +19,12 @@ class VacanciesScreen extends StatelessWidget {
           children: [
             AppMenu<VacanciesSortElement>(
               sortElements: VacanciesSortElement.values,
-              currentSortField: vacanciesProvider.vacanciesSortField,
+              currentSortField: vacanciesProvider.itemSortField,
               onSortFieldChange: (VacanciesSortElement value) =>
-                  vacanciesProvider.setVacanciesSortField(value),
-              isOn: vacanciesProvider.vacanciesShowFavoriteOnly,
+                  vacanciesProvider.setItemsSortField(value),
+              isOn: vacanciesProvider.itemsShowFavoriteOnly,
               switchChange: (bool value) =>
-                  vacanciesProvider.toggleVacanciesShowFavoriteOnly(),
+                  vacanciesProvider.toggleItemsShowFavoriteOnly(),
             ),
             const Divider(),
             Expanded(child: VacanciesList(vacancies: vacancies)),

@@ -19,12 +19,12 @@ class CompaniesScreen extends StatelessWidget {
           children: [
             AppMenu<CompaniesSortElement>(
               sortElements: CompaniesSortElement.values,
-              currentSortField: companiesProvider.companiesSortField,
+              currentSortField: companiesProvider.itemSortField,
               onSortFieldChange: (CompaniesSortElement value) =>
-                  companiesProvider.setCompaniesSortField(value),
-              isOn: companiesProvider.companiesShowFavoriteOnly,
+                  companiesProvider.setItemsSortField(value),
+              isOn: companiesProvider.itemsShowFavoriteOnly,
               switchChange: (bool value) =>
-                  companiesProvider.toggleCompaniesShowFavoriteOnly(),
+                  companiesProvider.toggleItemsShowFavoriteOnly(),
             ),
             const Divider(),
             Expanded(child: CompaniesList(companies: companies)),

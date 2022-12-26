@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
+import 'package:jobsin/presentation/providers/abstract/menu_controller_mixin.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/company.dart';
 import '../../domain/model/enums/companies_sort_element.dart';
 
-class CompaniesProvider with ChangeNotifier {
+class CompaniesProvider extends ChangeNotifier
+    with MenuControllerMixin<CompaniesSortElement> {
   CompaniesProvider({
     required this.getCompaniesList,
-  }) : companiesSortField = CompaniesSortElement.values.first {
+  }) {
     _fetchCompanies();
   }
 
@@ -18,6 +20,10 @@ class CompaniesProvider with ChangeNotifier {
   factory CompaniesProvider.watch(BuildContext context) =>
       context.watch<CompaniesProvider>();
   //////////////////////////////////////////////////////////////////////////////
+
+  @override
+  CompaniesSortElement initSortType() => CompaniesSortElement.values.first;
+
   final GetCompaniesList getCompaniesList;
   List<Company> companies = [];
 
@@ -27,8 +33,8 @@ class CompaniesProvider with ChangeNotifier {
   Future<void> _fetchCompanies() async {
     final vacanciesListOrFailure = await getCompaniesList(
       CompaniesParams(
-        favoritesOnly: companiesShowFavoriteOnly,
-        sortElement: companiesSortField,
+        favoritesOnly: itemsShowFavoriteOnly,
+        sortElement: itemSortField,
       ),
     );
     vacanciesListOrFailure.fold(
@@ -42,17 +48,17 @@ class CompaniesProvider with ChangeNotifier {
   /// MARK: Add new entities
   void saveNewCompany(String name, String description, String industry) {}
 
-  // Show favorite companies
-  bool companiesShowFavoriteOnly = false;
-  void toggleCompaniesShowFavoriteOnly() {
-    companiesShowFavoriteOnly = !companiesShowFavoriteOnly;
-    notifyListeners();
-  }
-
-  // Sort companies
-  CompaniesSortElement companiesSortField;
-  void setCompaniesSortField(CompaniesSortElement field) {
-    companiesSortField = field;
-    notifyListeners();
-  }
+  // // Show favorite companies
+  // bool companiesShowFavoriteOnly = false;
+  // void toggleCompaniesShowFavoriteOnly() {
+  //   companiesShowFavoriteOnly = !companiesShowFavoriteOnly;
+  //   notifyListeners();
+  // }
+  //
+  // // Sort companies
+  // CompaniesSortElement companiesSortField;
+  // void setCompaniesSortField(CompaniesSortElement field) {
+  //   companiesSortField = field;
+  //   notifyListeners();
+  // }
 }
