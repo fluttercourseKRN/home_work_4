@@ -34,8 +34,11 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
   Future<Either<Failure, List<Vacancy>>> getVacanciesList({
     required bool favoritesOnly,
     required VacanciesSortElement sortElement,
+    List<int>? fetchOnlyCompaniesId,
   }) async {
-    final vacancies = await dataSourceRemote.getVacanciesList();
+    final vacancies = await dataSourceRemote.getVacanciesList(
+      fetchOnlyCompaniesId: fetchOnlyCompaniesId,
+    );
     if (vacancies == null) {
       return Left(ServerFailure());
     } else {

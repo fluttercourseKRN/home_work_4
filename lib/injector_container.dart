@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,7 +51,7 @@ Future<void> setUp() async {
 
   // Vacancies
   sl.registerLazySingleton<VacanciesDataSourceRemote>(
-      () => VacanciesDataSourceHTTP());
+      () => VacanciesDataSourceHTTP(client: sl()));
   sl.registerLazySingleton<VacanciesDataSourceStorage>(
       () => VacanciesDataSourceSPref(sl()));
   // Companies
@@ -62,6 +63,8 @@ Future<void> setUp() async {
   //////////////////////////////////////////////////////////////////////////////
   /// 3-rd Library
 
+  // Dio
+  sl.registerLazySingleton(() => Dio());
   // SharedPreferences
   final sharPref = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharPref);

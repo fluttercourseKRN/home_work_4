@@ -5,15 +5,15 @@ import '../../../models/vacancy_model.dart';
 import 'model/vacancy_api_response.dart';
 
 class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
+  VacanciesDataSourceHTTP({required this.client});
+
   static const _host = "3.75.134.87";
   static const _basePath = "/flutter/v1/";
-  final _client = Dio();
+  final Dio client;
 
-  @override
-  Future<List<VacancyModel>?> getVacanciesList() async {
-    const path = "jobs";
+  Future<List<VacancyModel>?> _get({required String path}) async {
     final uri = Uri.http(_host, _basePath + path);
-    final resp = await _client.getUri(uri);
+    final resp = await client.getUri(uri);
     if (resp.statusCode == 200) {
       return VacancyApiResponseConverter.convert(resp.data);
     } else {
@@ -22,26 +22,26 @@ class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
   }
 
   @override
-  Future<List<VacancyModel>?> getVacancies() async {
-    const path = "jobs";
-    final uri = Uri.http(_host, _basePath + path);
-    final resp = await _client.getUri(uri);
-    if (resp.statusCode == 200) {
-      return VacancyApiResponseConverter.convert(resp.data);
+  Future<List<VacancyModel>?> getVacanciesList({
+    List<int>? fetchOnlyCompaniesId,
+  }) async {
+    if (fetchOnlyCompaniesId == null) {
+      const path = "jobs";
+      return _get(path: path);
     } else {
-      return null;
+      final companiesList = await Future.wait(fetchOnlyCompaniesId
+          .map((companyId) => getVacanciesForCompany(companyId)));
+      return [
+        for (final companyVacancies in companiesList) ...?companyVacancies
+      ];
+      // return result.fold<List<VacancyModel>?>(
+      //     [], (previousValue, element) => null)?.toList();
     }
   }
 
   @override
   Future<List<VacancyModel>?> getVacanciesForCompany(int companyId) async {
     final path = "companies/$companyId/jobs";
-    final uri = Uri.http(_host, _basePath + path);
-    final resp = await _client.getUri(uri);
-    if (resp.statusCode == 200) {
-      return VacancyApiResponseConverter.convert(resp.data);
-    } else {
-      return null;
-    }
+    return _get(path: path);
   }
 }

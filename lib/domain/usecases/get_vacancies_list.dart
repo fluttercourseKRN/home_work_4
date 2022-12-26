@@ -10,12 +10,12 @@ import '../model/enums/vacancies_sort_element.dart';
 class VacanciesParams {
   final bool favoritesOnly;
   final VacanciesSortElement sortElement;
-  final int? companyId;
+  final List<int>? fetchOnlyCompaniesId;
 
   VacanciesParams({
     required this.favoritesOnly,
     required this.sortElement,
-    this.companyId,
+    this.fetchOnlyCompaniesId,
   });
 }
 
@@ -30,6 +30,7 @@ class GetVacanciesList extends UseCase<List<Vacancy>, VacanciesParams> {
     return repository.getVacanciesList(
       favoritesOnly: params.favoritesOnly,
       sortElement: params.sortElement,
+      fetchOnlyCompaniesId: params.fetchOnlyCompaniesId,
     );
   }
 }

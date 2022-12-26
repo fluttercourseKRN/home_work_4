@@ -13,5 +13,6 @@ abstract class VacanciesRepository {
   Future<Either<Failure, List<Vacancy>>> getVacanciesList({
     required bool favoritesOnly,
     required VacanciesSortElement sortElement,
+    List<int>? fetchOnlyCompaniesId,
   });
 }
