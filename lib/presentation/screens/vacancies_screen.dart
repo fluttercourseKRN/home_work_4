@@ -7,8 +7,12 @@ import '../widgets/app_menu.dart';
 import '../widgets/vacancies_list.dart';
 
 class VacanciesScreen extends StatelessWidget {
-  const VacanciesScreen({Key? key}) : super(key: key);
+  const VacanciesScreen({
+    Key? key,
+    this.showMenu = true,
+  }) : super(key: key);
 
+  final bool showMenu;
   @override
   Widget build(BuildContext context) {
     return Consumer<VacanciesProvider>(
@@ -17,7 +21,7 @@ class VacanciesScreen extends StatelessWidget {
 
         return Column(
           children: [
-            AppMenu(menuController: vacanciesProvider),
+            if (showMenu) AppMenu(menuController: vacanciesProvider),
             const Divider(),
             if (vacancies == null) const Expanded(child: AppSpinkit()),
             if (vacancies != null)

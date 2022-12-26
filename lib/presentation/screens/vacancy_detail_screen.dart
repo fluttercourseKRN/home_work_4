@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:jobsin/presentation/widgets/app_bar_main.dart';
+import 'package:jobsin/presentation/widgets/label_value.dart';
+
+import '../widgets/info_card.dart';
 
 class VacancyDetailScreen extends StatelessWidget {
   const VacancyDetailScreen({
@@ -16,8 +19,24 @@ class VacancyDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: const AppBarMain(),
       body: SafeArea(
-        child: Center(
-          child: Text(vacancy.description),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InfoCard(
+            items: [
+              LabelValue(
+                label: 'Title: ',
+                text: vacancy.title,
+              ),
+              LabelValue(
+                label: 'City: ',
+                text: vacancy.city,
+              ),
+              LabelValue(
+                label: 'Description: ',
+                text: vacancy.description,
+              ),
+            ],
+          ),
         ),
       ),
     );
