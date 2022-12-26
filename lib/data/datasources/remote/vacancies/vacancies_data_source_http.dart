@@ -34,8 +34,6 @@ class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
       return [
         for (final companyVacancies in companiesList) ...?companyVacancies
       ];
-      // return result.fold<List<VacancyModel>?>(
-      //     [], (previousValue, element) => null)?.toList();
     }
   }
 

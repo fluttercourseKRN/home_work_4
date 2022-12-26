@@ -56,7 +56,7 @@ Future<void> setUp() async {
       () => VacanciesDataSourceSPref(sl()));
   // Companies
   sl.registerLazySingleton<CompaniesDataSourceRemote>(
-      () => CompaniesDataSourceHttp());
+      () => CompaniesDataSourceHttp(client: sl()));
   sl.registerLazySingleton<CompaniesDataSourceStorage>(
       () => CompaniesDataSourceSPref(sl()));
 
@@ -64,7 +64,9 @@ Future<void> setUp() async {
   /// 3-rd Library
 
   // Dio
-  sl.registerLazySingleton(() => Dio());
+  final httpClient = Dio();
+  sl.registerLazySingleton(() => httpClient);
+
   // SharedPreferences
   final sharPref = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharPref);
