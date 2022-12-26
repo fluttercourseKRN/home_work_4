@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'domain/entities/company.dart';
 import 'domain/entities/vacancy.dart';
 import 'injector_container.dart' as di;
-import 'presentation/providers/companies_provider.dart';
-import 'presentation/providers/vacancies_provider.dart';
 import 'presentation/screens/company_detail_screen.dart';
 import 'presentation/screens/company_edit_screen.dart';
 import 'presentation/screens/main_screen.dart';
@@ -25,69 +22,57 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<VacanciesProvider>(
-          create: (context) => VacanciesProvider(getVacanciesList: di.sl()),
+    return MaterialApp(
+      title: 'JobsIn',
+      theme: ThemeData(
+        // primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.teal,
+          accentColor: Colors.blueGrey,
         ),
-        ChangeNotifierProvider<CompaniesProvider>(
-          create: (context) => CompaniesProvider(getCompaniesList: di.sl()),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'JobsIn',
-        theme: ThemeData(
-          // primarySwatch: Colors.blue,
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.teal,
-            accentColor: Colors.blueGrey,
-          ),
-        ),
-        initialRoute: MainScreen.route,
-        routes: {
-          MainScreen.route: (context) => const MainScreen(),
-        },
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-
-            /// VacancyDetailScreen
-            case VacancyDetailScreen.route:
-              final vacancy = settings.arguments as Vacancy;
-              return MaterialPageRoute(
-                builder: (context) => VacancyDetailScreen(vacancy: vacancy),
-              );
-
-            /// VacancyEditScreen
-            case VacancyEditScreen.route:
-              final vacancy = settings.arguments as Vacancy?;
-              return MaterialPageRoute(
-                builder: (context) =>
-                    VacancyEditScreen(initialVacancy: vacancy),
-              );
-
-            /// CompanyDetailScreen
-            case CompanyDetailScreen.route:
-              final company = settings.arguments as Company;
-              return MaterialPageRoute(
-                builder: (context) => CompanyDetailScreen(company: company),
-              );
-
-            /// CompanyEditScreen
-            case CompanyEditScreen.route:
-              final company = settings.arguments as Company?;
-              return MaterialPageRoute(
-                builder: (context) =>
-                    CompanyEditScreen(initialCompany: company),
-              );
-
-            /// Default
-            default:
-              return MaterialPageRoute(
-                builder: (context) => const MainScreen(),
-              );
-          }
-        },
       ),
+      initialRoute: MainScreen.route,
+      routes: {
+        MainScreen.route: (context) => const MainScreen(),
+      },
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+
+          /// VacancyDetailScreen
+          case VacancyDetailScreen.route:
+            final vacancy = settings.arguments as Vacancy;
+            return MaterialPageRoute(
+              builder: (context) => VacancyDetailScreen(vacancy: vacancy),
+            );
+
+          /// VacancyEditScreen
+          case VacancyEditScreen.route:
+            final vacancy = settings.arguments as Vacancy?;
+            return MaterialPageRoute(
+              builder: (context) => VacancyEditScreen(initialVacancy: vacancy),
+            );
+
+          /// CompanyDetailScreen
+          case CompanyDetailScreen.route:
+            final company = settings.arguments as Company;
+            return MaterialPageRoute(
+              builder: (context) => CompanyDetailScreen(company: company),
+            );
+
+          /// CompanyEditScreen
+          case CompanyEditScreen.route:
+            final company = settings.arguments as Company?;
+            return MaterialPageRoute(
+              builder: (context) => CompanyEditScreen(initialCompany: company),
+            );
+
+          /// Default
+          default:
+            return MaterialPageRoute(
+              builder: (context) => const MainScreen(),
+            );
+        }
+      },
     );
   }
 }

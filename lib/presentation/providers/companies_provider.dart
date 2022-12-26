@@ -9,7 +9,7 @@ import '../../domain/model/enums/companies_sort_element.dart';
 class CompaniesProvider extends ChangeNotifier
     with MenuControllerMixin<CompaniesSortElement> {
   CompaniesProvider({
-    required this.getCompaniesList,
+    required this.useCaseGetCompaniesList,
   }) {
     _fetchCompanies();
   }
@@ -24,14 +24,14 @@ class CompaniesProvider extends ChangeNotifier
   @override
   CompaniesSortElement initSortType() => CompaniesSortElement.values.first;
 
-  final GetCompaniesList getCompaniesList;
+  final GetCompaniesList useCaseGetCompaniesList;
   List<Company> companies = [];
 
   @override
   void notifyListeners() => _fetchCompanies();
 
   Future<void> _fetchCompanies() async {
-    final vacanciesListOrFailure = await getCompaniesList(
+    final vacanciesListOrFailure = await useCaseGetCompaniesList(
       CompaniesParams(
         favoritesOnly: itemsShowFavoriteOnly,
         sortElement: itemSortField,

@@ -10,7 +10,7 @@ import '../../domain/usecases/get_vacancies_list.dart';
 class VacanciesProvider extends ChangeNotifier
     with MenuControllerMixin<VacanciesSortElement> {
   VacanciesProvider({
-    required this.getVacanciesList,
+    required this.useCaseGetVacanciesList,
   }) {
     _fetchVacancies();
   }
@@ -28,12 +28,12 @@ class VacanciesProvider extends ChangeNotifier
   VacanciesSortElement initSortType() => VacanciesSortElement.values.first;
 
   // UseCases
-  final GetVacanciesList getVacanciesList;
+  final GetVacanciesList useCaseGetVacanciesList;
   List<Vacancy> vacancies = [];
   List<int>? fetchOnlyCompaniesId;
 
   Future<void> _fetchVacancies() async {
-    final vacanciesListOrFailure = await getVacanciesList(
+    final vacanciesListOrFailure = await useCaseGetVacanciesList(
       VacanciesParams(
         favoritesOnly: itemsShowFavoriteOnly,
         sortElement: itemSortField,
@@ -43,7 +43,6 @@ class VacanciesProvider extends ChangeNotifier
       (l) => vacancies = [],
       (r) => vacancies = [...r],
     );
-    print(vacancies);
     super.notifyListeners();
   }
 
