@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/presentation/widgets/app_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/vacancies_provider.dart';
@@ -18,9 +19,9 @@ class VacanciesScreen extends StatelessWidget {
           children: [
             AppMenu(menuController: vacanciesProvider),
             const Divider(),
-            Expanded(
-              child: VacanciesList(vacancies: vacancies),
-            ),
+            if (vacancies == null) const Expanded(child: AppSpinkit()),
+            if (vacancies != null)
+              Expanded(child: VacanciesList(vacancies: vacancies)),
           ],
         );
       },

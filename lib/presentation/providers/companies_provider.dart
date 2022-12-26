@@ -25,12 +25,16 @@ class CompaniesProvider extends ChangeNotifier
   CompaniesSortElement initSortType() => CompaniesSortElement.values.first;
 
   final GetCompaniesList useCaseGetCompaniesList;
-  List<Company> companies = [];
+  List<Company>? companies = [];
 
   @override
   void notifyListeners() => _fetchCompanies();
 
-  Future<void> _fetchCompanies() async {
+  Future<void> _fetchCompanies({bool isShowLoading = true}) async {
+    if (isShowLoading) {
+      companies = null;
+      super.notifyListeners();
+    }
     final vacanciesListOrFailure = await useCaseGetCompaniesList(
       CompaniesParams(
         favoritesOnly: itemsShowFavoriteOnly,

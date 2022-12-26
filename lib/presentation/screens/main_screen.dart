@@ -23,7 +23,8 @@ class _MainScreenState extends State<MainScreen> {
   int currentScreen = 0;
   final screens = [
     ChangeNotifierProvider<VacanciesProvider>(
-      create: (context) => VacanciesProvider(useCaseGetVacanciesList: sl()),
+      create: (context) =>
+          VacanciesProvider(context: context, useCaseGetVacanciesList: sl()),
       child: const VacanciesScreen(),
     ),
     ChangeNotifierProvider<CompaniesProvider>(

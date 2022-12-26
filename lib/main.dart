@@ -11,7 +11,6 @@ import 'presentation/screens/vacancy_edit_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await DI.setUp();
   await di.setUp();
   runApp(const MyApp());
 }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/companies_provider.dart';
 import '../widgets/app_menu.dart';
+import '../widgets/app_spinkit.dart';
 import '../widgets/companies_list.dart';
 
 class CompaniesScreen extends StatelessWidget {
@@ -18,7 +19,9 @@ class CompaniesScreen extends StatelessWidget {
           children: [
             AppMenu(menuController: companiesProvider),
             const Divider(),
-            Expanded(child: CompaniesList(companies: companies)),
+            if (companies == null) const Expanded(child: AppSpinkit()),
+            if (companies != null)
+              Expanded(child: CompaniesList(companies: companies)),
           ],
         );
       },
