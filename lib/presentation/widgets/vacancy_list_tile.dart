@@ -15,7 +15,16 @@ class VacancyListTile extends StatelessWidget {
     return Consumer<VacancyItemProvider>(
       builder: (context, vacancyItem, child) {
         return ListTile(
-          title: Text(vacancyItem.element.title),
+          title: Row(
+            children: [
+              Text(vacancyItem.element.title),
+              if (vacancyItem.element.isOwner)
+                Icon(
+                  Icons.house_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+            ],
+          ),
           subtitle: Text(vacancyItem.element.city),
           trailing: FavoriteButton(
             value: vacancyItem.element.isFavorite,

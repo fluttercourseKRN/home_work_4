@@ -16,18 +16,6 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
     required this.dataSourceStorage,
   });
 
-  // @override
-  // Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
-  //   final vacancyResponse =
-  //       await dataSourceRemote.getVacanciesForCompany(companyId);
-  //   final vacancies = vacancyResponse ?? [];
-  //   return await _setFavoriteVacancy(vacancies);
-  // }
-
-  Future<List<int>> _getFavoriteVacanciesIds() async {
-    return await dataSourceStorage.getFavoriteVacancies();
-  }
-
   @override
   Future<Either<Failure, List<Vacancy>>> getVacanciesList({
     required bool favoritesOnly,
@@ -41,49 +29,11 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
       return Left(ServerFailure());
     } else {
       var result = await _setFavoriteVacancy(vacancies);
+      result = await _setMyVacancy(result);
       result = _vacanciesFavoriteFilter(result, favoritesOnly);
       result = _sortVacancies(result, sortElement);
       return Right(result);
     }
-  }
-
-  /// MARK: Private Method
-  Future<List<Vacancy>> _setFavoriteVacancy(List<Vacancy> vacancies) async {
-    final favoriteIds = await _getFavoriteVacanciesIds();
-    for (final vacancy in vacancies) {
-      if (favoriteIds.contains(vacancy.id)) {
-        vacancy.isFavorite = true;
-      }
-    }
-    return [...vacancies];
-  }
-
-  List<Vacancy> _vacanciesFavoriteFilter(
-    List<Vacancy> vacancies,
-    bool favoritesOnly,
-  ) {
-    if (favoritesOnly) {
-      return [...vacancies.where((vacancy) => vacancy.isFavorite == true)];
-    } else {
-      return [...vacancies];
-    }
-  }
-
-  List<Vacancy> _sortVacancies(
-    List<Vacancy> vacancies,
-    VacanciesSortElement sortElement,
-  ) {
-    switch (sortElement) {
-      case VacanciesSortElement.none:
-        break;
-      case VacanciesSortElement.title:
-        vacancies.sort((a, b) => a.title.compareTo(b.title));
-        break;
-      case VacanciesSortElement.city:
-        vacancies.sort((a, b) => a.city.compareTo(b.city));
-        break;
-    }
-    return [...vacancies];
   }
 
   @override
@@ -136,5 +86,63 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
       return Left(StorageFailure());
     }
     return const Right(true);
+  }
+}
+
+extension HelpersPart on VacanciesRepositoryImpl {
+  List<Vacancy> _sortVacancies(
+    List<Vacancy> vacancies,
+    VacanciesSortElement sortElement,
+  ) {
+    switch (sortElement) {
+      case VacanciesSortElement.none:
+        break;
+      case VacanciesSortElement.title:
+        vacancies.sort((a, b) => a.title.compareTo(b.title));
+        break;
+      case VacanciesSortElement.city:
+        vacancies.sort((a, b) => a.city.compareTo(b.city));
+        break;
+    }
+    return [...vacancies];
+  }
+
+  Future<List<Vacancy>> _setFavoriteVacancy(List<Vacancy> vacancies) async {
+    final favoriteIds = await _getFavoriteVacanciesIds();
+    for (final vacancy in vacancies) {
+      if (favoriteIds.contains(vacancy.id)) {
+        vacancy.isFavorite = true;
+      }
+    }
+    return [...vacancies];
+  }
+
+  List<Vacancy> _vacanciesFavoriteFilter(
+    List<Vacancy> vacancies,
+    bool favoritesOnly,
+  ) {
+    if (favoritesOnly) {
+      return [...vacancies.where((vacancy) => vacancy.isFavorite == true)];
+    } else {
+      return [...vacancies];
+    }
+  }
+
+  Future<List<Vacancy>> _setMyVacancy(List<Vacancy> vacancies) async {
+    final myVacancyIds = await _getMyVacanciesIds();
+    for (final vacancy in vacancies) {
+      if (myVacancyIds.contains(vacancy.id)) {
+        vacancy.isOwner = true;
+      }
+    }
+    return [...vacancies];
+  }
+
+  Future<List<int>> _getFavoriteVacanciesIds() async {
+    return await dataSourceStorage.getFavoriteVacancies();
+  }
+
+  Future<List<int>> _getMyVacanciesIds() async {
+    return await dataSourceStorage.getMyVacancies();
   }
 }

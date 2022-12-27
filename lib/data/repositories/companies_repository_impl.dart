@@ -26,55 +26,12 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
       return Left(ServerFailure());
     } else {
       var result = await _setFavoriteCompany(companies);
+      result = await _setMyCompany(result);
       result = _companiesFavoriteFilter(result, favoritesOnly);
       result = _sortCompanies(result, sortElement);
 
       return Right(result);
     }
-  }
-
-  Future<List<Company>> _setFavoriteCompany(List<Company> companies) async {
-    final favoriteIds = await _getFavoriteCompaniesIds();
-    for (final company in companies) {
-      if (favoriteIds.contains(company.id)) {
-        company.isFavorite = true;
-      }
-    }
-    return [...companies];
-  }
-
-  List<Company> _companiesFavoriteFilter(
-    List<Company> companies,
-    bool favoritesOnly,
-  ) {
-    if (favoritesOnly) {
-      return [...companies.where((company) => company.isFavorite == true)];
-    } else {
-      return [...companies];
-    }
-  }
-
-  List<Company> _sortCompanies(
-    List<Company> companies,
-    CompaniesSortElement sortElement,
-  ) {
-    switch (sortElement) {
-      case CompaniesSortElement.none:
-        break;
-      case CompaniesSortElement.name:
-        companies.sort((a, b) => a.name.compareTo(b.name));
-        break;
-      case CompaniesSortElement.industry:
-        companies.sort((a, b) => a.industry.compareTo(b.industry));
-        break;
-    }
-    return [...companies];
-  }
-
-  /// Favorite company method
-
-  Future<List<int>> _getFavoriteCompaniesIds() async {
-    return await dataSourceStorage.getFavoriteCompanies();
   }
 
   @override
@@ -125,5 +82,64 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
       return Left(StorageFailure());
     }
     return const Right(true);
+  }
+}
+
+/// Helpers
+extension HelpersPart on CompaniesRepositoryImpl {
+  List<Company> _sortCompanies(
+    List<Company> companies,
+    CompaniesSortElement sortElement,
+  ) {
+    switch (sortElement) {
+      case CompaniesSortElement.none:
+        break;
+      case CompaniesSortElement.name:
+        companies.sort((a, b) => a.name.compareTo(b.name));
+        break;
+      case CompaniesSortElement.industry:
+        companies.sort((a, b) => a.industry.compareTo(b.industry));
+        break;
+    }
+    return [...companies];
+  }
+
+  List<Company> _companiesFavoriteFilter(
+    List<Company> companies,
+    bool favoritesOnly,
+  ) {
+    if (favoritesOnly) {
+      return [...companies.where((company) => company.isFavorite == true)];
+    } else {
+      return [...companies];
+    }
+  }
+
+  Future<List<Company>> _setFavoriteCompany(List<Company> companies) async {
+    final favoriteIds = await _getFavoriteCompaniesIds();
+    for (final company in companies) {
+      if (favoriteIds.contains(company.id)) {
+        company.isFavorite = true;
+      }
+    }
+    return [...companies];
+  }
+
+  Future<List<Company>> _setMyCompany(List<Company> companies) async {
+    final myCompanyIds = await _getMyCompaniesIds();
+    for (final company in companies) {
+      if (myCompanyIds.contains(company.id)) {
+        company.isOwner = true;
+      }
+    }
+    return [...companies];
+  }
+
+  Future<List<int>> _getFavoriteCompaniesIds() async {
+    return await dataSourceStorage.getFavoriteCompanies();
+  }
+
+  Future<List<int>> _getMyCompaniesIds() async {
+    return await dataSourceStorage.getMyCompanies();
   }
 }

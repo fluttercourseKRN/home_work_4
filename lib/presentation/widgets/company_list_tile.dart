@@ -15,7 +15,16 @@ class CompanyListTile extends StatelessWidget {
     return Consumer<CompanyItemProvider>(
       builder: (context, companyItem, child) {
         return ListTile(
-          title: Text(companyItem.element.name),
+          title: Row(
+            children: [
+              Text(companyItem.element.name),
+              if (companyItem.element.isOwner)
+                Icon(
+                  Icons.house_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+            ],
+          ),
           subtitle: Text(companyItem.element.industry),
           trailing: FavoriteButton(
             value: companyItem.element.isFavorite,
