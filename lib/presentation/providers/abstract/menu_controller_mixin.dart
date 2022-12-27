@@ -9,8 +9,8 @@ mixin MenuControllerMixin<SortType extends SortElement> on ChangeNotifier {
   }
 
   // Sort vacancies
-  SortType initSortType();
-  late SortType itemSortField = initSortType();
+  SortType initialSortItem();
+  late SortType itemSortField = initialSortItem();
   void setItemsSortField(SortType field) {
     itemSortField = field;
     notifyListeners();

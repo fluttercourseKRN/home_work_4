@@ -22,7 +22,7 @@ class CompaniesProvider extends ChangeNotifier
   //////////////////////////////////////////////////////////////////////////////
 
   @override
-  CompaniesSortElement initSortType() => CompaniesSortElement.values.first;
+  CompaniesSortElement initialSortItem() => CompaniesSortElement.values.first;
 
   final GetCompaniesList useCaseGetCompaniesList;
   List<Company>? companies = [];

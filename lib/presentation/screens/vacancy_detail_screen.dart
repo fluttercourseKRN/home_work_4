@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/domain/entities/vacancy.dart';
-import 'package:jobsin/presentation/widgets/app_bar_main.dart';
-import 'package:jobsin/presentation/widgets/label_value.dart';
 
+import '../../domain/entities/vacancy.dart';
+import '../widgets/app_bar_main.dart';
 import '../widgets/info_card.dart';
+import '../widgets/label_value.dart';
 
 class VacancyDetailScreen extends StatelessWidget {
   const VacancyDetailScreen({

@@ -9,10 +9,11 @@ import '../../domain/usecases/get_vacancies_list.dart';
 
 class VacanciesProvider extends ChangeNotifier
     with MenuControllerMixin<VacanciesSortElement> {
-  VacanciesProvider(
-      {required this.context,
-      required this.useCaseGetVacanciesList,
-      this.fetchOnlyCompaniesId}) {
+  VacanciesProvider({
+    required this.context,
+    required this.useCaseGetVacanciesList,
+    this.fetchOnlyCompaniesId,
+  }) {
     _fetchVacancies();
   }
 
@@ -26,7 +27,7 @@ class VacanciesProvider extends ChangeNotifier
   void notifyListeners() => _fetchVacancies();
 
   @override
-  VacanciesSortElement initSortType() => VacanciesSortElement.values.first;
+  VacanciesSortElement initialSortItem() => VacanciesSortElement.values.first;
   final BuildContext context;
 
   // UseCases
