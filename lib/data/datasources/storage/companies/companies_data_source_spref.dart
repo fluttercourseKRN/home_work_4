@@ -1,32 +1,42 @@
-import 'package:jobsin/data/models/companies_data_source_storage.dart';
+import 'package:jobsin/data/abstractions/companies_data_source_storage.dart';
+import 'package:jobsin/data/datasources/storage/model/storage_helper.dart';
+import 'package:jobsin/domain/entities/company.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CompaniesDataSourceSPref extends CompaniesDataSourceStorage {
   CompaniesDataSourceSPref(this.pref);
   final SharedPreferences pref;
   static const String _favoriteCompanyKey = 'favoriteCompanyKey';
+  static const String _myCompanyKey = 'myCompanyKey';
+  late final StorageHelper _helper = StorageHelper(pref);
 
   @override
   Future<void> saveCompanyToFavorite(int companyId) async {
-    print("object");
-    final favIds = pref.getStringList(_favoriteCompanyKey) ?? [];
-    favIds.add('$companyId');
-    print(favIds);
-    await pref.setStringList(_favoriteCompanyKey, favIds);
+    await _helper.updateIntValues(value: companyId, key: _favoriteCompanyKey);
   }
 
   @override
   Future<List<int>> getFavoriteCompanies() async {
-    final favCompanies = pref.getStringList(_favoriteCompanyKey) ?? [];
-    return favCompanies.map((e) => int.parse(e)).toList();
+    return _helper.getIntValues(_favoriteCompanyKey);
   }
 
   @override
   Future<void> deleteCompanyFromFavorite(int companyId) async {
-    final favIds = pref.getStringList(_favoriteCompanyKey) ?? [];
-    if (favIds.isNotEmpty) {
-      favIds.remove('$companyId');
-      await pref.setStringList(_favoriteCompanyKey, favIds);
-    }
+    await _helper.deleteItnValue(value: companyId, key: _favoriteCompanyKey);
+  }
+
+  @override
+  Future<void> addCompany(Company company) async {
+    _helper.updateIntValues(value: company.id, key: _myCompanyKey);
+  }
+
+  @override
+  Future<void> deleteCompany(int companyId) async {
+    _helper.deleteItnValue(value: companyId, key: _myCompanyKey);
+  }
+
+  @override
+  Future<List<int>> getMyCompanies() async {
+    return _helper.getIntValues(_myCompanyKey);
   }
 }

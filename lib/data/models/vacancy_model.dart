@@ -7,7 +7,8 @@ class VacancyModel extends Vacancy {
     required super.title,
     required super.description,
     required super.city,
-    super.isFavorite,
+    super.isFavorite = false,
+    super.isOwner = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -18,6 +19,7 @@ class VacancyModel extends Vacancy {
       'description': description,
       'city': city,
       'isFavorite': isFavorite,
+      'isOwner': isOwner,
     };
   }
 
@@ -28,7 +30,8 @@ class VacancyModel extends Vacancy {
       title: map['title'] as String,
       description: map['description'] as String,
       city: map['city'] as String,
-      isFavorite: map['isFavorite'] as bool,
+      isFavorite: map['isFavorite'] as bool? ?? false,
+      isOwner: map['isOwner'] as bool? ?? false,
     );
   }
 }

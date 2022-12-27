@@ -4,8 +4,8 @@ import '../../core/error/failure.dart';
 import '../../domain/entities/vacancy.dart';
 import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/repositories/vacancies_repository.dart';
-import '../models/vacancies_data_source_remote.dart';
-import '../models/vacancies_data_source_storage.dart';
+import '../abstractions/vacancies_data_source_remote.dart';
+import '../abstractions/vacancies_data_source_storage.dart';
 
 class VacanciesRepositoryImpl extends VacanciesRepository {
   final VacanciesDataSourceRemote dataSourceRemote;
@@ -16,17 +16,15 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
     required this.dataSourceStorage,
   });
 
-  @override
-  Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
-    final vacancyResponse =
-        await dataSourceRemote.getVacanciesForCompany(companyId);
-    final vacancies = vacancyResponse ?? [];
-    return await _setFavoriteVacancy(vacancies);
-  }
+  // @override
+  // Future<List<Vacancy>> getVacanciesForCompany(int companyId) async {
+  //   final vacancyResponse =
+  //       await dataSourceRemote.getVacanciesForCompany(companyId);
+  //   final vacancies = vacancyResponse ?? [];
+  //   return await _setFavoriteVacancy(vacancies);
+  // }
 
-  /// Favorite vacancy method
-  @override
-  Future<List<int>> getFavoriteVacanciesIds() async {
+  Future<List<int>> _getFavoriteVacanciesIds() async {
     return await dataSourceStorage.getFavoriteVacancies();
   }
 
@@ -51,7 +49,7 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
 
   /// MARK: Private Method
   Future<List<Vacancy>> _setFavoriteVacancy(List<Vacancy> vacancies) async {
-    final favoriteIds = await getFavoriteVacanciesIds();
+    final favoriteIds = await _getFavoriteVacanciesIds();
     for (final vacancy in vacancies) {
       if (favoriteIds.contains(vacancy.id)) {
         vacancy.isFavorite = true;
@@ -106,5 +104,37 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
     } catch (e) {
       return Left(StorageFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, bool>> addVacancy(Vacancy vacancy) async {
+    try {
+      await dataSourceRemote.addVacancy(vacancy);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+    try {
+      await dataSourceStorage.addVacancy(vacancy);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
+    return const Right(true);
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteVacancy(
+    int vacancyId,
+  ) async {
+    try {
+      await dataSourceRemote.deleteVacancy(vacancyId);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+    try {
+      await dataSourceStorage.deleteVacancy(vacancyId);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
+    return const Right(true);
   }
 }

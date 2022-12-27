@@ -6,15 +6,24 @@ class Company with EquatableMixin {
   String description;
   String industry;
   bool isFavorite;
+  bool isOwner;
 
   Company({
     required this.id,
     required this.name,
     required this.description,
     required this.industry,
-    this.isFavorite = false,
+    required this.isFavorite,
+    required this.isOwner,
   });
 
   @override
-  List<Object?> get props => [id, name, description, industry, isFavorite];
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        industry,
+        isFavorite,
+        isOwner,
+      ];
 }

@@ -7,6 +7,8 @@ class CompanyPresentation extends Company implements FavoriteToggled {
     required super.name,
     required super.description,
     required super.industry,
+    required super.isFavorite,
+    required super.isOwner,
   });
   CompanyPresentation.fromCompany(Company company)
       : this(
@@ -14,5 +16,7 @@ class CompanyPresentation extends Company implements FavoriteToggled {
           name: company.name,
           description: company.description,
           industry: company.industry,
+          isFavorite: company.isFavorite,
+          isOwner: company.isOwner,
         );
 }

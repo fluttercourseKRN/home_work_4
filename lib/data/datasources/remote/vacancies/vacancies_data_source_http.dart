@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:jobsin/domain/entities/vacancy.dart';
 
-import '../../../models/vacancies_data_source_remote.dart';
+import '../../../abstractions/vacancies_data_source_remote.dart';
 import '../../../models/vacancy_model.dart';
 import 'model/vacancy_api_response.dart';
 
@@ -41,5 +42,17 @@ class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
   Future<List<VacancyModel>?> getVacanciesForCompany(int companyId) async {
     final path = "companies/$companyId/jobs";
     return _get(path: path);
+  }
+
+  @override
+  Future<void> addVacancy(Vacancy vacancy) {
+    // TODO: implement addVacancy
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteVacancy(int vacancyId) {
+    // TODO: implement deleteVacancy
+    throw UnimplementedError();
   }
 }

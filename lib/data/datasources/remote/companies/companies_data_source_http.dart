@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:jobsin/data/models/companies_data_source_remote.dart';
+import 'package:jobsin/data/abstractions/companies_data_source_remote.dart';
 import 'package:jobsin/data/models/company_model.dart';
+import 'package:jobsin/domain/entities/company.dart';
 
 import 'model/company_api_response.dart';
 
@@ -24,5 +25,17 @@ class CompaniesDataSourceHttp extends CompaniesDataSourceRemote {
   Future<List<CompanyModel>?> getCompanies() async {
     const path = "companies";
     return _get(path: path);
+  }
+
+  @override
+  Future<void> addCompany(Company company) {
+    // TODO: implement addCompany
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteCompany(int companyId) {
+    // TODO: implement deleteCompany
+    throw UnimplementedError();
   }
 }

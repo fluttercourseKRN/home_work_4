@@ -24,6 +24,8 @@ void main() {
       title: 'title0',
       description: 'description0',
       city: 'city0',
+      isOwner: false,
+      isFavorite: false,
     ),
     Vacancy(
       id: 1,
@@ -31,6 +33,8 @@ void main() {
       title: 'title1',
       description: 'description1',
       city: 'city1',
+      isOwner: false,
+      isFavorite: false,
     ),
   ];
 

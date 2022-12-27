@@ -6,13 +6,7 @@ class VacancyApiResponseConverter {
 
     for (final elem in List.from(data["result"])) {
       try {
-        final vacancyModel = VacancyModel(
-          id: elem['id'],
-          companyId: elem['companyId'],
-          title: elem['title'],
-          city: elem['city'],
-          description: elem['description'],
-        );
+        final vacancyModel = VacancyModel.fromMap(elem);
         vacancies.add(vacancyModel);
       } catch (e) {
         continue;

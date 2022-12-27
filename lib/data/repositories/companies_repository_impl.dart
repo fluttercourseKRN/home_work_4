@@ -4,8 +4,8 @@ import '../../core/error/failure.dart';
 import '../../domain/entities/company.dart';
 import '../../domain/model/enums/companies_sort_element.dart';
 import '../../domain/repositories/companies_repository.dart';
-import '../models/companies_data_source_remote.dart';
-import '../models/companies_data_source_storage.dart';
+import '../abstractions/companies_data_source_remote.dart';
+import '../abstractions/companies_data_source_storage.dart';
 
 class CompaniesRepositoryImpl extends CompaniesRepository {
   final CompaniesDataSourceRemote dataSourceRemote;
@@ -34,7 +34,7 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
   }
 
   Future<List<Company>> _setFavoriteCompany(List<Company> companies) async {
-    final favoriteIds = await getFavoriteCompaniesIds();
+    final favoriteIds = await _getFavoriteCompaniesIds();
     for (final company in companies) {
       if (favoriteIds.contains(company.id)) {
         company.isFavorite = true;
@@ -72,14 +72,13 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
   }
 
   /// Favorite company method
-  @override
-  Future<List<int>> getFavoriteCompaniesIds() async {
+
+  Future<List<int>> _getFavoriteCompaniesIds() async {
     return await dataSourceStorage.getFavoriteCompanies();
   }
 
   @override
   Future<Either<Failure, bool>> saveCompanyToFavorite(int companyId) async {
-    print('saveCompanyToFavorite');
     try {
       await dataSourceStorage.saveCompanyToFavorite(companyId);
       return const Right(true);
@@ -96,5 +95,35 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
     } catch (e) {
       return Left(StorageFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, bool>> addCompany(Company company) async {
+    try {
+      await dataSourceRemote.addCompany(company);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+    try {
+      await dataSourceStorage.addCompany(company);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
+    return const Right(true);
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteCompany(int companyId) async {
+    try {
+      await dataSourceRemote.deleteCompany(companyId);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+    try {
+      await dataSourceStorage.deleteCompany(companyId);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
+    return const Right(true);
   }
 }

@@ -7,6 +7,7 @@ class Vacancy with EquatableMixin {
   String description;
   String city;
   bool isFavorite;
+  bool isOwner;
 
   Vacancy({
     required this.id,
@@ -14,7 +15,8 @@ class Vacancy with EquatableMixin {
     required this.title,
     required this.description,
     required this.city,
-    this.isFavorite = false,
+    required this.isFavorite,
+    required this.isOwner,
   });
 
   @override
@@ -25,5 +27,6 @@ class Vacancy with EquatableMixin {
         description,
         city,
         isFavorite,
+        isOwner,
       ];
 }

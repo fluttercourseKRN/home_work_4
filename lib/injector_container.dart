@@ -3,14 +3,14 @@ import 'package:get_it/get_it.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/abstractions/companies_data_source_remote.dart';
+import 'data/abstractions/companies_data_source_storage.dart';
+import 'data/abstractions/vacancies_data_source_remote.dart';
+import 'data/abstractions/vacancies_data_source_storage.dart';
 import 'data/datasources/remote/companies/companies_data_source_http.dart';
 import 'data/datasources/remote/vacancies/vacancies_data_source_http.dart';
 import 'data/datasources/storage/companies/companies_data_source_spref.dart';
 import 'data/datasources/storage/vacancies/vacancies_data_source_spref.dart';
-import 'data/models/companies_data_source_remote.dart';
-import 'data/models/companies_data_source_storage.dart';
-import 'data/models/vacancies_data_source_remote.dart';
-import 'data/models/vacancies_data_source_storage.dart';
 import 'data/repositories/companies_repository_impl.dart';
 import 'data/repositories/vacancies_repository_impl.dart';
 import 'domain/repositories/companies_repository.dart';

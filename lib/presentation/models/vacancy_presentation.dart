@@ -8,7 +8,8 @@ class VacancyPresentation extends Vacancy implements FavoriteToggled {
     required super.title,
     required super.description,
     required super.city,
-    super.isFavorite,
+    required super.isFavorite,
+    required super.isOwner,
   });
 
   VacancyPresentation.fromVacancy(Vacancy vacancy)
@@ -19,5 +20,6 @@ class VacancyPresentation extends Vacancy implements FavoriteToggled {
           companyId: vacancy.companyId,
           id: vacancy.id,
           isFavorite: vacancy.isFavorite,
+          isOwner: vacancy.isOwner,
         );
 }
