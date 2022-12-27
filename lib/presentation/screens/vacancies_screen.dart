@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jobsin/presentation/widgets/app_spinkit.dart';
+import 'package:jobsin/domain/model/enums/vacancies_sort_element.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/vacancies_provider.dart';
 import '../widgets/app_menu.dart';
+import '../widgets/app_spinkit.dart';
 import '../widgets/vacancies_list.dart';
 
 class VacanciesScreen extends StatelessWidget {
@@ -21,7 +22,7 @@ class VacanciesScreen extends StatelessWidget {
 
         return Column(
           children: [
-            if (showMenu) AppMenu(menuController: vacanciesProvider),
+            if (showMenu) const AppMenu<VacanciesSortElement>(),
             const Divider(),
             if (vacancies == null) const Expanded(child: AppSpinkit()),
             if (vacancies != null)

@@ -1,14 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:jobsin/presentation/providers/abstract/menu_controller_mixin.dart';
+import 'package:jobsin/presentation/providers/menu_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/vacancy.dart';
 import '../../domain/model/enums/vacancies_sort_element.dart';
 import '../../domain/usecases/get_vacancies_list.dart';
 
-class VacanciesProvider extends ChangeNotifier
-    with MenuControllerMixin<VacanciesSortElement> {
+class VacanciesProvider extends ChangeNotifier {
   VacanciesProvider({
     required this.context,
     required this.useCaseGetVacanciesList,
@@ -23,19 +22,24 @@ class VacanciesProvider extends ChangeNotifier
   factory VacanciesProvider.watch(BuildContext context) =>
       context.watch<VacanciesProvider>();
   //////////////////////////////////////////////////////////////////////////////
-  @override
-  void notifyListeners() => _fetchVacancies();
-
-  @override
-  VacanciesSortElement initialSortItem() => VacanciesSortElement.values.first;
   final BuildContext context;
-
-  // UseCases
-  final GetVacanciesList useCaseGetVacanciesList;
   List<Vacancy>? vacancies;
   List<int>? fetchOnlyCompaniesId;
+  // UseCases
+  final GetVacanciesList useCaseGetVacanciesList;
 
-  Future<void> _fetchVacancies({bool isShowLoading = true}) async {
+  void menuUpdate(MenuProvider<VacanciesSortElement> menuProvider) {
+    _fetchVacancies(
+      itemSortField: menuProvider.itemSortField,
+      itemsShowFavoriteOnly: menuProvider.itemsShowFavoriteOnly,
+    );
+  }
+
+  Future<void> _fetchVacancies({
+    bool itemsShowFavoriteOnly = false,
+    VacanciesSortElement itemSortField = VacanciesSortElement.none,
+    bool isShowLoading = true,
+  }) async {
     if (isShowLoading) {
       vacancies = null;
       super.notifyListeners();
@@ -52,7 +56,8 @@ class VacanciesProvider extends ChangeNotifier
       (l) => vacancies = [],
       (r) => vacancies = [...r],
     );
-    super.notifyListeners();
+    notifyListeners();
+    // notifyListeners();
   }
 
   Vacancy? vacancyForId(int vacancyId) {

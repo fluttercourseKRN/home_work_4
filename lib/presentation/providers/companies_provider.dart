@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
-import 'package:jobsin/presentation/providers/abstract/menu_controller_mixin.dart';
+import 'package:jobsin/presentation/providers/menu_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/company.dart';
 import '../../domain/model/enums/companies_sort_element.dart';
 
-class CompaniesProvider extends ChangeNotifier
-    with MenuControllerMixin<CompaniesSortElement> {
+class CompaniesProvider extends ChangeNotifier {
   CompaniesProvider({
     required this.useCaseGetCompaniesList,
   }) {
@@ -21,16 +20,21 @@ class CompaniesProvider extends ChangeNotifier
       context.watch<CompaniesProvider>();
   //////////////////////////////////////////////////////////////////////////////
 
-  @override
-  CompaniesSortElement initialSortItem() => CompaniesSortElement.values.first;
-
   final GetCompaniesList useCaseGetCompaniesList;
-  List<Company>? companies = [];
+  List<Company>? companies;
 
-  @override
-  void notifyListeners() => _fetchCompanies();
+  void menuUpdate(MenuProvider<CompaniesSortElement> menuProvider) {
+    _fetchCompanies(
+      itemsShowFavoriteOnly: menuProvider.itemsShowFavoriteOnly,
+      itemSortField: menuProvider.itemSortField,
+    );
+  }
 
-  Future<void> _fetchCompanies({bool isShowLoading = true}) async {
+  Future<void> _fetchCompanies({
+    bool itemsShowFavoriteOnly = false,
+    CompaniesSortElement itemSortField = CompaniesSortElement.none,
+    bool isShowLoading = true,
+  }) async {
     if (isShowLoading) {
       companies = null;
       super.notifyListeners();
@@ -46,23 +50,9 @@ class CompaniesProvider extends ChangeNotifier
       (r) => companies = [...r],
     );
 
-    super.notifyListeners();
+    notifyListeners();
   }
 
   /// MARK: Add new entities
   void saveNewCompany(String name, String description, String industry) {}
-
-  // // Show favorite companies
-  // bool companiesShowFavoriteOnly = false;
-  // void toggleCompaniesShowFavoriteOnly() {
-  //   companiesShowFavoriteOnly = !companiesShowFavoriteOnly;
-  //   notifyListeners();
-  // }
-  //
-  // // Sort companies
-  // CompaniesSortElement companiesSortField;
-  // void setCompaniesSortField(CompaniesSortElement field) {
-  //   companiesSortField = field;
-  //   notifyListeners();
-  // }
 }

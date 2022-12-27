@@ -1,54 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/presentation/providers/menu_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../domain/model/sort_element.dart';
-import '../providers/abstract/menu_controller_mixin.dart';
 
-class AppMenu extends StatelessWidget {
+class AppMenu<T extends SortElement> extends StatelessWidget {
   const AppMenu({
     Key? key,
-    required this.menuController,
   }) : super(key: key);
 
-  final MenuControllerMixin menuController;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: SizedBox(
-        width: 150,
-        child: PopupMenuButton<SortElement>(
-          position: PopupMenuPosition.under,
-          child: Center(
-            child: Row(
-              children: [
-                const Text(
-                  "Sort by: ",
-                  style: TextStyle(fontSize: 14),
+    return Consumer<MenuProvider<T>>(
+      builder: (context, menuProvider, child) {
+        return ListTile(
+          leading: SizedBox(
+            width: 150,
+            child: PopupMenuButton<SortElement>(
+              position: PopupMenuPosition.under,
+              child: Center(
+                child: Row(
+                  children: [
+                    const Text(
+                      "Sort by: ",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Text(
+                      menuProvider.itemSortField.text,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    )
+                  ],
                 ),
-                Text(
-                  menuController.itemSortField.text,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                )
-              ],
+              ),
+              itemBuilder: (context) {
+                return [
+                  for (final value in menuProvider.itemSortField.possibleValues)
+                    PopupMenuItem<T>(
+                      child: Text(value.text),
+                      onTap: () => menuProvider.setItemsSortField(value as T),
+                    )
+                ];
+              },
             ),
           ),
-          itemBuilder: (context) {
-            return [
-              for (final value in menuController.itemSortField.possibleValues)
-                PopupMenuItem<SortElement>(
-                  child: Text(value.text),
-                  onTap: () => menuController.setItemsSortField(value),
-                )
-            ];
-          },
-        ),
-      ),
-      trailing: Switch(
-        activeColor: Theme.of(context).colorScheme.primary,
-        onChanged: (_) => menuController.toggleItemsShowFavoriteOnly(),
-        value: menuController.itemsShowFavoriteOnly,
-      ),
+          trailing: Switch(
+            activeColor: Theme.of(context).colorScheme.primary,
+            onChanged: (_) => menuProvider.toggleItemsShowFavoriteOnly(),
+            value: menuProvider.itemsShowFavoriteOnly,
+          ),
+        );
+      },
     );
   }
 }
