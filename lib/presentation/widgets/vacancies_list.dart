@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../domain/entities/vacancy.dart';
 import '../../domain/usecases/toggle_vacancy_favorite_status.dart';
 import '../../injector_container.dart';
-import '../models/vacancy_presentation.dart';
 import 'vacancy_list_tile.dart';
 
 class VacanciesList extends StatelessWidget {
@@ -26,8 +25,8 @@ class VacanciesList extends StatelessWidget {
           key: ValueKey(vacancy.id),
           create: (context) => VacancyItemProvider(
             context: context,
-            element: VacancyPresentation.fromVacancy(vacancy),
-            toggleUseCase: sl<ToggleVacancyFavoriteStatus>(),
+            element: vacancy,
+            useCase: sl<ToggleVacancyFavoriteStatus>(),
           ),
           child: const VacancyListTile(),
         );

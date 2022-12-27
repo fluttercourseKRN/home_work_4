@@ -1,12 +1,33 @@
-import 'package:jobsin/domain/usecases/toggle_company_favorite_status.dart';
-import 'package:jobsin/presentation/models/company_presentation.dart';
-import 'package:jobsin/presentation/providers/abstract/favarite_togle_provider.dart';
+import 'package:flutter/material.dart';
 
-class CompanyItemProvider extends FavoriteToggleProvider<CompanyPresentation,
-    ToggleCompanyFavoriteStatus> {
+import '../../domain/entities/company.dart';
+import '../../domain/usecases/toggle_company_favorite_status.dart';
+
+class CompanyItemProvider extends ChangeNotifier {
   CompanyItemProvider({
-    required super.context,
-    required super.element,
-    required super.toggleUseCase,
+    required this.context,
+    required this.element,
+    required this.useCase,
   });
+
+  final BuildContext context;
+  final Company element;
+  final ToggleCompanyFavoriteStatus useCase;
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: SizedBox(height: 50, child: Text(msg))));
+  }
+
+  Future<void> toggleFavorite() async {
+    final resOrFailure = await useCase(CompanyFavoriteParams(
+      companyId: element.id,
+      value: !element.isFavorite,
+    ));
+    resOrFailure.fold(
+      (error) => _showError("Add to favorite error"),
+      (value) => element.isFavorite = value,
+    );
+    notifyListeners();
+  }
 }

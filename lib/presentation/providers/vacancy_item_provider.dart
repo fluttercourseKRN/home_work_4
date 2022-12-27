@@ -1,12 +1,33 @@
-import '../../domain/usecases/toggle_vacancy_favorite_status.dart';
-import '../models/vacancy_presentation.dart';
-import 'abstract/favarite_togle_provider.dart';
+import 'package:flutter/material.dart';
 
-class VacancyItemProvider extends FavoriteToggleProvider<VacancyPresentation,
-    ToggleVacancyFavoriteStatus> {
+import '../../domain/entities/vacancy.dart';
+import '../../domain/usecases/toggle_vacancy_favorite_status.dart';
+
+class VacancyItemProvider extends ChangeNotifier {
   VacancyItemProvider({
-    required super.context,
-    required super.element,
-    required super.toggleUseCase,
+    required this.context,
+    required this.element,
+    required this.useCase,
   });
+
+  final BuildContext context;
+  final Vacancy element;
+  final ToggleVacancyFavoriteStatus useCase;
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: SizedBox(height: 50, child: Text(msg))));
+  }
+
+  Future<void> toggleFavorite() async {
+    final resOrFailure = await useCase(VacancyFavoriteParams(
+      vacancyId: element.id,
+      value: !element.isFavorite,
+    ));
+    resOrFailure.fold(
+      (error) => _showError("Add to favorite error"),
+      (value) => element.isFavorite = value,
+    );
+    notifyListeners();
+  }
 }
