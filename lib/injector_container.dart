@@ -1,6 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+import 'package:jobsin/domain/usecases/add_company.dart';
+import 'package:jobsin/domain/usecases/add_vacancy.dart';
+import 'package:jobsin/domain/usecases/delete_company.dart';
+import 'package:jobsin/domain/usecases/delete_vacancy.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
+import 'package:jobsin/domain/usecases/get_my_companies.dart';
+import 'package:jobsin/domain/usecases/get_my_vacancies.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/abstractions/companies_data_source_remote.dart';
@@ -28,6 +34,12 @@ Future<void> setUp() async {
   sl.registerLazySingleton(() => GetCompaniesList(sl()));
   sl.registerLazySingleton(() => ToggleVacancyFavoriteStatus(sl()));
   sl.registerLazySingleton(() => ToggleCompanyFavoriteStatus(sl()));
+  sl.registerLazySingleton(() => GetMyCompanies(sl()));
+  sl.registerLazySingleton(() => GetMyVacancies(sl()));
+  sl.registerLazySingleton(() => AddVacancy(sl()));
+  sl.registerLazySingleton(() => DeleteVacancy(sl()));
+  sl.registerLazySingleton(() => AddCompany(sl()));
+  sl.registerLazySingleton(() => DeleteCompany(sl()));
 
   //////////////////////////////////////////////////////////////////////////////
   /// Repositories /////////////////////////////////////////////////////////////
@@ -63,10 +75,7 @@ Future<void> setUp() async {
   //////////////////////////////////////////////////////////////////////////////
   /// 3-rd Library
 
-  // Dio
-  final httpClient = Dio();
-  sl.registerLazySingleton(() => httpClient);
-
+  sl.registerLazySingleton(() => http.Client());
   // SharedPreferences
   final sharPref = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharPref);

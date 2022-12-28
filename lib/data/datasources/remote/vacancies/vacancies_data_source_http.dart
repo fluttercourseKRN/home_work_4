@@ -1,4 +1,6 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:jobsin/domain/entities/vacancy.dart';
 
 import '../../../abstractions/vacancies_data_source_remote.dart';
@@ -10,13 +12,13 @@ class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
 
   static const _host = "3.75.134.87";
   static const _basePath = "/flutter/v1/";
-  final Dio client;
+  final http.Client client;
 
   Future<List<VacancyModel>?> _get({required String path}) async {
     final uri = Uri.http(_host, _basePath + path);
-    final resp = await client.getUri(uri);
+    final resp = await client.get(uri);
     if (resp.statusCode == 200) {
-      return VacancyApiResponseConverter.convert(resp.data);
+      return VacancyApiResponseConverter.convert(jsonDecode(resp.body));
     } else {
       return null;
     }
@@ -42,6 +44,16 @@ class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
   Future<List<VacancyModel>?> getVacanciesForCompany(int companyId) async {
     final path = "companies/$companyId/jobs";
     return _get(path: path);
+  }
+
+  Future<bool?> _post({required String path}) async {
+    final uri = Uri.http(_host, _basePath + path);
+    final resp = await client.post(uri);
+    if (resp.statusCode == 200) {
+      return true;
+    } else {
+      return null;
+    }
   }
 
   @override

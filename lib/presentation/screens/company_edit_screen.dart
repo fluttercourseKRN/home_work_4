@@ -83,17 +83,14 @@ class _CompanyEditScreenState extends State<CompanyEditScreen> {
   void _save() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
-      CompaniesProvider.read(context).saveNewCompany(
+      CompaniesProvider.read(context).addNewCompany(
         name.text,
         description.text,
         industry.text,
       );
       Navigator.of(context).pop();
       // focusNode.
-    } else {
-      print('Not Valid');
-    }
-    // Navigator.of(context).pop();
+    } else {}
   }
 
   void _cancel() {

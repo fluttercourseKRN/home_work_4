@@ -19,7 +19,7 @@ class CompaniesList extends StatelessWidget {
       itemCount: companies.length,
       itemBuilder: (context, index) {
         final company = companies[index];
-        return ChangeNotifierProvider(
+        return ChangeNotifierProvider<CompanyItemProvider>(
           key: ValueKey(company.id),
           create: (context) => CompanyItemProvider(
             context: context,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FavoriteButton extends StatelessWidget {
-  const FavoriteButton({
+class FavoriteIconButton extends StatelessWidget {
+  const FavoriteIconButton({
     Key? key,
     required this.onTap,
     required this.value,

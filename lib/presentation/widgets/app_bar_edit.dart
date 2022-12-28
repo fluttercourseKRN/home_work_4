@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobsin/presentation/model/constants.dart';
 
 class AppBarEdit extends StatelessWidget implements PreferredSizeWidget {
   const AppBarEdit({
@@ -13,6 +14,7 @@ class AppBarEdit extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: kAppElevation,
       title: const Text('JobsIn'),
       automaticallyImplyLeading: false,
       actions: [

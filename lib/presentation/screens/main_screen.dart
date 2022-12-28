@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jobsin/domain/model/enums/companies_sort_element.dart';
-import 'package:jobsin/presentation/providers/companies_provider.dart';
+import 'package:jobsin/presentation/model/constants.dart';
 import 'package:jobsin/presentation/screens/companies_screen.dart';
+import 'package:jobsin/presentation/screens/company_edit_screen.dart';
 import 'package:jobsin/presentation/screens/vacancies_screen.dart';
-import 'package:provider/provider.dart';
 
-import '../../domain/model/enums/vacancies_sort_element.dart';
-import '../../injector_container.dart';
-import '../providers/menu_provider.dart';
-import '../providers/vacancies_provider.dart';
+import '../model/bottom_navigatio_screen.dart';
 import '../widgets/app_bar_main.dart';
 import '../widgets/app_drawer.dart';
+import 'vacancy_edit_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -24,71 +21,53 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentScreen = 0;
-  final screens = [
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<MenuProvider<VacanciesSortElement>>(
-          create: (context) => MenuProvider<VacanciesSortElement>(
-            itemSortField: VacanciesSortElement.none,
-          ),
-        ),
-        ChangeNotifierProxyProvider<MenuProvider<VacanciesSortElement>,
-            VacanciesProvider>(
-          create: (context) => VacanciesProvider(
-            context: context,
-            useCaseGetVacanciesList: sl(),
-          ),
-          update: (context, menu, vacancies) {
-            vacancies?.menuUpdate(menu);
-            return vacancies!;
-          },
-        ),
-      ],
-      child: const VacanciesScreen(),
-    ),
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<MenuProvider<CompaniesSortElement>>(
-          create: (context) => MenuProvider<CompaniesSortElement>(
-            itemSortField: CompaniesSortElement.none,
-          ),
-        ),
-        ChangeNotifierProxyProvider<MenuProvider<CompaniesSortElement>,
-            CompaniesProvider>(
-          create: (context) => CompaniesProvider(useCaseGetCompaniesList: sl()),
-          update: (context, menu, companies) {
-            companies?.menuUpdate(menu);
-            return companies!;
-          },
-        )
-      ],
-      child: const CompaniesScreen(),
-    ),
-  ];
 
-  // ChangeNotifierProvider<CompaniesProvider>(create: (context) => CompaniesProvider(useCaseGetCompaniesList: sl()),),
+  final screens = [
+    BottomNavigationScreen(
+      icon: FontAwesomeIcons.fileSignature,
+      title: 'Vacancies',
+      floatingButtonText: 'Add Vacancy',
+      onFloatingButtonTap: (context) {
+        Navigator.of(context).pushNamed(VacancyEditScreen.route);
+      },
+      screen: const VacanciesScreen(),
+    ),
+    BottomNavigationScreen(
+      icon: FontAwesomeIcons.building,
+      title: 'Companies',
+      floatingButtonText: 'Add Company',
+      onFloatingButtonTap: (context) {
+        Navigator.of(context).pushNamed(CompanyEditScreen.route);
+      },
+      screen: const CompaniesScreen(),
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: ElevatedButton(
+        style: const ButtonStyle(
+          elevation: MaterialStatePropertyAll(kAppElevation),
+        ),
+        onPressed: () => screens[currentScreen].onFloatingButtonTap(context),
+        child: Text(screens[currentScreen].floatingButtonText),
+      ),
       drawer: const AppDrawer(),
       appBar: const AppBarMain(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentScreen,
         onTap: (value) => setState(() => currentScreen = value),
-        items: const [
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.fileSignature),
-            label: 'Vacancies',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.building),
-            label: 'Companies',
-          ),
+        items: [
+          for (final screen in screens)
+            BottomNavigationBarItem(
+              icon: FaIcon(screen.icon),
+              label: screen.title,
+            ),
         ],
       ),
       body: SafeArea(
-        child: screens[currentScreen],
+        child: screens[currentScreen].screen,
       ),
     );
   }

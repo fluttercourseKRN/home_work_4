@@ -56,13 +56,14 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
 
   @override
   Future<Either<Failure, bool>> addCompany(Company company) async {
+    final int companyId;
     try {
-      await dataSourceRemote.addCompany(company);
+      companyId = await dataSourceRemote.addCompany(company);
     } catch (e) {
       return Left(ServerFailure());
     }
     try {
-      await dataSourceStorage.addCompany(company);
+      await dataSourceStorage.addCompany(companyId);
     } catch (e) {
       return Left(StorageFailure());
     }
@@ -71,17 +72,42 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
 
   @override
   Future<Either<Failure, bool>> deleteCompany(int companyId) async {
+    final bool remoteDelete;
     try {
-      await dataSourceRemote.deleteCompany(companyId);
+      remoteDelete = await dataSourceRemote.deleteCompany(companyId);
     } catch (e) {
       return Left(ServerFailure());
     }
+    if (remoteDelete) {
+      try {
+        await dataSourceStorage.deleteCompany(companyId);
+        return const Right(true);
+      } catch (e) {
+        return Left(StorageFailure());
+      }
+    } else {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Company>>> getMyCompanies() async {
+    final List<int> myCompanyIds;
     try {
-      await dataSourceStorage.deleteCompany(companyId);
+      myCompanyIds = await _getMyCompaniesIds();
     } catch (e) {
       return Left(StorageFailure());
     }
-    return const Right(true);
+    try {
+      final result = await dataSourceRemote.getCompanies();
+      if (result != null) {
+        return Right(result);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 }
 

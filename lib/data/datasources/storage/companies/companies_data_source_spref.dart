@@ -1,13 +1,12 @@
 import 'package:jobsin/data/abstractions/companies_data_source_storage.dart';
 import 'package:jobsin/data/datasources/storage/model/storage_helper.dart';
-import 'package:jobsin/domain/entities/company.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CompaniesDataSourceSPref extends CompaniesDataSourceStorage {
   CompaniesDataSourceSPref(this.pref);
   final SharedPreferences pref;
   static const String _favoriteCompanyKey = 'favoriteCompanyKey';
-  static const String _myCompanyKey = 'myCompanyKey';
+  static const String _myCompanyKey = 'myCompanyKey2';
   late final StorageHelper _helper = StorageHelper(pref);
 
   @override
@@ -26,8 +25,9 @@ class CompaniesDataSourceSPref extends CompaniesDataSourceStorage {
   }
 
   @override
-  Future<void> addCompany(Company company) async {
-    _helper.updateIntValues(value: company.id, key: _myCompanyKey);
+  Future<void> addCompany(int companyId) async {
+    _helper.updateIntValues(value: companyId, key: _myCompanyKey);
+    print(await getMyCompanies());
   }
 
   @override

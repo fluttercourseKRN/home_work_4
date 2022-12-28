@@ -87,6 +87,28 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
     }
     return const Right(true);
   }
+
+  @override
+  Future<Either<Failure, List<Vacancy>>> getMyVacancies() async {
+    final List<int> myVacancyIds;
+    try {
+      myVacancyIds = await _getMyVacanciesIds();
+    } catch (e) {
+      return Left(StorageFailure());
+    }
+    try {
+      final result = await dataSourceRemote.getVacanciesList(
+        fetchOnlyCompaniesId: myVacancyIds,
+      );
+      if (result != null) {
+        return Right(result);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
 }
 
 extension HelpersPart on VacanciesRepositoryImpl {

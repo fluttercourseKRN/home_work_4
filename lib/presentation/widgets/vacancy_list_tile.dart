@@ -3,7 +3,7 @@ import 'package:jobsin/presentation/providers/vacancy_item_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/vacancy_detail_screen.dart';
-import 'favorite_button.dart';
+import 'favorite_icon_button.dart';
 
 class VacancyListTile extends StatelessWidget {
   const VacancyListTile({
@@ -17,7 +17,20 @@ class VacancyListTile extends StatelessWidget {
         return ListTile(
           title: Row(
             children: [
-              Text(vacancyItem.element.title),
+              if (vacancyItem.element.isOwner)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    Icons.house_outlined,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              Flexible(
+                child: Text(
+                  vacancyItem.element.title,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
               if (vacancyItem.element.isOwner)
                 Icon(
                   Icons.house_outlined,
@@ -26,7 +39,7 @@ class VacancyListTile extends StatelessWidget {
             ],
           ),
           subtitle: Text(vacancyItem.element.city),
-          trailing: FavoriteButton(
+          trailing: FavoriteIconButton(
             value: vacancyItem.element.isFavorite,
             onTap: () => vacancyItem.toggleFavorite(),
           ),

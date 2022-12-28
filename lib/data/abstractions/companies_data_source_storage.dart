@@ -1,7 +1,5 @@
-import '../../domain/entities/company.dart';
-
 abstract class CompaniesDataSourceStorage {
-  Future<void> addCompany(Company company);
+  Future<void> addCompany(int companyId);
   Future<void> deleteCompany(int companyId);
   Future<List<int>> getMyCompanies();
 

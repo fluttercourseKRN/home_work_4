@@ -9,7 +9,7 @@ abstract class CompaniesRepository {
     required bool favoritesOnly,
     required CompaniesSortElement sortElement,
   });
-
+  Future<Either<Failure, List<Company>>> getMyCompanies();
   Future<Either<Failure, bool>> deleteCompany(int companyId);
   Future<Either<Failure, bool>> addCompany(Company company);
   Future<Either<Failure, bool>> saveCompanyToFavorite(int companyId);
