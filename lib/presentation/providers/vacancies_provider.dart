@@ -74,8 +74,14 @@ class VacanciesProvider extends ChangeNotifier {
   }
 
   Future<List<Vacancy>> getMyVacancies() async {
-    // final vacancies = await repository.getVacanciesForCompany(companyId);
-    return [];
+    final res = await useCaseGetMyVacancies(null);
+    return res.fold((l) {
+      print('prov res l $l');
+      return [];
+    }, (r) {
+      print('prov res r $r');
+      return r;
+    });
   }
 
   Future<List<Company>> getMyCompanies() async {

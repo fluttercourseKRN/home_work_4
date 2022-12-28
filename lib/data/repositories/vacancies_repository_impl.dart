@@ -98,11 +98,12 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
       return Left(StorageFailure());
     }
     try {
-      final result = await dataSourceRemote.getVacancies(
-        fetchOnlyCompaniesId: myVacancyIds,
-      );
+      final result = await dataSourceRemote.getVacancies();
       if (result != null) {
-        return Right(result);
+        final filterResult = result
+            .where((element) => myVacancyIds.contains(element.id))
+            .toList();
+        return Right(filterResult);
       } else {
         return Left(ServerFailure());
       }
