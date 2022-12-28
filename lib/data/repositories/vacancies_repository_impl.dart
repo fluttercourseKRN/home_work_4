@@ -22,7 +22,7 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
     required VacanciesSortElement sortElement,
     List<int>? fetchOnlyCompaniesId,
   }) async {
-    final vacancies = await dataSourceRemote.getVacanciesList(
+    final vacancies = await dataSourceRemote.getVacancies(
       fetchOnlyCompaniesId: fetchOnlyCompaniesId,
     );
     if (vacancies == null) {
@@ -58,13 +58,14 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
 
   @override
   Future<Either<Failure, bool>> addVacancy(Vacancy vacancy) async {
+    int vacancyId;
     try {
-      await dataSourceRemote.addVacancy(vacancy);
+      vacancyId = await dataSourceRemote.addVacancy(vacancy);
     } catch (e) {
       return Left(ServerFailure());
     }
     try {
-      await dataSourceStorage.addVacancy(vacancy);
+      await dataSourceStorage.addVacancy(vacancyId);
     } catch (e) {
       return Left(StorageFailure());
     }
@@ -97,7 +98,7 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
       return Left(StorageFailure());
     }
     try {
-      final result = await dataSourceRemote.getVacanciesList(
+      final result = await dataSourceRemote.getVacancies(
         fetchOnlyCompaniesId: myVacancyIds,
       );
       if (result != null) {

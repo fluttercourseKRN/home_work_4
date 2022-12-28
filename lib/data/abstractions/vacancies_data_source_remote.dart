@@ -2,11 +2,10 @@ import '../../domain/entities/vacancy.dart';
 import '../models/vacancy_model.dart';
 
 abstract class VacanciesDataSourceRemote {
-  Future<void> addVacancy(Vacancy vacancy);
-  Future<void> deleteVacancy(int vacancyId);
+  Future<int> addVacancy(Vacancy vacancy);
+  Future<int> deleteVacancy(int vacancyId);
 
-  Future<List<VacancyModel>?> getVacanciesForCompany(int companyId);
-  Future<List<VacancyModel>?> getVacanciesList({
+  Future<List<VacancyModel>?> getVacancies({
     List<int>? fetchOnlyCompaniesId,
   });
 }

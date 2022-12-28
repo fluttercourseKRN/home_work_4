@@ -1,9 +1,13 @@
+import 'package:collection/collection.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:jobsin/domain/entities/company.dart';
 
 import '../../core/utils/validator.dart';
 import '../../domain/entities/vacancy.dart';
 import '../providers/vacancies_provider.dart';
 import '../widgets/app_bar_edit.dart';
+import '../widgets/app_spinkit.dart';
 import '../widgets/app_text_form_field.dart';
 
 class VacancyEditScreen extends StatefulWidget {
@@ -21,7 +25,7 @@ class _VacancyEditScreenState extends State<VacancyEditScreen> {
   late final TextEditingController title;
   late final TextEditingController city;
   late final TextEditingController description;
-  late final int? companyId;
+  int? companyId;
 
   @override
   void initState() {
@@ -75,6 +79,30 @@ class _VacancyEditScreenState extends State<VacancyEditScreen> {
                   labelText: "Description",
                   textInputAction: TextInputAction.newline,
                 ),
+                const SizedBox(height: 16),
+                FutureBuilder<List<Company>>(
+                  future: VacanciesProvider.read(context).getMyCompanies(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      final values = snapshot.data!;
+                      final initial = values.firstWhereOrNull(
+                            (element) => element.id == companyId,
+                          ) ??
+                          values.first;
+                      companyId = initial.id;
+                      return DropdownSearch<Company>(
+                        itemAsString: (item) => item.name,
+                        selectedItem: initial,
+                        popupProps: const PopupProps.menu(),
+                        dropdownButtonProps: const DropdownButtonProps(),
+                        items: values,
+                        onChanged: (value) {},
+                      );
+                    } else {
+                      return const AppSpinkit();
+                    }
+                  },
+                )
               ],
             ),
           ),
@@ -86,13 +114,13 @@ class _VacancyEditScreenState extends State<VacancyEditScreen> {
   void _save() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
-      VacanciesProvider.read(context).saveNewVacancy(
+      VacanciesProvider.read(context).addNewVacancy(
+        companyId!,
         title.text,
         city.text,
         description.text,
       );
-      // Navigator.of(context).pop();
-      // focusNode.
+      Navigator.of(context).pop();
       print('Valid');
     } else {
       print('Not Valid');

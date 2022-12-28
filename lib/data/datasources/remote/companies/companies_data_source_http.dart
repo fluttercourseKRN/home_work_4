@@ -19,7 +19,9 @@ class CompaniesDataSourceHttp extends CompaniesDataSourceRemote {
   );
 
   @override
-  Future<List<CompanyModel>?> getCompanies() async {
+  Future<List<CompanyModel>?> getCompanies({
+    List<int>? fetchOnlyCompaniesId,
+  }) async {
     const path = "companies";
     final result = await _helper.get(path: path);
     if (result != null) {
@@ -42,10 +44,9 @@ class CompaniesDataSourceHttp extends CompaniesDataSourceRemote {
   }
 
   @override
-  Future<bool> deleteCompany(int companyId) async {
+  Future<int> deleteCompany(int companyId) async {
     final path = 'companies/$companyId';
-    final result = await _helper.delete(path: path);
-    print(result);
-    return false;
+    final response = await _helper.delete(path: path);
+    return response?['id'];
   }
 }

@@ -53,6 +53,10 @@ class CompanyDetailScreen extends StatelessWidget {
                     create: (context) => VacanciesProvider(
                       context: context,
                       useCaseGetVacanciesList: sl(),
+                      useCaseAddVacancy: sl(),
+                      useCaseDeleteVacancy: sl(),
+                      useCaseGetMyVacancies: sl(),
+                      useCaseGetMyCompanies: sl(),
                       fetchOnlyCompaniesId: [company.id],
                     ),
                     child: const VacanciesScreen(showMenu: false),

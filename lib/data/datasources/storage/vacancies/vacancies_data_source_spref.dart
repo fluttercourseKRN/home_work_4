@@ -1,5 +1,4 @@
 import 'package:jobsin/data/abstractions/vacancies_data_source_storage.dart';
-import 'package:jobsin/domain/entities/vacancy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/storage_helper.dart';
@@ -27,8 +26,9 @@ class VacanciesDataSourceSPref extends VacanciesDataSourceStorage {
   }
 
   @override
-  Future<void> addVacancy(Vacancy vacancy) async {
-    _helper.updateIntValues(value: vacancy.id, key: _myVacancyKey);
+  Future<void> addVacancy(int vacancyId) async {
+    _helper.updateIntValues(value: vacancyId, key: _myVacancyKey);
+    print(await getMyVacancies());
   }
 
   @override

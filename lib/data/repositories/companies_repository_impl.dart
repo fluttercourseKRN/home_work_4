@@ -72,21 +72,17 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
 
   @override
   Future<Either<Failure, bool>> deleteCompany(int companyId) async {
-    final bool remoteDelete;
+    final int deleteId;
     try {
-      remoteDelete = await dataSourceRemote.deleteCompany(companyId);
+      deleteId = await dataSourceRemote.deleteCompany(companyId);
     } catch (e) {
       return Left(ServerFailure());
     }
-    if (remoteDelete) {
-      try {
-        await dataSourceStorage.deleteCompany(companyId);
-        return const Right(true);
-      } catch (e) {
-        return Left(StorageFailure());
-      }
-    } else {
-      return Left(ServerFailure());
+    try {
+      await dataSourceStorage.deleteCompany(deleteId);
+      return const Right(true);
+    } catch (e) {
+      return Left(StorageFailure());
     }
   }
 
@@ -101,7 +97,10 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
     try {
       final result = await dataSourceRemote.getCompanies();
       if (result != null) {
-        return Right(result);
+        final filterResult = result
+            .where((element) => myCompanyIds.contains(element.id))
+            .toList();
+        return Right(filterResult);
       } else {
         return Left(ServerFailure());
       }

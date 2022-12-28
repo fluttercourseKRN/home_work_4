@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/presentation/providers/companies_provider.dart';
+import 'package:jobsin/presentation/screens/company_edit_screen.dart';
 import 'package:jobsin/presentation/widgets/delete_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/company_item_provider.dart';
 import '../screens/company_detail_screen.dart';
+import 'edit_icon_button.dart';
 import 'favorite_icon_button.dart';
 
 class CompanyListTile extends StatelessWidget {
@@ -24,6 +26,12 @@ class CompanyListTile extends StatelessWidget {
           onTap: () => CompaniesProvider.read(context)
               .deleteCompany(companyItem.element.id),
         );
+        final editButton = EditIconButton(onTap: () {
+          Navigator.of(context).pushNamed(
+            CompanyEditScreen.route,
+            arguments: companyItem.element,
+          );
+        });
         return ListTile(
           title: Row(
             children: [
@@ -44,7 +52,15 @@ class CompanyListTile extends StatelessWidget {
             ],
           ),
           subtitle: Text(companyItem.element.industry),
-          trailing: companyItem.element.isOwner ? deleteButton : favoriteButton,
+          trailing: companyItem.element.isOwner
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    editButton,
+                    deleteButton,
+                  ],
+                )
+              : favoriteButton,
           onTap: () => Navigator.of(context).pushNamed(
             CompanyDetailScreen.route,
             arguments: companyItem.element,

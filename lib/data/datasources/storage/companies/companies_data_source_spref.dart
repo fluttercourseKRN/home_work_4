@@ -27,7 +27,7 @@ class CompaniesDataSourceSPref extends CompaniesDataSourceStorage {
   @override
   Future<void> addCompany(int companyId) async {
     _helper.updateIntValues(value: companyId, key: _myCompanyKey);
-    print(await getMyCompanies());
+    // print(await getMyCompanies());
   }
 
   @override

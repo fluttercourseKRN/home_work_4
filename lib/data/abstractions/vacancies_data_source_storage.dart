@@ -1,7 +1,5 @@
-import '../../domain/entities/vacancy.dart';
-
 abstract class VacanciesDataSourceStorage {
-  Future<void> addVacancy(Vacancy vacancy);
+  Future<void> addVacancy(int vacancyId);
   Future<void> deleteVacancy(int vacancyId);
   Future<List<int>> getMyVacancies();
 

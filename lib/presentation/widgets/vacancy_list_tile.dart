@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jobsin/presentation/providers/vacancies_provider.dart';
 import 'package:jobsin/presentation/providers/vacancy_item_provider.dart';
+import 'package:jobsin/presentation/screens/vacancy_edit_screen.dart';
+import 'package:jobsin/presentation/widgets/edit_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/vacancy_detail_screen.dart';
+import 'delete_icon_button.dart';
 import 'favorite_icon_button.dart';
 
 class VacancyListTile extends StatelessWidget {
@@ -14,6 +18,22 @@ class VacancyListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<VacancyItemProvider>(
       builder: (context, vacancyItem, child) {
+        final favoriteButton = FavoriteIconButton(
+          value: vacancyItem.element.isFavorite,
+          onTap: () => vacancyItem.toggleFavorite(),
+        );
+
+        final deleteButton = DeleteIconButton(
+          onTap: () => VacanciesProvider.read(context)
+              .deleteVacancy(vacancyItem.element.id),
+        );
+
+        final editButton = EditIconButton(onTap: () {
+          Navigator.of(context).pushNamed(
+            VacancyEditScreen.route,
+            arguments: vacancyItem.element,
+          );
+        });
         return ListTile(
           title: Row(
             children: [
@@ -31,18 +51,15 @@ class VacancyListTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (vacancyItem.element.isOwner)
-                Icon(
-                  Icons.house_outlined,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
             ],
           ),
           subtitle: Text(vacancyItem.element.city),
-          trailing: FavoriteIconButton(
-            value: vacancyItem.element.isFavorite,
-            onTap: () => vacancyItem.toggleFavorite(),
-          ),
+          trailing: vacancyItem.element.isOwner
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [editButton, deleteButton],
+                )
+              : favoriteButton,
           onTap: () => Navigator.of(context).pushNamed(
             VacancyDetailScreen.route,
             arguments: vacancyItem.element,

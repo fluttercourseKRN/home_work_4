@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:jobsin/domain/entities/vacancy.dart';
 
 import '../../../abstractions/vacancies_data_source_remote.dart';
 import '../../../models/vacancy_model.dart';
+import '../remote_helper.dart';
 import 'model/vacancy_api_response.dart';
 
 class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
@@ -13,24 +12,24 @@ class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
   static const _host = "3.75.134.87";
   static const _basePath = "/flutter/v1/";
   final http.Client client;
-
-  Future<List<VacancyModel>?> _get({required String path}) async {
-    final uri = Uri.http(_host, _basePath + path);
-    final resp = await client.get(uri);
-    if (resp.statusCode == 200) {
-      return VacancyApiResponseConverter.convert(jsonDecode(resp.body));
-    } else {
-      return null;
-    }
-  }
+  late final RemoteHelper _helper = RemoteHelper(
+    client: client,
+    basePath: _basePath,
+    host: _host,
+  );
 
   @override
-  Future<List<VacancyModel>?> getVacanciesList({
+  Future<List<VacancyModel>?> getVacancies({
     List<int>? fetchOnlyCompaniesId,
   }) async {
     if (fetchOnlyCompaniesId == null) {
       const path = "jobs";
-      return _get(path: path);
+      final result = await _helper.get(path: path);
+      if (result != null) {
+        return VacancyApiResponseConverter.convert(result);
+      } else {
+        return null;
+      }
     } else {
       final companiesList = await Future.wait(fetchOnlyCompaniesId
           .map((companyId) => getVacanciesForCompany(companyId)));
@@ -40,31 +39,33 @@ class VacanciesDataSourceHTTP extends VacanciesDataSourceRemote {
     }
   }
 
-  @override
   Future<List<VacancyModel>?> getVacanciesForCompany(int companyId) async {
     final path = "companies/$companyId/jobs";
-    return _get(path: path);
-  }
-
-  Future<bool?> _post({required String path}) async {
-    final uri = Uri.http(_host, _basePath + path);
-    final resp = await client.post(uri);
-    if (resp.statusCode == 200) {
-      return true;
+    final result = await _helper.get(path: path);
+    if (result != null) {
+      return VacancyApiResponseConverter.convert(result);
     } else {
       return null;
     }
   }
 
   @override
-  Future<void> addVacancy(Vacancy vacancy) {
-    // TODO: implement addVacancy
-    throw UnimplementedError();
+  Future<int> addVacancy(Vacancy vacancy) async {
+    const path = "jobs";
+    final param = {
+      'title': vacancy.title,
+      'description': vacancy.description,
+      'city': vacancy.city,
+      'companyId': vacancy.companyId,
+    };
+    final response = await _helper.post(path: path, param: param);
+    return response?['id'];
   }
 
   @override
-  Future<void> deleteVacancy(int vacancyId) {
-    // TODO: implement deleteVacancy
-    throw UnimplementedError();
+  Future<int> deleteVacancy(int vacancyId) async {
+    final path = "jobs/$vacancyId";
+    final response = await _helper.delete(path: path);
+    return response?['id'];
   }
 }

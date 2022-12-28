@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jobsin/domain/usecases/add_company.dart';
 import 'package:jobsin/domain/usecases/delete_company.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
+import 'package:jobsin/domain/usecases/get_my_companies.dart';
 import 'package:jobsin/presentation/providers/menu_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ class CompaniesProvider extends ChangeNotifier {
     required this.useCaseGetCompaniesList,
     required this.useCaseDeleteCompany,
     required this.useCaseAddCompany,
+    required this.useCaseGetMyCompanies,
   }) {
     _fetchCompanies();
   }
@@ -26,7 +28,9 @@ class CompaniesProvider extends ChangeNotifier {
   //////////////////////////////////////////////////////////////////////////////
 
   final BuildContext context;
+  //UseCases
   final GetCompaniesList useCaseGetCompaniesList;
+  final GetMyCompanies useCaseGetMyCompanies;
   final DeleteCompany useCaseDeleteCompany;
   final AddCompany useCaseAddCompany;
 
@@ -62,7 +66,19 @@ class CompaniesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// MARK: Add new entities
+  Future<List<Company>> getMyCompanies() async {
+    final companiesOrFailure = await useCaseGetMyCompanies(null);
+
+    return companiesOrFailure.fold(
+      (l) {
+        return [];
+      },
+      (r) {
+        return r;
+      },
+    );
+  }
+
   Future<void> addNewCompany(
     String name,
     String description,
