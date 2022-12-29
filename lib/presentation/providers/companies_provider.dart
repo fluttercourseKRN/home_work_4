@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/usecases/add_company.dart';
 import 'package:jobsin/domain/usecases/delete_company.dart';
+import 'package:jobsin/domain/usecases/edit_company.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
 import 'package:jobsin/domain/usecases/get_my_companies.dart';
 import 'package:jobsin/presentation/providers/menu_provider.dart';
@@ -15,6 +16,7 @@ class CompaniesProvider extends ChangeNotifier {
     required this.useCaseGetCompaniesList,
     required this.useCaseDeleteCompany,
     required this.useCaseAddCompany,
+    required this.useCaseEditCompany,
     required this.useCaseGetMyCompanies,
   }) {
     _fetchCompanies();
@@ -33,6 +35,7 @@ class CompaniesProvider extends ChangeNotifier {
   final GetMyCompanies useCaseGetMyCompanies;
   final DeleteCompany useCaseDeleteCompany;
   final AddCompany useCaseAddCompany;
+  final EditCompany useCaseEditCompany;
 
   List<Company>? companies;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jobsin/domain/usecases/delete_vacancy.dart';
+import 'package:jobsin/domain/usecases/edit_vacancy.dart';
 import 'package:jobsin/domain/usecases/get_my_companies.dart';
 import 'package:jobsin/domain/usecases/get_my_vacancies.dart';
 import 'package:jobsin/presentation/providers/menu_provider.dart';
@@ -17,6 +18,7 @@ class VacanciesProvider extends ChangeNotifier {
     required this.useCaseGetMyVacancies,
     required this.useCaseGetMyCompanies,
     required this.useCaseAddVacancy,
+    required this.useCaseEditVacancy,
     required this.useCaseDeleteVacancy,
     required this.useCaseGetVacanciesList,
     this.fetchOnlyCompaniesId,
@@ -38,6 +40,7 @@ class VacanciesProvider extends ChangeNotifier {
   final GetMyVacancies useCaseGetMyVacancies;
   final AddVacancy useCaseAddVacancy;
   final DeleteVacancy useCaseDeleteVacancy;
+  final EditVacancy useCaseEditVacancy;
   final GetMyCompanies useCaseGetMyCompanies;
 
   List<Vacancy>? vacancies;

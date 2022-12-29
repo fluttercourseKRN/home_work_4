@@ -4,6 +4,7 @@ import 'package:jobsin/domain/usecases/add_company.dart';
 import 'package:jobsin/domain/usecases/add_vacancy.dart';
 import 'package:jobsin/domain/usecases/delete_company.dart';
 import 'package:jobsin/domain/usecases/delete_vacancy.dart';
+import 'package:jobsin/domain/usecases/edit_company.dart';
 import 'package:jobsin/domain/usecases/get_companies_list.dart';
 import 'package:jobsin/domain/usecases/get_my_companies.dart';
 import 'package:jobsin/domain/usecases/get_my_vacancies.dart';
@@ -21,6 +22,7 @@ import 'data/repositories/companies_repository_impl.dart';
 import 'data/repositories/vacancies_repository_impl.dart';
 import 'domain/repositories/companies_repository.dart';
 import 'domain/repositories/vacancies_repository.dart';
+import 'domain/usecases/edit_vacancy.dart';
 import 'domain/usecases/get_vacancies_list.dart';
 import 'domain/usecases/toggle_company_favorite_status.dart';
 import 'domain/usecases/toggle_vacancy_favorite_status.dart';
@@ -29,7 +31,6 @@ final sl = GetIt.instance;
 
 Future<void> setUp() async {
   /// UseCases /////////////////////////////////////////////////////////////////
-
   sl.registerLazySingleton(() => GetVacanciesList(sl()));
   sl.registerLazySingleton(() => GetCompaniesList(sl()));
   sl.registerLazySingleton(() => ToggleVacancyFavoriteStatus(sl()));
@@ -37,13 +38,14 @@ Future<void> setUp() async {
   sl.registerLazySingleton(() => GetMyCompanies(sl()));
   sl.registerLazySingleton(() => GetMyVacancies(sl()));
   sl.registerLazySingleton(() => AddVacancy(sl()));
+  sl.registerLazySingleton(() => EditVacancy(sl()));
   sl.registerLazySingleton(() => DeleteVacancy(sl()));
   sl.registerLazySingleton(() => AddCompany(sl()));
+  sl.registerLazySingleton(() => EditCompany(sl()));
   sl.registerLazySingleton(() => DeleteCompany(sl()));
 
   //////////////////////////////////////////////////////////////////////////////
   /// Repositories /////////////////////////////////////////////////////////////
-
   sl.registerLazySingleton<VacanciesRepository>(
     () => VacanciesRepositoryImpl(
       dataSourceRemote: sl(),
@@ -60,7 +62,6 @@ Future<void> setUp() async {
 
   //////////////////////////////////////////////////////////////////////////////
   /// Data Sources /////////////////////////////////////////////////////////////
-
   // Vacancies
   sl.registerLazySingleton<VacanciesDataSourceRemote>(
       () => VacanciesDataSourceHTTP(client: sl()));
@@ -74,7 +75,6 @@ Future<void> setUp() async {
 
   //////////////////////////////////////////////////////////////////////////////
   /// 3-rd Library
-
   sl.registerLazySingleton(() => http.Client());
   // SharedPreferences
   final sharPref = await SharedPreferences.getInstance();

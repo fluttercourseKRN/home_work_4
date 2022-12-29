@@ -13,6 +13,7 @@ abstract class VacanciesRepository {
   Future<Either<Failure, List<Vacancy>>> getMyVacancies();
   Future<Either<Failure, bool>> deleteVacancy(int vacancyId);
   Future<Either<Failure, bool>> addVacancy(Vacancy vacancy);
+  Future<Either<Failure, bool>> editVacancy(Vacancy vacancy);
   Future<Either<Failure, bool>> saveVacancyToFavorite(int vacancyId);
   Future<Either<Failure, bool>> deleteVacancyFromFavorite(int vacancyId);
 }

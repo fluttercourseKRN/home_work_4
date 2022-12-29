@@ -57,6 +57,7 @@ class CompanyDetailScreen extends StatelessWidget {
                       useCaseDeleteVacancy: sl(),
                       useCaseGetMyVacancies: sl(),
                       useCaseGetMyCompanies: sl(),
+                      useCaseEditVacancy: sl(),
                       fetchOnlyCompaniesId: [company.id],
                     ),
                     child: const VacanciesScreen(showMenu: false),

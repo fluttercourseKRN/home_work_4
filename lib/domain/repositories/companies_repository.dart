@@ -10,8 +10,10 @@ abstract class CompaniesRepository {
     required CompaniesSortElement sortElement,
   });
   Future<Either<Failure, List<Company>>> getMyCompanies();
+
   Future<Either<Failure, bool>> deleteCompany(int companyId);
   Future<Either<Failure, bool>> addCompany(Company company);
+  Future<Either<Failure, bool>> editCompany(Company company);
   Future<Either<Failure, bool>> saveCompanyToFavorite(int companyId);
   // Future<List<int>> getFavoriteCompaniesIds();
   Future<Either<Failure, bool>> deleteCompanyFromFavorite(int companyId);

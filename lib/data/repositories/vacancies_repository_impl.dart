@@ -111,6 +111,12 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> editVacancy(Vacancy vacancy) {
+    // TODO: implement editVacancy
+    throw UnimplementedError();
+  }
 }
 
 extension HelpersPart on VacanciesRepositoryImpl {
@@ -120,12 +126,25 @@ extension HelpersPart on VacanciesRepositoryImpl {
   ) {
     switch (sortElement) {
       case VacanciesSortElement.none:
+        vacancies.sort((a, b) => b.isOwner ? 1 : -1);
         break;
       case VacanciesSortElement.title:
-        vacancies.sort((a, b) => a.title.compareTo(b.title));
+        vacancies.sort((a, b) {
+          if (a.isOwner == b.isOwner) {
+            return a.title.compareTo(b.title);
+          } else {
+            return b.isOwner ? 1 : -1;
+          }
+        });
         break;
       case VacanciesSortElement.city:
-        vacancies.sort((a, b) => a.city.compareTo(b.city));
+        vacancies.sort((a, b) {
+          if (a.isOwner == b.isOwner) {
+            return a.city.compareTo(b.city);
+          } else {
+            return b.isOwner ? 1 : -1;
+          }
+        });
         break;
     }
     return [...vacancies];

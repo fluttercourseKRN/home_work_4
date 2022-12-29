@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
             context: context,
             useCaseGetVacanciesList: di.sl(),
             useCaseAddVacancy: di.sl(),
+            useCaseEditVacancy: di.sl(),
             useCaseDeleteVacancy: di.sl(),
             useCaseGetMyVacancies: di.sl(),
             useCaseGetMyCompanies: di.sl(),
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
             useCaseGetCompaniesList: di.sl(),
             useCaseDeleteCompany: di.sl(),
             useCaseAddCompany: di.sl(),
+            useCaseEditCompany: di.sl(),
             useCaseGetMyCompanies: di.sl(),
           ),
           update: (context, menu, companies) {

@@ -108,6 +108,12 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> editCompany(Company company) {
+    // TODO: implement editCompany
+    throw UnimplementedError();
+  }
 }
 
 /// Helpers
@@ -118,12 +124,25 @@ extension HelpersPart on CompaniesRepositoryImpl {
   ) {
     switch (sortElement) {
       case CompaniesSortElement.none:
+        companies.sort((a, b) => b.isOwner ? 1 : -1);
         break;
       case CompaniesSortElement.name:
-        companies.sort((a, b) => a.name.compareTo(b.name));
+        companies.sort((a, b) {
+          if (a.isOwner == b.isOwner) {
+            return a.name.compareTo(b.name);
+          } else {
+            return b.isOwner ? 1 : -1;
+          }
+        });
         break;
       case CompaniesSortElement.industry:
-        companies.sort((a, b) => a.industry.compareTo(b.industry));
+        companies.sort((a, b) {
+          if (a.isOwner == b.isOwner) {
+            return a.industry.compareTo(b.industry);
+          } else {
+            return b.isOwner ? 1 : -1;
+          }
+        });
         break;
     }
     return [...companies];
