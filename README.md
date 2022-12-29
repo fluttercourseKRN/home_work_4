@@ -1,16 +1,46 @@
-# jobsin
+# Доброго часу доби), по перше хотів би подякувати за курс, привітати зі святами та побажати мирного неба.
+    Стосовно роботи то я намагався зробити застосунок який відповідав би принципам Clean Architecture, це мій перший проект побудований спираючись на цей патерн, впродовж його створення паралельно проходив усілякі туторіали ,переписував , потім ще переписував и у підсумку здається з'явилося якесь розуміння. Якщо можна у якості фідбеку напишіть чи правильно все побудовано саме з точки зору архітектури( деякі недоліки та потенційно небезпечні місця коду я і сам бачу , просто не залишилось часу виправляти), також якщо буде час є декілька питань стосовно цього патерну.
+* useCases це лише місток для перекидання даних з presentation до domain і ніякої логіки мати не повинні?
 
-A new Flutter project.
+* Усі туторіали чи статі які я знаходив мали лише один repository , чи потрібно робити репозиторій на кожен entity як я зробив? чи він має бути один та цей один репозиторій має включати під репозиторій для Company та Vacancy? А можливо краще було зробити один репозиторій який повернув би Company з внутрішнім масивам Vacancy та працювати вже з цими даними? 
 
-## Getting Started
+* Варіант з 2 ма репозиторіями як на мене виглядає краще, але коли нам треба відредагувати компанію ми згідно з api можем лише видалити стару та створити нову зі зміненими даними це призведе до зміни id компаній і не зрозуміло у якому місці редагувати companyId у вакансіях. чи буде допустимо створити helper classs у domain з доступом до обох репозитаріЇв  та з useCase викликати його метод? Або дати useCase доступ до обох репозитаріЇв та логіку зробити там? 
 
-This project is a starting point for a Flutter application.
+* Головну перевагу яку надає патерн це тестування, чи на практиці TDD маэ сенс? Чи все одно зручніше спочатку код потім тести?
 
-A few resources to get you started if this is your first Flutter project:
+* Здається невдалою ідеєю було використовувати Provider під clean architecture, бо філософія block(я з ним знайомий лише поверхнево) наче і створювалася під useCase , чи правильне в мене відчюття?
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<div style="float: left;">
+    <div>Add company</div>
+    <img src="proj_docs/addCompany.gif" width = 250/ >
+</div>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div style="float: left;">
+    <div>Add vacancy</div>
+    <img src="proj_docs/addVacancy.gif" width = 250/ >
+</div>
+
+<div style="float: left;">
+    <div>Sort</div>
+    <img src="proj_docs/sort.gif" width = 250/ >
+</div>
+
+<div style="float: left;">
+    <div>Favorite</div>
+    <img src="proj_docs/favorite.gif" width = 250/ >
+</div>
+
+<div style="float: left;">
+    <div>Show Detail</div>
+    <img src="proj_docs/showDetail.gif" width = 250/ >
+</div>
+
+<div style="float: left;">
+    <div>Edit</div>
+    <img src="proj_docs/editCompany.gif" width = 250/ >
+</div>
+
+<div style="float: left;">
+    <div>Delete</div>
+    <img src="proj_docs/delete.gif" width = 250/ >
+</div>
