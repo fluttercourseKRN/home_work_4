@@ -82,11 +82,32 @@ class CompaniesProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> addNewCompany(
-    String name,
-    String description,
-    String industry,
-  ) async {
+  Future<void> editCompanySubmit({
+    required int id,
+    required String name,
+    required String description,
+    required String industry,
+  }) async {
+    final res = await useCaseEditCompany(
+      EditCompanyParam(
+        company: Company(
+          id: id,
+          name: name,
+          description: description,
+          industry: industry,
+          isFavorite: false,
+          isOwner: true,
+        ),
+      ),
+    );
+    _fetchCompanies();
+  }
+
+  Future<void> addNewCompany({
+    required String name,
+    required String description,
+    required String industry,
+  }) async {
     final res = await useCaseAddCompany(
       AddCompanyParam(
         company: Company(

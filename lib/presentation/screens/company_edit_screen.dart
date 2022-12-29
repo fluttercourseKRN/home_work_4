@@ -83,11 +83,20 @@ class _CompanyEditScreenState extends State<CompanyEditScreen> {
   void _save() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
-      CompaniesProvider.read(context).addNewCompany(
-        name.text,
-        description.text,
-        industry.text,
-      );
+      if (widget.initialCompany == null) {
+        CompaniesProvider.read(context).addNewCompany(
+          name: name.text,
+          description: description.text,
+          industry: industry.text,
+        );
+      } else {
+        CompaniesProvider.read(context).editCompanySubmit(
+          id: widget.initialCompany!.id,
+          name: name.text,
+          description: description.text,
+          industry: industry.text,
+        );
+      }
       Navigator.of(context).pop();
       // focusNode.
     } else {}

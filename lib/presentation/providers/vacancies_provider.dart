@@ -100,13 +100,36 @@ class VacanciesProvider extends ChangeNotifier {
     );
   }
 
+  Future<void> editVacancySubmit({
+    required int id,
+    required int companyId,
+    required String title,
+    required String city,
+    required String description,
+  }) async {
+    final res = await useCaseEditVacancy(
+      EditVacancyParam(
+        vacancy: Vacancy(
+          id: id,
+          companyId: companyId,
+          city: city,
+          title: title,
+          description: description,
+          isOwner: true,
+          isFavorite: false,
+        ),
+      ),
+    );
+    _fetchVacancies();
+  }
+
   /// MARK: Add new
-  Future<void> addNewVacancy(
-    int companyId,
-    String title,
-    String city,
-    String description,
-  ) async {
+  Future<void> addNewVacancy({
+    required int companyId,
+    required String title,
+    required String city,
+    required String description,
+  }) async {
     final res = await useCaseAddVacancy(
       AddVacancyParam(
         vacancy: Vacancy(

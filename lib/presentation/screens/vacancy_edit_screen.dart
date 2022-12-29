@@ -114,12 +114,22 @@ class _VacancyEditScreenState extends State<VacancyEditScreen> {
   void _save() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState?.validate() ?? false) {
-      VacanciesProvider.read(context).addNewVacancy(
-        companyId!,
-        title.text,
-        city.text,
-        description.text,
-      );
+      if (widget.initialVacancy == null) {
+        VacanciesProvider.read(context).addNewVacancy(
+          companyId: companyId!,
+          title: title.text,
+          city: city.text,
+          description: description.text,
+        );
+      } else {
+        VacanciesProvider.read(context).editVacancySubmit(
+          id: widget.initialVacancy!.id,
+          companyId: companyId!,
+          title: title.text,
+          city: city.text,
+          description: description.text,
+        );
+      }
       Navigator.of(context).pop();
       print('Valid');
     } else {

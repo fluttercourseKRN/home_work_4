@@ -110,9 +110,22 @@ class CompaniesRepositoryImpl extends CompaniesRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> editCompany(Company company) {
-    // TODO: implement editCompany
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> editCompany(Company company) async {
+    final int deleteId;
+    final int addId;
+    try {
+      deleteId = await dataSourceRemote.deleteCompany(company.id);
+      addId = await dataSourceRemote.addCompany(company);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+    try {
+      await dataSourceStorage.deleteCompany(deleteId);
+      await dataSourceStorage.addCompany(addId);
+      return const Right(true);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
   }
 }
 

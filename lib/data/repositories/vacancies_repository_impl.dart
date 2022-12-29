@@ -113,9 +113,22 @@ class VacanciesRepositoryImpl extends VacanciesRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> editVacancy(Vacancy vacancy) {
-    // TODO: implement editVacancy
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> editVacancy(Vacancy vacancy) async {
+    int deleteId;
+    int addId;
+    try {
+      deleteId = await dataSourceRemote.deleteVacancy(vacancy.id);
+      addId = await dataSourceRemote.addVacancy(vacancy);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+    try {
+      await dataSourceStorage.deleteVacancy(deleteId);
+      await dataSourceStorage.addVacancy(addId);
+    } catch (e) {
+      return Left(StorageFailure());
+    }
+    return const Right(true);
   }
 }
 
