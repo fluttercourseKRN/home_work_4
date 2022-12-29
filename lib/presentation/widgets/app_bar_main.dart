@@ -15,6 +15,7 @@ class AppBarMain extends StatelessWidget with PreferredSizeWidget {
       elevation: kAppElevation,
       automaticallyImplyLeading: automaticallyImplyLeading,
       title: const AppLogo(),
+      centerTitle: true,
     );
   }
 

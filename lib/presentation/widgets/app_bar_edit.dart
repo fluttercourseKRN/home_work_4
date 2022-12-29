@@ -15,6 +15,7 @@ class AppBarEdit extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: kAppElevation,
+      centerTitle: true,
       title: const Text('JobsIn'),
       automaticallyImplyLeading: false,
       actions: [
